@@ -109,6 +109,9 @@ if isdirectory(s:plug_dir)
         " ジャンプできる
         Plug 'easymotion/vim-easymotion'
 
+        " 自動整形
+        Plug 'junegunn/vim-easy-align'
+
         " インデントを表示する
         Plug 'nathanaelkane/vim-indent-guides'
 
@@ -118,11 +121,24 @@ if isdirectory(s:plug_dir)
         " コメントアウト
         Plug 'scrooloose/nerdcommenter'
 
+        " 非同期実行のプラグイン
+        " TODO: ちゃんとインストールする方法は？？
+        " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+
         " すごそうだけどすぐには使えなそうだ
         " Plug 'terryma/vim-multiple-cursors'
 
         " Git
         Plug 'tpope/vim-fugitive'
+
+        " なんか補完してくれるやつ
+        " TODO: コアライブラリが呼び出せてない？？
+        " function! BuildYCM(info)
+            " if a:info.status == 'installed' || a:info.force
+                " !python install.py --clang-completer --cs-completer --go-completer
+            " endif
+        " endfunction
+        " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
         " ステータスバーがかっこよくなる
         Plug 'vim-airline/vim-airline'
@@ -144,6 +160,10 @@ if isdirectory(s:plug_dir)
     " altercation/vim-colors-solarized {{{3
     let g:solarized_termcolors=256
 
+    " junegunn/vim-easy-align {{{3
+    xmap ga <Plug>(EasyAlign)
+    nmap ga <Plug>(EasyAlign)
+
     " nathanaelkane/vim-indent-guides {{{3
     let g:indent_guides_enable_on_vim_startup = 1
 
@@ -156,6 +176,9 @@ if isdirectory(s:plug_dir)
 
     " scrooloose/nerdcommenter {{{3
     let g:NERDSpaceDelims = 1
+
+    " Shougo/vimproc.vim {{{3
+    let g:vimproc#download_windows_dll = 1
 
     " w0rp/ale {{{3
 
