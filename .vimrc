@@ -115,6 +115,12 @@ if isdirectory(s:plug_dir)
         " インデントを表示する
         Plug 'nathanaelkane/vim-indent-guides'
 
+        " 補完
+        Plug 'prabirshrestha/async.vim'
+        Plug 'prabirshrestha/vim-lsp'
+        Plug 'prabirshrestha/asyncomplete.vim'
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
         " カッコを補完してくれるやつ
         Plug 'Raimondi/delimitMate'
 
@@ -130,15 +136,6 @@ if isdirectory(s:plug_dir)
 
         " Git
         Plug 'tpope/vim-fugitive'
-
-        " なんか補完してくれるやつ
-        " TODO: コアライブラリが呼び出せてない？？
-        " function! BuildYCM(info)
-            " if a:info.status == 'installed' || a:info.force
-                " !python install.py --clang-completer --cs-completer --go-completer
-            " endif
-        " endfunction
-        " Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
         " ステータスバーがかっこよくなる
         Plug 'vim-airline/vim-airline'
@@ -167,6 +164,17 @@ if isdirectory(s:plug_dir)
     " nathanaelkane/vim-indent-guides {{{3
     let g:indent_guides_enable_on_vim_startup = 1
 
+    " prabirshrestha/vim-lsp {{{3
+    let g:lsp_diagnostics_enabled = 0
+    " Python
+    if executable('pyls')
+        au User lsp_setup call lsp#register_server({
+        \       'name': 'pyls',
+        \       'cmd': {server_info->['pyls']},
+        \       'whitelist': ['python'],
+        \   })
+    endif
+
     " Raimondi/delimitMate {{{3
     let g:delimitMate_expand_space = 1
     let g:delimitMate_expand_inside_quotes = 1
@@ -181,6 +189,9 @@ if isdirectory(s:plug_dir)
     let g:vimproc#download_windows_dll = 1
 
     " w0rp/ale {{{3
+    let g:ale_fix_on_save = 1
+    let g:ale_open_list = 1
+    let g:ale_lint_delay = 700
 
     " }}}2
 
@@ -188,6 +199,9 @@ if isdirectory(s:plug_dir)
     " Plugins 設定後の設定 {{{2
     colorscheme solarized
     set helplang=ja,en
+
+    " 補完のプレビュー
+    set completeopt+=preview
     " }}}2
 " }}}1
 endif
