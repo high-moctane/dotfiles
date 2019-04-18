@@ -1,0 +1,70 @@
+#include <cstdlib>
+#include <cstdarg>
+#include <bitset>
+#include <functional>
+#include <utility>
+#include <ctime>
+#include <chrono>
+#include <cstddef>
+#include <initializer_list>
+#include <tuple>
+#include <any>
+#include <optional>
+#include <variant>
+#include <compare>
+#include <new>
+#include <memory>
+#include <scoped_allocator>
+#include <climits>
+#include <cfloat>
+#include <cstdint>
+#include <cinttypes>
+#include <limits>
+#include <exception>
+#include <stdexcept>
+#include <cassert>
+#include <cctype>
+#include <cwctype>
+#include <cstring>
+#include <cwchar>
+#include <string>
+#include <string_view>
+#include <charconv>
+#include <array>
+#include <vector>
+#include <deque>
+#include <list>
+#include <forward_list>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include <stack>
+#include <queue>
+#include <iterator>
+#include <algorithm>
+#include <cmath>
+#include <complex>
+#include <valarray>
+#include <random>
+#include <numeric>
+#include <ratio>
+#include <cfenv>
+#include <iosfwd>
+#include <ios>
+#include <istream>
+#include <ostream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <streambuf>
+#include <cstdio>
+#include <regex>
+
+using namespace std;
+
+int main()
+{
+    return 0;
+}
