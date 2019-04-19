@@ -1,18 +1,19 @@
+gcc_command = g++-8
 gcc_options = -std=c++14 -O2
 
 all:a.out b.out c.out d.out
 
 a.out:a.cpp
-	g++ $(gcc_options) $< -o $@
+	$(gcc_command) $(gcc_options) $< -o $@
 
 b.out:b.cpp
-	g++ $(gcc_options) $< -o $@
+	$(gcc_command) $(gcc_options) $< -o $@
 
 c.out:c.cpp
-	g++ $(gcc_options) $< -o $@
+	$(gcc_command) $(gcc_options) $< -o $@
 
 d.out:d.cpp
-	g++ $(gcc_options) $< -o $@
+	$(gcc_command) $(gcc_options) $< -o $@
 
 a:a.out
 	./a.out
