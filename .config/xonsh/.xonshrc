@@ -1,0 +1,56 @@
+import datetime
+import platform
+
+# ----------------------------------------------------------------------
+# プラットフォームごとの設定
+# ----------------------------------------------------------------------
+if platform.system() == "Darwin":
+    # なんか必要
+    source-bash $(/usr/libexec/path_helper -s)
+    source-bash --seterrprevcmd "" /etc/profile
+
+    # Homebrew の PATH
+    $PATH.insert(0, "/usr/local/sbin")
+
+
+# ----------------------------------------------------------------------
+# 環境変数による設定
+# ----------------------------------------------------------------------
+
+# ディレクトリ名で移動
+$AUTO_CD = True
+
+# 自動 pushd
+$AUTO_PUSHD = True
+
+# 補完
+$CASE_SENSITIVE_COMPLETIONS = False
+
+# インデント
+$INDENT = "    "
+
+# 自動かっこ補完
+$XONSH_AUTOPAIR = True
+
+# 履歴のどこでもマッチする
+$XONSH_HISTORY_MATCH_ANYWHERE = True
+
+
+# ----------------------------------------------------------------------
+# プロンプトの見た目
+# ----------------------------------------------------------------------
+
+def _prompt_current_time():
+    """現在時刻を表示する"""
+    now = datetime.datetime.now()
+    return now.strftime("%H:%M")
+
+$PROMPT_FIELDS["time"] = _prompt_current_time
+
+# 左側のプロンプト
+$PROMPT = \
+"""{BACKGROUND_WHITE}{BLACK}{time} {RED}{env_name}{GREEN}{user}@{hostname}{NO_COLOR}{gitstatus: [{}]} {BLUE}{cwd}
+{INTENSE_RED}>>> """
+
+# 2行目以降のプロンプト
+$MULTILINE_PROMPT = "{INTENSE_RED}."
