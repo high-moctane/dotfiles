@@ -26,6 +26,9 @@ $AUTO_PUSHD = True
 # 補完
 $CASE_SENSITIVE_COMPLETIONS = False
 
+# 履歴
+$HISTCONTROL = "ignoredups"
+
 # インデント
 $INDENT = "    "
 
@@ -54,3 +57,11 @@ $PROMPT = \
 
 # 2行目以降のプロンプト
 $MULTILINE_PROMPT = "{INTENSE_RED}."
+
+
+# ----------------------------------------------------------------------
+# エイリアス
+# ----------------------------------------------------------------------
+
+aliases["ll"] = "ls -l"
+aliases["la"] = "ls -la"
