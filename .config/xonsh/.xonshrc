@@ -12,6 +12,9 @@ if platform.system() == "Darwin":
     # Homebrew の PATH
     $PATH.insert(0, "/usr/local/sbin")
 
+    # stack の PATH
+    $PATH.append($HOME + "/.local/bin")
+
 
 # ----------------------------------------------------------------------
 # 環境変数による設定
