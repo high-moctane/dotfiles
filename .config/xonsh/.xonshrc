@@ -19,6 +19,9 @@ if platform.system() == "Darwin":
     # cargo の PATH
     $PATH.append($HOME + "/.cargo/bin")
 
+    # gopath の PATH
+    $PATH.append($HOME + "go/bin")
+
 
 # ----------------------------------------------------------------------
 # 環境変数による設定
