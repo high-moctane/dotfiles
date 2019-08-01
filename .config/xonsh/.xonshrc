@@ -59,7 +59,7 @@ $PROMPT_FIELDS["time"] = _prompt_current_time
 
 # 左側のプロンプト
 $PROMPT = \
-"""{BACKGROUND_INTENSE_CYAN}{WHITE}{time}{NO_COLOR} {RED}{env_name}{GREEN}{user}@{hostname}{NO_COLOR}{gitstatus: [{}]} {BLUE}{short_cwd}
+"""{RED}{env_name}{GREEN}{user}@{hostname}{NO_COLOR}{gitstatus: [{}]} {BLUE}{short_cwd}
 {INTENSE_RED}>>> """
 
 # 2行目以降のプロンプト
