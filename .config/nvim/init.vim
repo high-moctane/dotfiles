@@ -102,6 +102,10 @@ if isdirectory(s:plug_dir)
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
 
+    " ツリー
+    Plug 'scrooloose/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+
     call plug#end()
 endif
 
