@@ -100,6 +100,7 @@ if isdirectory(s:plug_dir)
 
     " Git
     Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
 
     call plug#end()
 endif
