@@ -12,12 +12,12 @@ if platform.system() == "Darwin":
     # Homebrew の PATH
     $PATH.insert(0, "/usr/local/sbin")
 
-    # stack の PATH
-    $PATH.append($HOME + "/.local/bin")
-    $PATH.append($(stack path --compiler-bin).strip())
+    # # stack の PATH
+    # $PATH.append($HOME + "/.local/bin")
+    # $PATH.append($(stack path --compiler-bin).strip())
 
-    # cargo の PATH
-    $PATH.append($HOME + "/.cargo/bin")
+    # # cargo の PATH
+    # $PATH.append($HOME + "/.cargo/bin")
 
 
 # ----------------------------------------------------------------------
