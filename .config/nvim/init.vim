@@ -48,6 +48,9 @@ set number
 set termguicolors
 set background=light
 
+" 折りたたみ
+set foldmethod=syntax
+
 " }}}1
 
 
@@ -222,6 +225,13 @@ xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
 
+" Format on save
+augroup mygroup
+    autocmd!
+    autocmd bufWritePost * call CocAction('format')
+augroup end
+
+
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
@@ -248,6 +258,16 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+"  scrooloose/nerdtree {{{1
+" ----------------------------------------------------------------------
+
+" トグル
+nnoremap <Leader>t :NERDTreeToggle<CR>
 
 " }}}1
 
