@@ -84,6 +84,9 @@ endif
 if isdirectory(s:plug_dir)
     call plug#begin(s:plug_dir)
 
+    " 日本語ヘルプ
+    Plug 'vim-jp/vimdoc-ja'
+
     " カラースキーム
     Plug 'lifepillar/vim-solarized8'
 
