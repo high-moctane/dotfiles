@@ -65,6 +65,9 @@ nnoremap <silent> <ESC> <ESC>:nohlsearch<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
+" 全部をクリップボードにコピー
+nnoremap <Leader>cp gg"+yG
+
 " }}}1
 
 
