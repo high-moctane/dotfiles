@@ -44,6 +44,10 @@ set updatetime=300
 " 表示
 set number
 
+" カラースキーム
+set termguicolors
+set background=light
+
 " }}}1
 
 
@@ -78,7 +82,7 @@ if isdirectory(s:plug_dir)
     call plug#begin(s:plug_dir)
 
     " カラースキーム
-    Plug 'frankier/neovim-colors-solarized-truecolor-only'
+    Plug 'lifepillar/vim-solarized8'
 
     " 閉じ括弧の補完など
     Plug 'cohama/lexima.vim'
@@ -246,9 +250,6 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " カラースキーム {{{1
 " ----------------------------------------------------------------------
 
-if isdirectory(s:plug_dir . '/neovim-colors-solarized-truecolor-only')
-    set background=light
-    colorscheme solarized
-endif
+colorscheme solarized8
 
 " }}}1
