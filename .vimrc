@@ -1,97 +1,99 @@
 " vim: set et sts=4 sw=4 fdm=marker :
 
+" ----------------------------------------------------------------------
 " encoding {{{1
+" ----------------------------------------------------------------------
+
 set encoding=utf-8
 scriptencoding utf-8
+
 " }}}1
 
 
-" defaults.vim を読み込む {{{1
+" ----------------------------------------------------------------------
+" defaults.vim {{{1
+" ----------------------------------------------------------------------
+
 source $VIMRUNTIME/defaults.vim
+
 " }}}1
 
 
+" ----------------------------------------------------------------------
 " options {{{1
-" TODO: Mac のみ
-"   なんか日本語化しない？？
-if has('unix')
-    language ja_JP.UTF-8
-    language messages ja_JP.UTF-8
-end
+" ----------------------------------------------------------------------
 
+" 全角文字
 set ambiwidth=double
+
+" インデント
 set autoindent
-
-" TODO
-" set belloff& belloff+=esc
-
-if has('linebreak')
-    " TODO
-    " set linebreak
-    set breakindent
-    set breakindentopt& breakindentopt+=sbr
-    let &showbreak = '+++ '
-end
-
-set cursorline
 set expandtab
-
-" TODO
-" set formatoptions& formatoptions+=mM
-
-set hlsearch
-set laststatus=2
-set list
-" set listchars=tab:\|\ ,extends:<,trail:-,eol:⏎
-set listchars=tab:\|\ ,extends:<,trail:-
-
-" TODO
-" set matchpairs&
-
-set matchpairs+=（:）,「:」,［:］,【:】,『:』,〈:〉,《:》,〔:〕,｛:｝
-set number
-
-" TODO
-" set sessionoptions+=tabpages,unix,slash
-
 set shiftwidth=4
-set smartcase
 set smartindent
 set smarttab
+set softtabstop=4
+set tabstop=4
 
-" TODO
-" set softtabstop=-1
+" 長い行の折り返し
+set nowrap
+set sidescroll=5
+" set &showbreak = "+++ " " これなら折返しのときに便利
 
-" TODO:
-set tags=./tags;,tags;
-set title
-set updatetime=100
+" 表示関係
+set number
+if has('syntax')
+    set cursorline
+    set cursorcolumn
+endif
+
+" 検索
+set hlsearch
+set smartcase
 set wildignorecase
 set wildmode=list:longest,full
-set t_Co=256
+
+" ステータスバー
+set laststatus=2
+
+" 不可視文字
+set list
+set listchars=tab:\|\ ,extends:>,precedes:<,trail:-,eol:⏎
+
+" 括弧のペア
+set matchpairs+=（:）,「:」,［:］,【:】,『:』,〈:〉,《:》,〔:〕,｛:｝
+
+" アップデート
+set updatetime=300
+
+" tags
+set tags=./tags;,tags;
+
+" 折りたたみ
+set foldmethod=syntax
+
 " }}}1
 
 
+" ----------------------------------------------------------------------
 " key bindings {{{1
+" ----------------------------------------------------------------------
+
 nnoremap Y y$
 nnoremap <silent> <ESC> <ESC>:nohlsearch<CR>
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+
+" 全部をクリップボードにコピー
+nnoremap <Leader>cp gg"+yG
+
 " }}}1
 
 
-" rvim だったらこれ以上読み込まない {{{1
-try
-    call system('true')
-catch
-    set secure
-    finish
-endtry
-" }}}1
-
-
-" Plugins {{{1
+" ----------------------------------------------------------------------
+" plug {{{1
+" ----------------------------------------------------------------------
 
 if has("unix")
     let s:plug_dir = expand('~/.vim/plugged')
@@ -101,114 +103,76 @@ endif
 
 if isdirectory(s:plug_dir)
     call plug#begin(s:plug_dir)
-        " Plugins list {{{2
-
-        " カラースキーム
-        Plug 'altercation/vim-colors-solarized'
-
-        " ジャンプできる
-        Plug 'easymotion/vim-easymotion'
-
-        " 自動整形
-        Plug 'junegunn/vim-easy-align'
-
-        " インデントを表示する
-        Plug 'nathanaelkane/vim-indent-guides'
-
-        " 補完
-        Plug 'prabirshrestha/async.vim'
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'prabirshrestha/asyncomplete.vim'
-        Plug 'prabirshrestha/asyncomplete-lsp.vim'
-
-        " カッコを補完してくれるやつ
-        Plug 'Raimondi/delimitMate'
-
-        " コメントアウト
-        Plug 'scrooloose/nerdcommenter'
-
-        " 非同期実行のプラグイン
-        " TODO: ちゃんとインストールする方法は？？
-        " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-
-        " すごそうだけどすぐには使えなそうだ
-        " Plug 'terryma/vim-multiple-cursors'
-
-        " Git
-        Plug 'tpope/vim-fugitive'
-
-        " ステータスバーがかっこよくなる
-        Plug 'vim-airline/vim-airline'
-        Plug 'vim-airline/vim-airline-themes'
-
         " 日本語マニュアル
         Plug 'vim-jp/vimdoc-ja'
 
-        " Linter
-        Plug 'w0rp/ale'
+        " カラースキーム
+        Plug 'lifepillar/vim-solarized8'
 
-        " Git の変更部分を表示する
+        " 閉じ括弧補完
+        Plug 'cohama/lexima.vim'
+
+        " コメントアウト
+        Plug 'tyru/caw.vim'
+
+        " Dot repeat
+        Plug 'kana/vim-repeat'
+
+        " ソースコードの中で filetype 判別
+        Plug 'Shougo/context_filetype.vim'
+
+        " ステータスバー
+        " Plug 'vim-airline/vim-airline'
+        " Plug 'vim-airline/vim-airline-themes'
+
+        " Git
+        Plug 'tpope/vim-fugitive'
         Plug 'airblade/vim-gitgutter'
-        " }}}2
+
+        " ツリー
+        Plug 'scrooloose/nerdtree'
+        Plug 'Xuyuanp/nerdtree-git-plugin'
     call plug#end()
-
-    " Plugins settings {{{2
-
-    " altercation/vim-colors-solarized {{{3
-    let g:solarized_termcolors=256
-
-    " junegunn/vim-easy-align {{{3
-    xmap ga <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
-
-    " nathanaelkane/vim-indent-guides {{{3
-    let g:indent_guides_enable_on_vim_startup = 1
-
-    " prabirshrestha/vim-lsp {{{3
-    let g:lsp_diagnostics_enabled = 0
-    " Python
-    if executable('pyls')
-        au User lsp_setup call lsp#register_server({
-        \       'name': 'pyls',
-        \       'cmd': {server_info->['pyls']},
-        \       'whitelist': ['python'],
-        \   })
-    endif
-
-    " Raimondi/delimitMate {{{3
-    let g:delimitMate_expand_space = 1
-    let g:delimitMate_expand_inside_quotes = 1
-    let g:delimitMate_expand_cr = 1
-    let g:delimitMate_jump_expansion = 1
-
-
-    " scrooloose/nerdcommenter {{{3
-    let g:NERDSpaceDelims = 1
-
-    " Shougo/vimproc.vim {{{3
-    let g:vimproc#download_windows_dll = 1
-
-    " w0rp/ale {{{3
-    let g:ale_fix_on_save = 1
-    let g:ale_open_list = 1
-    let g:ale_lint_delay = 700
-
-    " }}}2
-
-
-    " Plugins 設定後の設定 {{{2
-    colorscheme solarized
-    set helplang=ja,en
-
-    " 補完のプレビュー
-    set completeopt+=preview
-    " }}}2
-" }}}1
 endif
+
 " }}}1
 
 
-" Secure {{{1
+" ----------------------------------------------------------------------
+"  scrooloose/nerdtree {{{1
+" ----------------------------------------------------------------------
+
+" トグル
+nnoremap <Leader>t :NERDTreeToggle<CR>
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+" lifepillar/vim-solarized8 {{{1
+" ----------------------------------------------------------------------
+
+let g:solarized_old_cursor_style = 1
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+" Colorscheme {{{1
+" ----------------------------------------------------------------------
+
+set termguicolors
+set background=light
+colorscheme solarized8
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+" secure {{{1
+" ----------------------------------------------------------------------
+
 set secure
+
 " }}}1
 
