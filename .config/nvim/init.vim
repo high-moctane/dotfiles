@@ -46,7 +46,7 @@ set number
 
 " カラースキーム
 set termguicolors
-set background=light
+set background=dark
 
 " 折りたたみ
 set foldmethod=syntax

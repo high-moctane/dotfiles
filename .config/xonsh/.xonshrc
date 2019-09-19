@@ -55,6 +55,8 @@ $XONSH_AUTOPAIR = True
 # 履歴のどこでもマッチする
 $XONSH_HISTORY_MATCH_ANYWHERE = True
 
+# スタイル
+$XONSH_COLOR_STYLE = "solarized-dark"
 
 # ----------------------------------------------------------------------
 # プロンプトの見た目

@@ -162,7 +162,7 @@ let g:solarized_old_cursor_style = 1
 " ----------------------------------------------------------------------
 
 set termguicolors
-set background=light
+set background=dark
 colorscheme solarized8
 
 " }}}1
