@@ -107,7 +107,7 @@ if isdirectory(s:plug_dir)
         Plug 'vim-jp/vimdoc-ja'
 
         " カラースキーム
-        Plug 'lifepillar/vim-solarized8'
+        Plug 'chriskempson/base16-vim'
 
         " 閉じ括弧補完
         Plug 'cohama/lexima.vim'
@@ -122,8 +122,8 @@ if isdirectory(s:plug_dir)
         Plug 'Shougo/context_filetype.vim'
 
         " ステータスバー
-        " Plug 'vim-airline/vim-airline'
-        " Plug 'vim-airline/vim-airline-themes'
+        Plug 'vim-airline/vim-airline'
+        Plug 'vim-airline/vim-airline-themes'
 
         " Git
         Plug 'tpope/vim-fugitive'
@@ -149,6 +149,14 @@ nnoremap <Leader>t :NERDTreeToggle<CR>
 
 
 " ----------------------------------------------------------------------
+" vim-airline/vim-airline {{{1
+" ----------------------------------------------------------------------
+
+let g:airline_powerline_fonts = 1
+
+" }}}1
+
+" ----------------------------------------------------------------------
 " lifepillar/vim-solarized8 {{{1
 " ----------------------------------------------------------------------
 
@@ -163,7 +171,7 @@ let g:solarized_old_cursor_style = 1
 
 set termguicolors
 set background=dark
-colorscheme solarized8
+colorscheme base16-default-dark
 
 " }}}1
 
