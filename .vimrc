@@ -80,7 +80,6 @@ set foldmethod=syntax
 " ----------------------------------------------------------------------
 
 nnoremap Y y$
-nnoremap <silent> <ESC> <ESC>:nohlsearch<CR>
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
