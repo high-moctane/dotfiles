@@ -131,6 +131,10 @@ if isdirectory(s:plug_dir)
         " ツリー
         Plug 'scrooloose/nerdtree'
         Plug 'Xuyuanp/nerdtree-git-plugin'
+
+        " language server
+        Plug 'prabirshrestha/async.vim'
+        Plug 'prabirshrestha/vim-lsp'
     call plug#end()
 endif
 
@@ -138,7 +142,7 @@ endif
 
 
 " ----------------------------------------------------------------------
-"  scrooloose/nerdtree {{{1
+" scrooloose/nerdtree {{{1
 " ----------------------------------------------------------------------
 
 " トグル
@@ -155,11 +159,20 @@ let g:airline_powerline_fonts = 1
 
 " }}}1
 
+
 " ----------------------------------------------------------------------
-" lifepillar/vim-solarized8 {{{1
+" prabirshrestha/vim-lsp {{{1
 " ----------------------------------------------------------------------
 
-let g:solarized_old_cursor_style = 1
+" python
+if executable("pyls")
+    autocmd User lsp_setup call lsp#register_server({
+        \   "name": "pyls",
+        \   "cmd": {server_info->["pyls"]},
+        \   "whitelist": ["python"],
+        \   })
+endif
+
 
 " }}}1
 
