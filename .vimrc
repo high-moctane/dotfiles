@@ -118,6 +118,9 @@ if isdirectory(s:plug_dir)
         " カラースキーム
         Plug 'chriskempson/base16-vim'
 
+        " インデント可視化
+        Plug 'nathanaelkane/vim-indent-guides'
+
         " 閉じ括弧補完
         Plug 'cohama/lexima.vim'
 
@@ -176,6 +179,16 @@ nnoremap <Leader>t :NERDTreeToggle<CR>
 " ----------------------------------------------------------------------
 
 let g:airline_powerline_fonts = 1
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+" nathanaelkane/vim-indent-guides {{{1
+" ----------------------------------------------------------------------
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_color_change_percent = 5
 
 " }}}1
 
@@ -267,7 +280,7 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 
 set termguicolors
 set background=dark
-colorscheme base16-bright
+colorscheme base16-google-dark
 
 " }}}1
 
