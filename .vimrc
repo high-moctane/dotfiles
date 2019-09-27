@@ -145,11 +145,6 @@ if isdirectory(s:plug_dir)
         Plug 'scrooloose/nerdtree'
         Plug 'Xuyuanp/nerdtree-git-plugin'
 
-<<<<<<< HEAD
-        " language server
-        Plug 'prabirshrestha/async.vim'
-        Plug 'prabirshrestha/vim-lsp'
-=======
         " language server, 補完
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
@@ -163,7 +158,6 @@ if isdirectory(s:plug_dir)
 
         Plug 'SirVer/ultisnips'
         Plug 'honza/vim-snippets'
->>>>>>> 5e04a2a0deed8c3495e03ee231863781005fcd22
     call plug#end()
 endif
 
