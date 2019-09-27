@@ -20,6 +20,16 @@ source $VIMRUNTIME/defaults.vim
 
 
 " ----------------------------------------------------------------------
+"  init augroup {{{1
+" ----------------------------------------------------------------------
+
+augroup vimrc_loading
+    autocmd!
+augroup END
+
+" }}}1
+
+" ----------------------------------------------------------------------
 " options {{{1
 " ----------------------------------------------------------------------
 
@@ -108,6 +118,9 @@ if isdirectory(s:plug_dir)
         " カラースキーム
         Plug 'chriskempson/base16-vim'
 
+        " インデント可視化
+        Plug 'nathanaelkane/vim-indent-guides'
+
         " 閉じ括弧補完
         Plug 'cohama/lexima.vim'
 
@@ -132,9 +145,25 @@ if isdirectory(s:plug_dir)
         Plug 'scrooloose/nerdtree'
         Plug 'Xuyuanp/nerdtree-git-plugin'
 
+<<<<<<< HEAD
         " language server
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
+=======
+        " language server, 補完
+        Plug 'prabirshrestha/async.vim'
+        Plug 'prabirshrestha/vim-lsp'
+
+        Plug 'prabirshrestha/asyncomplete.vim'
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'
+        Plug 'prabirshrestha/asyncomplete-buffer.vim'
+        Plug 'prabirshrestha/asyncomplete-emoji.vim'
+        Plug 'prabirshrestha/asyncomplete-file.vim'
+        Plug 'yami-beta/asyncomplete-omni.vim'
+
+        Plug 'SirVer/ultisnips'
+        Plug 'honza/vim-snippets'
+>>>>>>> 5e04a2a0deed8c3495e03ee231863781005fcd22
     call plug#end()
 endif
 
@@ -161,18 +190,92 @@ let g:airline_powerline_fonts = 1
 
 
 " ----------------------------------------------------------------------
+" nathanaelkane/vim-indent-guides {{{1
+" ----------------------------------------------------------------------
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_color_change_percent = 5
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
 " prabirshrestha/vim-lsp {{{1
 " ----------------------------------------------------------------------
 
-" python
-if executable("pyls")
+" add lsp
+if executable('pyls')
     autocmd User lsp_setup call lsp#register_server({
-        \   "name": "pyls",
-        \   "cmd": {server_info->["pyls"]},
-        \   "whitelist": ["python"],
-        \   })
+                \   'name': 'pyls',
+                \   'cmd': {server_info->['pyls']},
+                \   'whitelist': ['python'],
+                \   })
 endif
 
+if executable('gopls')
+    au User lsp_setup call lsp#register_server({
+                \   'name': 'gopls',
+                \   'cmd': {server_info->['gopls', '-mode', 'stdio']},
+                \   'whitelist': ['go'],
+                \   })
+endif
+
+" key config
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+imap <C-Space> <Plug>(asyncomplete_force_refresh)
+
+let lsp_diagnostics_echo_cursur = 1
+
+augroup vimrc_loading
+    autocmd BufWritePre * LspDocumentFormatSync
+augroup END
+
+nnoremap <Leader>d :LspDocumentDiagnostics<CR>
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+"  prabirshrestha/asyncomplete {{{1
+" ----------------------------------------------------------------------
+
+let g:asyncomplete_auto_completeopt = 0
+set completeopt=menuone,noinsert,noselect,preview
+
+" buffer
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+            \   'name': 'buffer',
+            \   'whitelist': ['*'],
+            \   'completor': function('asyncomplete#sources#buffer#completor'),
+            \   'config': {
+            \       'max_buffer_size': 5000000,
+            \   },
+            \   }))
+
+" emoji
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
+            \   'name': 'emoji',
+            \   'whitelist': ['*'],
+            \   'completor': function('asyncomplete#sources#emoji#completor'),
+            \   }))
+
+" file
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+            \   'name': 'file',
+            \   'whitelist': ['*'],
+            \   'priority': 10,
+            \   'completor': function('asyncomplete#sources#file#completor'),
+            \   }))
+
+" omni
+call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+            \   'name': 'omni',
+            \   'whitelist': ['*'],
+            \   'blacklist': ['c', 'cpp', 'html'],
+            \   'completor': function('asyncomplete#sources#omni#completor')
+            \   }))
 
 " }}}1
 
@@ -183,7 +286,7 @@ endif
 
 set termguicolors
 set background=dark
-colorscheme base16-default-dark
+colorscheme base16-google-dark
 
 " }}}1
 
