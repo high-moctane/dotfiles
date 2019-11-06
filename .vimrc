@@ -29,6 +29,7 @@ augroup END
 
 " }}}1
 
+
 " ----------------------------------------------------------------------
 " options {{{1
 " ----------------------------------------------------------------------
@@ -117,6 +118,7 @@ if isdirectory(s:plug_dir)
 
         " カラースキーム
         Plug 'chriskempson/base16-vim'
+        Plug 'lifepillar/vim-solarized8'
 
         " インデント可視化
         Plug 'nathanaelkane/vim-indent-guides'
@@ -275,12 +277,20 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 
 
 " ----------------------------------------------------------------------
+" lifepillar/vim-solarized8 {{{1
+" ----------------------------------------------------------------------
+
+let g:solarized_old_cursor_style = 1
+
+" }}}1
+
+" ----------------------------------------------------------------------
 " Colorscheme {{{1
 " ----------------------------------------------------------------------
 
 set termguicolors
-set background=dark
-colorscheme base16-google-dark
+set background=light
+colorscheme solarized8
 
 " }}}1
 
