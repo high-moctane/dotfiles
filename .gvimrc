@@ -4,7 +4,7 @@ scriptencoding utf-8
 
 if has("mac")
     set guifont=Cica-Regular:h14
-else if has("unix")
+elseif has("unix")
     set guifont=Cica-Regular\ h14
 endif
 
