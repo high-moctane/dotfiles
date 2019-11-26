@@ -21,6 +21,12 @@ if platform.system() == "Darwin":
 elif platform.system() == "Linux":
     $EDITOR = "vim"
 
+# ----------------------------------------------------------------------
+# Env
+# ----------------------------------------------------------------------
+
+$NEXTWORD_DATA_PATH="$HOME/Assets/nextword-data"
+$NEXTWORD_TEST_DATA_PATH=$NEXTWORD_DATA_PATH
 
 # ----------------------------------------------------------------------
 # PATH
