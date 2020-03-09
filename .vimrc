@@ -83,6 +83,11 @@ set tags=./tags;,tags;
 " 折りたたみ
 set foldmethod=syntax
 
+" tmux での色
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 " }}}1
 
 
@@ -283,6 +288,7 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 let g:solarized_old_cursor_style = 1
 
 " }}}1
+
 
 " ----------------------------------------------------------------------
 " Colorscheme {{{1
