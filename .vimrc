@@ -155,6 +155,7 @@ if isdirectory(s:plug_dir)
         " language server, 補完
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
+        Plug 'mattn/vim-lsp-settings'
 
         Plug 'prabirshrestha/asyncomplete.vim'
         Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -203,23 +204,6 @@ let g:indent_guides_color_change_percent = 5
 " ----------------------------------------------------------------------
 " prabirshrestha/vim-lsp {{{1
 " ----------------------------------------------------------------------
-
-" add lsp
-if executable('pyls')
-    autocmd User lsp_setup call lsp#register_server({
-                \   'name': 'pyls',
-                \   'cmd': {server_info->['pyls']},
-                \   'whitelist': ['python'],
-                \   })
-endif
-
-if executable('gopls')
-    au User lsp_setup call lsp#register_server({
-                \   'name': 'gopls',
-                \   'cmd': {server_info->['gopls', '-mode', 'stdio']},
-                \   'whitelist': ['go'],
-                \   })
-endif
 
 " key config
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
