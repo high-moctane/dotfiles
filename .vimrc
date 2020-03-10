@@ -155,6 +155,12 @@ if isdirectory(s:plug_dir)
         " 移動高速化
         Plug 'easymotion/vim-easymotion'
 
+        " 囲まれているやつをどうにかする
+        Plug 'tpope/vim-surround'
+
+        " 言語構文？
+        Plug 'sheerun/vim-polyglot'
+
         " language server, 補完
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
