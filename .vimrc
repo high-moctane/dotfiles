@@ -162,6 +162,7 @@ if isdirectory(s:plug_dir)
         Plug 'prabirshrestha/asyncomplete-buffer.vim'
         Plug 'prabirshrestha/asyncomplete-emoji.vim'
         Plug 'prabirshrestha/asyncomplete-file.vim'
+        Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
         Plug 'yami-beta/asyncomplete-omni.vim'
 
         Plug 'SirVer/ultisnips'
@@ -252,6 +253,12 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
             \   'whitelist': ['*'],
             \   'priority': 10,
             \   'completor': function('asyncomplete#sources#file#completor'),
+            \   }))
+
+call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+            \   'name': 'ultisnips',
+            \   'whitelist': ['*'],
+            \   'completor': function('asyncomplete#sources#ultisnips#completor'),
             \   }))
 
 " omni
