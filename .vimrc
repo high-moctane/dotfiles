@@ -152,6 +152,9 @@ if isdirectory(s:plug_dir)
         Plug 'scrooloose/nerdtree'
         Plug 'Xuyuanp/nerdtree-git-plugin'
 
+        " 移動高速化
+        Plug 'easymotion/vim-easymotion'
+
         " language server, 補完
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
