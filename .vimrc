@@ -161,6 +161,9 @@ if isdirectory(s:plug_dir)
         " 言語構文？
         Plug 'sheerun/vim-polyglot'
 
+        " ctags
+        Plug 'ludovicchabant/vim-gutentags'
+
         " language server, 補完
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
@@ -172,6 +175,7 @@ if isdirectory(s:plug_dir)
         Plug 'prabirshrestha/asyncomplete-emoji.vim'
         Plug 'prabirshrestha/asyncomplete-file.vim'
         Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+        Plug 'prabirshrestha/asyncomplete-tags.vim'
         Plug 'yami-beta/asyncomplete-omni.vim'
 
         Plug 'SirVer/ultisnips'
