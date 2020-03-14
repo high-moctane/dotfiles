@@ -183,7 +183,7 @@ if isdirectory(s:plug_dir)
         Plug 'honza/vim-snippets'
 
         " 自作
-        Plug '~/GD/Documents/MyProjects/asyncomplete-nextword.vim'
+        " Plug '~/GD/Documents/MyProjects/asyncomplete-nextword.vim'
     call plug#end()
 endif
 
@@ -287,11 +287,11 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
             \   }))
 
 " nextword
-call asyncomplete#register_source(asyncomplete#sources#nextword#get_source_options({
-            \   'name': 'nextword',
-            \   'whitelist': ['*'],
-            \   'completor': function('asyncomplete#sources#nextword#completor')
-            \   }))
+" call asyncomplete#register_source(asyncomplete#sources#nextword#get_source_options({
+"            \   'name': 'nextword',
+"            \   'whitelist': ['*'],
+"            \   'completor': function('asyncomplete#sources#nextword#completor')
+"            \   }))
 
 " }}}1
 
