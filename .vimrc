@@ -53,6 +53,7 @@ set sidescroll=5
 
 " 表示関係
 set number
+set signcolumn=yes
 if has('syntax')
     set cursorline
     set cursorcolumn
