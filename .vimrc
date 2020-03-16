@@ -165,6 +165,10 @@ if isdirectory(s:plug_dir)
         " ctags
         Plug 'ludovicchabant/vim-gutentags'
 
+        " Ranger
+        " Plug 'francoiscabrol/ranger.vim'
+        Plug 'iberianpig/ranger-explorer.vim'
+
         " language server, 補完
         Plug 'prabirshrestha/async.vim'
         Plug 'prabirshrestha/vim-lsp'
@@ -295,6 +299,13 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 
 " }}}1
 
+
+" ----------------------------------------------------------------------
+" iberianpig/ranger-explorer.vim
+" ----------------------------------------------------------------------
+
+nnoremap <silent><Leader>rc :RangerOpenCurrentDir<CR>
+nnoremap <silent><Leader>rr :RangerOpenProjectRootDir<CR>
 
 " ----------------------------------------------------------------------
 " lifepillar/vim-solarized8 {{{1
