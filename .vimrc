@@ -123,7 +123,6 @@ if isdirectory(s:plug_dir)
         Plug 'vim-jp/vimdoc-ja'
 
         " カラースキーム
-        Plug 'chriskempson/base16-vim'
         Plug 'lifepillar/vim-solarized8'
 
         " インデント可視化
@@ -149,10 +148,6 @@ if isdirectory(s:plug_dir)
         Plug 'tpope/vim-fugitive'
         Plug 'airblade/vim-gitgutter'
 
-        " ツリー
-        Plug 'scrooloose/nerdtree'
-        Plug 'Xuyuanp/nerdtree-git-plugin'
-
         " 移動高速化
         Plug 'easymotion/vim-easymotion'
 
@@ -166,7 +161,6 @@ if isdirectory(s:plug_dir)
         Plug 'ludovicchabant/vim-gutentags'
 
         " Ranger
-        " Plug 'francoiscabrol/ranger.vim'
         Plug 'iberianpig/ranger-explorer.vim'
 
         " markdown のプレビュー
