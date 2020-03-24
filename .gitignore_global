@@ -3,3 +3,4 @@
 .vscode/
 *.swp
 tags
+tags.lock
