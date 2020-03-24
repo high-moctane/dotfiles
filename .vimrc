@@ -280,19 +280,19 @@ call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_opti
             \   }))
 
 " omni
-call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-            \   'name': 'omni',
-            \   'whitelist': ['*'],
-            \   'blacklist': ['c', 'cpp', 'html'],
-            \   'completor': function('asyncomplete#sources#omni#completor')
-            \   }))
+" call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+"            \   'name': 'omni',
+"            \   'whitelist': ['*'],
+"            \   'blacklist': ['c', 'cpp', 'html'],
+"            \   'completor': function('asyncomplete#sources#omni#completor')
+"            \   }))
 
 " nextword
 call asyncomplete#register_source(asyncomplete#sources#nextword#get_source_options({
-           \   'name': 'nextword',
-           \   'whitelist': ['*'],
-           \   'completor': function('asyncomplete#sources#nextword#completor')
-           \   }))
+            \   'name': 'nextword',
+            \   'whitelist': ['*'],
+            \   'completor': function('asyncomplete#sources#nextword#completor')
+            \   }))
 
 " }}}1
 
