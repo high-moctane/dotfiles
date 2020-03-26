@@ -58,6 +58,7 @@ if has('syntax')
     set cursorline
     set cursorcolumn
 endif
+set colorcolumn=80
 
 " 検索
 set hlsearch
