@@ -19,8 +19,8 @@ if platform.system() == "Darwin":
     # # cargo の PATH
     # $PATH.append($HOME + "/.cargo/bin")
 
-    # local のパス
-    $PATH.append($HOME + "/.local/bin")
+    # vpnclient の PATH
+    $PATH.append($HOME + "/Assets/SoftEther/vpnclient")
 elif platform.system() == "Linux":
     $EDITOR = "vim"
 
