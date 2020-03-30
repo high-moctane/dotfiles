@@ -18,6 +18,9 @@ if platform.system() == "Darwin":
 
     # # cargo の PATH
     # $PATH.append($HOME + "/.cargo/bin")
+
+    # local のパス
+    $PATH.append($HOME + "/.local/bin")
 elif platform.system() == "Linux":
     $EDITOR = "vim"
 
