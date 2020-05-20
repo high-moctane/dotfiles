@@ -165,7 +165,7 @@ if isdirectory(s:plug_dir)
         Plug 'sheerun/vim-polyglot'
 
         " ctags
-        Plug 'ludovicchabant/vim-gutentags'
+        " Plug 'ludovicchabant/vim-gutentags'
 
         " Ranger
         Plug 'iberianpig/ranger-explorer.vim'
