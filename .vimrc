@@ -115,6 +115,17 @@ nnoremap <Leader>cp gg"+yG
 
 
 " ----------------------------------------------------------------------
+" commands {{{1
+" ----------------------------------------------------------------------
+
+" tags
+command Ctags !ctags -R . > tags
+command Gotags !gotags -R . > tags
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
 " plug {{{1
 " ----------------------------------------------------------------------
 
@@ -320,6 +331,41 @@ nnoremap <silent><Leader>rr :RangerOpenProjectRootDir<CR>
 " ----------------------------------------------------------------------
 
 let g:solarized_old_cursor_style = 1
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+" majutsushi/tagbar {{{1
+" ----------------------------------------------------------------------
+
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
 
 " }}}1
 
