@@ -71,7 +71,7 @@ set laststatus=2
 
 " 不可視文字
 set list
-set listchars=tab:\|\ ,extends:>,precedes:<,trail:-,eol:⏎
+set listchars=tab:\|\ ,extends:>,precedes:<,trail:-
 
 " 括弧のペア
 set matchpairs+=（:）,「:」,［:］,【:】,『:』,〈:〉,《:》,〔:〕,｛:｝
