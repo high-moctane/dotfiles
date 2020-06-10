@@ -21,6 +21,9 @@ if platform.system() == "Darwin":
 
     # vpnclient の PATH
     $PATH.append($HOME + "/Assets/SoftEther/vpnclient")
+
+    # goneovim
+    $PATH.append("/Applications/goneovim.app/Contents/MacOS")
 elif platform.system() == "Linux":
     $EDITOR = "vim"
 
