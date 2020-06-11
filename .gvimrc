@@ -13,4 +13,6 @@ endif
 set guioptions-=L
 set guioptions-=T
 set guioptions-=m
-set guioptions+=l
+set guioptions-=l
+set guioptions-=r
+set guioptions-=e

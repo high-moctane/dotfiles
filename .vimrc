@@ -31,101 +31,6 @@ augroup END
 
 
 " ----------------------------------------------------------------------
-" options {{{1
-" ----------------------------------------------------------------------
-
-" 全角文字
-set ambiwidth=double
-
-" インデント
-set autoindent
-set expandtab
-set shiftwidth=4
-set smartindent
-set smarttab
-set softtabstop=4
-set tabstop=4
-
-" 長い行の折り返し
-set nowrap
-set sidescroll=5
-" set &showbreak = "+++ " " これなら折返しのときに便利
-
-" 表示関係
-set number
-set signcolumn=yes
-if has('syntax')
-    set cursorline
-    set cursorcolumn
-endif
-set colorcolumn=80
-
-" 検索
-set hlsearch
-set smartcase
-set wildignorecase
-set wildmode=list:longest,full
-
-" ステータスバー
-set laststatus=2
-
-" 不可視文字
-set list
-set listchars=tab:\|\ ,extends:>,precedes:<,trail:-
-
-" 括弧のペア
-set matchpairs+=（:）,「:」,［:］,【:】,『:』,〈:〉,《:》,〔:〕,｛:｝
-
-" アップデート
-set updatetime=300
-
-" tags
-set tags=./tags;,tags;
-
-" 折りたたみ
-set foldmethod=syntax
-
-" tmux での色
-set termguicolors
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-" python
-if has('win64')
-    set pythonthreehome=$HOME\scoop\apps\python\current
-    set pythonthreedll=$HOME\scoop\apps\python\current\python38.dll
-endif
-
-" }}}1
-
-
-" ----------------------------------------------------------------------
-" key bindings {{{1
-" ----------------------------------------------------------------------
-
-nnoremap Y y$
-
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-
-" 全部をクリップボードにコピー
-nnoremap <Leader>cp gg"+yG
-
-" }}}1
-
-
-" ----------------------------------------------------------------------
-" commands {{{1
-" ----------------------------------------------------------------------
-
-" tags
-command Ctags !ctags -R . > tags
-command Gotags !gotags -R . > tags
-
-" }}}1
-
-
-" ----------------------------------------------------------------------
 " plug {{{1
 " ----------------------------------------------------------------------
 
@@ -180,7 +85,11 @@ if isdirectory(s:plug_dir)
         Plug 'majutsushi/tagbar'
 
         " Ranger
-        Plug 'iberianpig/ranger-explorer.vim'
+        " Plug 'iberianpig/ranger-explorer.vim'
+
+        " ファイラ
+        Plug 'preservim/nerdtree'
+        Plug 'Xuyuanp/nerdtree-git-plugin'
 
         " markdown のプレビュー
         Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
@@ -298,14 +207,6 @@ call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_opti
             \   'completor': function('asyncomplete#sources#ultisnips#completor'),
             \   }))
 
-" omni
-" call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-"            \   'name': 'omni',
-"            \   'whitelist': ['*'],
-"            \   'blacklist': ['c', 'cpp', 'html'],
-"            \   'completor': function('asyncomplete#sources#omni#completor')
-"            \   }))
-
 " nextword
 call asyncomplete#register_source(asyncomplete#sources#nextword#get_source_options({
             \   'name': 'nextword',
@@ -320,8 +221,8 @@ call asyncomplete#register_source(asyncomplete#sources#nextword#get_source_optio
 " iberianpig/ranger-explorer.vim {{{1
 " ----------------------------------------------------------------------
 
-nnoremap <silent><Leader>rc :RangerOpenCurrentDir<CR>
-nnoremap <silent><Leader>rr :RangerOpenProjectRootDir<CR>
+" nnoremap <silent><Leader>rc :RangerOpenCurrentDir<CR>
+" nnoremap <silent><Leader>rr :RangerOpenProjectRootDir<CR>
 
 " }}}1
 
@@ -371,12 +272,108 @@ let g:tagbar_type_go = {
 
 
 " ----------------------------------------------------------------------
+" options {{{1
+" ----------------------------------------------------------------------
+
+" 全角文字
+set ambiwidth=double
+
+" インデント
+set autoindent
+set expandtab
+set shiftwidth=4
+set smartindent
+set smarttab
+set softtabstop=4
+set tabstop=4
+
+" 長い行の折り返し
+set nowrap
+set sidescroll=5
+" set &showbreak = "+++ " " これなら折返しのときに便利
+
+" 表示関係
+set number
+set signcolumn=yes
+if has('syntax')
+    set cursorline
+    " set cursorcolumn
+endif
+set colorcolumn=80
+
+" 検索
+set hlsearch
+set smartcase
+set wildignorecase
+set wildmode=list:longest,full
+
+" ステータスバー
+set laststatus=2
+set statusline=%f\ %m%r%h%w%q%=%y[%{&enc}]\ [%l/%L,%c,%P]
+
+" 不可視文字
+set list
+set listchars=tab:\|\ ,extends:>,precedes:<,trail:-
+
+" 括弧のペア
+set matchpairs+=（:）,「:」,［:］,【:】,『:』,〈:〉,《:》,〔:〕,｛:｝
+
+" アップデート
+set updatetime=300
+
+" tags
+set tags=./tags;,tags;
+
+" 折りたたみ
+set foldmethod=syntax
+
+" tmux での色
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+" python
+if has('win64')
+    set pythonthreehome=$HOME\scoop\apps\python\current
+    set pythonthreedll=$HOME\scoop\apps\python\current\python38.dll
+endif
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
 " Colorscheme {{{1
 " ----------------------------------------------------------------------
 
 set termguicolors
 set background=light
 colorscheme solarized8
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+" commands {{{1
+" ----------------------------------------------------------------------
+
+" tags
+command Ctags !ctags -R . > tags
+command Gotags !gotags -R . > tags
+
+" }}}1
+
+
+" ----------------------------------------------------------------------
+" key bindings {{{1
+" ----------------------------------------------------------------------
+
+nnoremap Y y$
+
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+" 全部をクリップボードにコピー
+nnoremap <Leader>cp gg"+yG
 
 " }}}1
 
