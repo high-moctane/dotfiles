@@ -1,0 +1,9 @@
+[Editor]
+FontFamily = "Cica"
+FontSize = 15
+Transparent = 0.98
+#ExtPopupmenu = true
+IndentGuide = true
+
+[Statusline]
+Visible = true
