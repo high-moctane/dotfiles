@@ -78,7 +78,7 @@ if isdirectory(s:plug_dir)
         Plug 'tpope/vim-surround'
 
         " 言語構文？
-        Plug 'sheerun/vim-polyglot'
+        " Plug 'sheerun/vim-polyglot'
 
         " ctags
         " Plug 'ludovicchabant/vim-gutentags'
