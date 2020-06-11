@@ -159,8 +159,8 @@ if isdirectory(s:plug_dir)
         Plug 'Shougo/context_filetype.vim'
 
         " ステータスバー
-        Plug 'vim-airline/vim-airline'
-        Plug 'vim-airline/vim-airline-themes'
+        " Plug 'vim-airline/vim-airline'
+        " Plug 'vim-airline/vim-airline-themes'
 
         " Git
         Plug 'tpope/vim-fugitive'
@@ -224,7 +224,7 @@ nnoremap <Leader>t :NERDTreeToggle<CR>
 " vim-airline/vim-airline {{{1
 " ----------------------------------------------------------------------
 
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 
 " }}}1
 
