@@ -124,7 +124,7 @@ endif
 " ----------------------------------------------------------------------
 
 " トグル
-nnoremap <Leader>t :NERDTreeToggle<CR>
+nnoremap <Leader>n :NERDTreeToggle<CR>
 
 " }}}1
 
@@ -239,6 +239,8 @@ let g:solarized_old_cursor_style = 1
 " ----------------------------------------------------------------------
 " majutsushi/tagbar {{{1
 " ----------------------------------------------------------------------
+
+nnoremap <Leader>t :Tagbar<CR>
 
 let g:tagbar_type_go = {
 	\ 'ctagstype' : 'go',
