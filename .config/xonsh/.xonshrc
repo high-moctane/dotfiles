@@ -24,8 +24,12 @@ if platform.system() == "Darwin":
 
     # goneovim
     $PATH.append("/Applications/goneovim.app/Contents/MacOS")
+
+    # owata
+    $PATH.append($HOME + "/LDocuments/owata")
 elif platform.system() == "Linux":
     $EDITOR = "vim"
+
 
 # ----------------------------------------------------------------------
 # Env
