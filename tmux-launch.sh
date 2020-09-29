@@ -1,15 +1,12 @@
 #!/bin/bash
 
-xonsh=$(which xonsh)
 zsh=$(which zsh)
 bash=$(which bash)
 
-if [ -n "$xonsh" ]; then
-    "$xonsh"
-elif [ -n "$zsh" ]; then
-    "$zsh"
+if [ -n "$zsh" ]; then
+    exec "$zsh"
 elif [ -n "$bash" ]; then
-    "$bash"
+    exec "$bash"
 else
-    /bin/sh
+    exec sh
 fi
