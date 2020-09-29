@@ -1,13 +1,15 @@
 #!/bin/bash
 
-bash_exists=0
-output=$(which bash) || bash_exists=$?
+xonsh=$(which xonsh)
+zsh=$(which zsh)
+bash=$(which bash)
 
-zsh_exists=0
-output=$(which zsh) || bash_exists=$?
-
-if [ "$zsh_exists" = "0" ]; then
-    zsh
-elif [ "$bash_exists" = "0" ]; then
-    bash
+if [ -n "$xonsh" ]; then
+    "$xonsh"
+elif [ -n "$zsh" ]; then
+    "$zsh"
+elif [ -n "$bash" ]; then
+    "$bash"
+else
+    /bin/sh
 fi
