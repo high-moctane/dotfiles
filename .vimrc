@@ -173,6 +173,9 @@ if isdirectory(s:plug_dir)
         " ステータスライン
         Plug 'itchyny/lightline.vim'
         Plug 'halkn/lightline-lsp'
+
+        " 空白消し
+        Plug 'ntpeters/vim-better-whitespace'
     call plug#end()
 endif
 
