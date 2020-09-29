@@ -107,6 +107,10 @@ endif
 " ベル
 set belloff=all
 
+" スペルチェック
+set spell
+set spelllang=en_us,cjk
+
 " }}}1
 
 
