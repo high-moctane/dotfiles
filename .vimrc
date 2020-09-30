@@ -111,6 +111,11 @@ set belloff=all
 set spell
 set spelllang=en_us,cjk
 
+" マウス
+if has('mouse')
+    set ttymouse=xterm2
+endif
+
 " }}}1
 
 
