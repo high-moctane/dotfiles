@@ -1,3 +1,8 @@
+# Local Path
+if [ -d $HOME/.local/bin ]; then
+    export PATH=$PATH:$HOME/.local/bin
+fi
+
 # Language Setup
 
 ## Go
