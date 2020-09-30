@@ -7,4 +7,4 @@ set foldmethod=expr
     \ foldtext=lsp#ui#vim#folding#foldtext()
 
 nnoremap <Leader>ld :LspDocumentDiagnostics<CR>
-
+nnoremap <Leader>lf :LspDocumentFormat<CR>
