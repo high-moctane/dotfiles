@@ -180,6 +180,9 @@ if isdirectory(s:plug_dir)
 
         " 空白消し
         Plug 'ntpeters/vim-better-whitespace'
+
+        " SKK
+        Plug 'tyru/eskk.vim'
     call plug#end()
 endif
 
