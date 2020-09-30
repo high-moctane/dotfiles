@@ -8,3 +8,8 @@ set foldmethod=expr
 
 nnoremap <Leader>ld :LspDocumentDiagnostics<CR>
 nnoremap <Leader>lf :LspDocumentFormat<CR>
+
+augroup MyVimLspFormatOnSave
+    autocmd!
+    autocmd BufWritePre * LspDocumentFormatSync
+augroup END
