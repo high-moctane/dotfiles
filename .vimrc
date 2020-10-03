@@ -88,6 +88,7 @@ set tags=./tags;,tags;
 " 折りたたみ
 if has('folding')
     set foldmethod=syntax
+    set foldlevel=100
 endif
 
 " Tmux（色）
