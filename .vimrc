@@ -138,7 +138,8 @@ if isdirectory(s:plug_dir)
         Plug 'vim-jp/vimdoc-ja'
 
         " カラースキーム
-        Plug 'lifepillar/vim-solarized8'
+        " Plug 'lifepillar/vim-solarized8'
+        Plug 'sonph/onehalf', {'rtp': 'vim/'}
 
         " インデント可視化
         " Plug 'nathanaelkane/vim-indent-guides'
@@ -208,8 +209,9 @@ call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec
 "   Colorscheme {{{1
 " ----------------------------------------------------------------------
 
-if len(globpath(&rtp, 'plugged/vim-solarized8')) > 0
-    colorscheme solarized8
+if len(globpath(&rtp, 'plugged/onehalf')) > 0
+    set background=light
+    colorscheme onehalflight
 end
 
 " }}}1

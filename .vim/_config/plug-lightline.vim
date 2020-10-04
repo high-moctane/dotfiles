@@ -3,7 +3,7 @@ if empty(globpath(&rtp, 'plugged/lightline.vim'))
 endif
 
 let g:lightline = {
-    \ 'colorscheme': 'solarized',
+    \ 'colorscheme': 'one',
     \ 'active': {
     \   'right': [ [ 'lsp_errors', 'lsp_warnings', 'lsp_ok', 'lineinfo' ],
     \              [ 'percent' ],
