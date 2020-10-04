@@ -8,6 +8,8 @@ set foldmethod=expr
 
 nnoremap <Leader>ld :LspDocumentDiagnostics<CR>
 nnoremap <Leader>lf :LspDocumentFormat<CR>
+nnoremap <Leader>lh :LspHover<CR>
+nnoremap <Leader>li :LspPeekDefinition<CR>
 
 augroup MyVimLspFormatOnSave
     autocmd!
