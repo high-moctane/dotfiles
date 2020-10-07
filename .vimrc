@@ -212,7 +212,7 @@ call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec
 " ----------------------------------------------------------------------
 
 if len(globpath(&rtp, 'plugged/onehalf')) > 0
-    colorscheme one
+    colorscheme onedark
     set background=dark
 end
 
