@@ -142,6 +142,8 @@ if isdirectory(s:plug_dir)
         Plug 'sonph/onehalf', {'rtp': 'vim/'}
         Plug 'joshdick/onedark.vim'
         Plug 'rakr/vim-one'
+        Plug '~/LDoc/projects/gaming.vim'
+        " Plug 'high-moctane/gaming.vim'
 
         " インデント可視化
         " Plug 'nathanaelkane/vim-indent-guides'
@@ -184,7 +186,7 @@ if isdirectory(s:plug_dir)
         Plug 'tpope/vim-surround'
 
         " ステータスライン
-        Plug 'itchyny/lightline.vim'
+        " Plug 'itchyny/lightline.vim'
         Plug 'halkn/lightline-lsp'
 
         " 空白消し
@@ -192,6 +194,9 @@ if isdirectory(s:plug_dir)
 
         " SKK
         Plug 'tyru/eskk.vim'
+
+        " Markdown Preview
+        Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
     call plug#end()
 endif
 
@@ -211,7 +216,7 @@ call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec
 "   Colorscheme {{{1
 " ----------------------------------------------------------------------
 
-if len(globpath(&rtp, 'plugged/onehalf')) > 0
+if len(globpath(&rtp, 'plugged/onedark.vim')) > 0
     colorscheme onedark
     set background=dark
 end
