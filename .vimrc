@@ -144,6 +144,9 @@ if isdirectory(s:plug_dir)
         Plug 'rakr/vim-one'
         Plug '~/LDoc/projects/gaming.vim'
         " Plug 'high-moctane/gaming.vim'
+        Plug 'cocopon/iceberg.vim'
+        Plug '~/LDoc/projects/anthraxylon/vim'
+        Plug 'carlobaldassi/charcoal.vim'
 
         " インデント可視化
         " Plug 'nathanaelkane/vim-indent-guides'
@@ -197,6 +200,9 @@ if isdirectory(s:plug_dir)
 
         " Markdown Preview
         Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+        " パラグラフ整形
+        Plug 'junegunn/vim-easy-align'
     call plug#end()
 endif
 
@@ -217,7 +223,7 @@ call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec
 " ----------------------------------------------------------------------
 
 if len(globpath(&rtp, 'plugged/onedark.vim')) > 0
-    colorscheme onedark
+    colorscheme anthraxylon
     set background=dark
 end
 

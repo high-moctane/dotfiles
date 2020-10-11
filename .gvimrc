@@ -5,8 +5,7 @@ scriptencoding utf-8
 " ----------------------------------------------------------------------
 
 if has('mac')
-    set guifont=migu-1m-regular:h14
-    set linespace=1
+    set guifont=Cica:h14
 endif
 
 " }}}1
