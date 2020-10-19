@@ -117,6 +117,11 @@ if has('mouse')
     set ttymouse=xterm2
 endif
 
+" ターミナル
+if executable('xonsh')
+    set shell=xonsh
+endif
+
 " }}}1
 
 
@@ -203,6 +208,9 @@ if isdirectory(s:plug_dir)
 
         " パラグラフ整形
         Plug 'junegunn/vim-easy-align'
+
+        " xonsh
+        Plug 'linkinpark342/xonsh-vim'
     call plug#end()
 endif
 
