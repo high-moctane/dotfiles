@@ -19,7 +19,7 @@ def _git_user_name():
         return None
 
 $PROMPT_FIELDS['git_user_name'] = _git_user_name
-$PROMPT = '{GREEN}{user}@{hostname} {BLUE}{cwd} {GREEN}{git_user_name:[{}]} {RESET}{gitstatus}\n{RESET}>>{prompt_end}{RESET} '
+$PROMPT = '{GREEN}{user}@{hostname} {BLUE}{cwd} {GREEN}{git_user_name:[{}]} {RESET}{gitstatus}\n{RESET}{prompt_end}>> '
 
 
 # Source .shell_common
