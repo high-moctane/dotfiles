@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 # Environment Variables
@@ -31,3 +32,12 @@ def _path_inserter(p):
         $PATH.insert(0, p)
 
 _path_inserter('/usr/local/bin')
+
+
+# Aliases
+aliases['ll'] = 'ls -l'
+aliases['la'] = 'ls -la'
+if shutil.which('gtime'):
+    aliases['time'] = 'gtime'
+if shutil.which('gxargs'):
+    aliases['xargs'] = 'gxargs'
