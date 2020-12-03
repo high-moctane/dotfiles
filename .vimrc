@@ -210,6 +210,9 @@ if isdirectory(s:plug_dir)
         " Markdown Preview
         Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
+        " LaTeX
+        Plug 'lervag/vimtex'
+
         " パラグラフ整形
         Plug 'junegunn/vim-easy-align'
 
