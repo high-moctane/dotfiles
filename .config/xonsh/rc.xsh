@@ -26,6 +26,8 @@ $PROMPT = '{GREEN}{user}@{hostname} {BLUE}{cwd} {GREEN}{git_user_name:[{}]} {RES
 # Source .shell_common
 source-bash ~/.shell_common
 
+source-bash $(/usr/libexec/path_helper -s)
+
 # PATH
 def _path_inserter(p):
     if os.path.isdir(p):
