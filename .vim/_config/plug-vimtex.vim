@@ -1,6 +1,4 @@
-if empty(globpath(&rtp, 'plugged/vimtex'))
-    finish
-endif
+UsePlugin 'vimtex'
 
 let g:vimtex_compiler_latexmk = {
       \ 'background': 1,

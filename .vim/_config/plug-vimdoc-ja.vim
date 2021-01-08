@@ -1,5 +1,3 @@
-if empty(globpath(&rtp, 'plugged/vimdoc-ja'))
-    finish
-endif
+UsePlugin 'vimdoc-ja'
 
 set helplang=ja

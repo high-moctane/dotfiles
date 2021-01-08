@@ -1,5 +1,3 @@
-if empty(globpath(&rtp, 'plugged/vim-solarized8'))
-    finish
-endif
+UsePlugin 'vim-solarized8'
 
 let g:solarized_old_cursor_style = 1

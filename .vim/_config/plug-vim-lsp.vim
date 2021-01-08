@@ -1,6 +1,4 @@
-if empty(globpath(&rtp, 'plugged/vim-lsp'))
-    finish
-endif
+UsePlugin 'vim-lsp'
 
 set foldmethod=expr
     \ foldexpr=lsp#ui#vim#folding#foldexpr()

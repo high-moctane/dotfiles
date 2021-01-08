@@ -1,6 +1,4 @@
-if empty(globpath(&rtp, 'plugged/lightline.vim'))
-    finish
-endif
+UsePlugin 'lightline.vim'
 
 let g:lightline = {
     \ 'colorscheme': 'one',

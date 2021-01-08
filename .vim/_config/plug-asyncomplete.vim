@@ -1,6 +1,4 @@
-if empty(globpath(&rtp, 'plugged/asyncomplete.vim'))
-    finish
-endif
+UsePlugin 'asyncomplete.vim'
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"

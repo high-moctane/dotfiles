@@ -1,6 +1,4 @@
-if empty(globpath(&rtp, 'plugged/eskk.vim'))
-    finish
-endif
+UsePlugin 'eskk.vim'
 
 " Local dictionary
 let g:eskk#large_dictionary = {

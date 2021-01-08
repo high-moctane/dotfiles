@@ -1,6 +1,4 @@
-if empty(globpath(&rtp, 'plugged/vim-better-whitespace'))
-    finish
-endif
+UsePlugin 'vim-better-whitespace'
 
 let g:better_whitespace_ctermcolor = 'Brown'
 let g:better_whitespace_guicolor = '#CB4B16'

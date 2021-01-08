@@ -146,29 +146,19 @@ if isdirectory(s:plug_dir)
         Plug 'vim-jp/vimdoc-ja'
 
         " カラースキーム
-        " Plug 'lifepillar/vim-solarized8'
-        Plug 'sonph/onehalf', {'rtp': 'vim/'}
-        Plug 'joshdick/onedark.vim'
-        Plug 'rakr/vim-one'
-        Plug '~/LDoc/projects/gaming.vim'
-        " Plug 'high-moctane/gaming.vim'
-        Plug 'cocopon/iceberg.vim'
         Plug '~/LDoc/projects/anthraxylon/vim'
-        Plug 'carlobaldassi/charcoal.vim'
 
         " インデント可視化
-        " Plug 'nathanaelkane/vim-indent-guides'
         Plug 'Yggdroot/indentLine'
 
         " 補完
-        " Plug 'prabirshrestha/asyncomplete.vim'
-        " Plug 'prabirshrestha/asyncomplete-buffer.vim'
-        " Plug 'prabirshrestha/asyncomplete-emoji.vim'
-        " Plug 'prabirshrestha/asyncomplete-file.vim'
-        " Plug 'prabirshrestha/asyncomplete-lsp.vim'
-        " Plug 'prabirshrestha/vim-lsp'
-        " Plug 'mattn/vim-lsp-settings'
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        Plug 'prabirshrestha/asyncomplete.vim'
+        Plug 'prabirshrestha/asyncomplete-buffer.vim'
+        Plug 'prabirshrestha/asyncomplete-emoji.vim'
+        Plug 'prabirshrestha/asyncomplete-file.vim'
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'
+        Plug 'prabirshrestha/vim-lsp'
+        Plug 'mattn/vim-lsp-settings'
 
         " 括弧を閉じる
         Plug 'cohama/lexima.vim'
@@ -199,7 +189,7 @@ if isdirectory(s:plug_dir)
 
         " ステータスライン
         " Plug 'itchyny/lightline.vim'
-        Plug 'halkn/lightline-lsp'
+        " Plug 'halkn/lightline-lsp'
 
         " 空白消し
         Plug 'ntpeters/vim-better-whitespace'
@@ -225,10 +215,16 @@ endif
 
 
 " ----------------------------------------------------------------------
-"   Plugin Settings {{{1
+"   Source .vim/_config {{{1
 " ----------------------------------------------------------------------
 
-call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
+let s:plugs = get(s:, 'plugs', get(g:, 'plugs', {}))
+function! FindPlugin(name) abort
+  return has_key(s:plugs, a:name) ? isdirectory(s:plugs[a:name].dir) : 0
+endfunction
+command! -nargs=1 UsePlugin if !FindPlugin(<args>) | finish | endif
+
+runtime! _config/*.vim
 
 " }}}1
 
@@ -237,9 +233,7 @@ call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec
 "   Colorscheme {{{1
 " ----------------------------------------------------------------------
 
-if len(globpath(&rtp, 'plugged/onedark.vim')) > 0
-    colorscheme anthraxylon
-    set background=dark
-end
+colorscheme anthraxylon
+set background=dark
 
 " }}}1

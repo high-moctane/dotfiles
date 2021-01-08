@@ -1,6 +1,4 @@
-if empty(globpath(&rtp, 'plugged/asyncomplete-emoji.vim'))
-    finish
-endif
+UsePlugin 'asyncomplete-emoji.vim'
 
 call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \ 'name': 'emoji',
