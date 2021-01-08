@@ -5,6 +5,9 @@
 !/LICENSE
 !/README.md
 
+# Requirements
+!/requirements/*.txt
+
 # Git
 !/.gitconfig
 !/.gitignore_global
