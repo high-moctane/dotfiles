@@ -6,7 +6,7 @@
 !/README.md
 
 # Requirements
-!/requirements/*.txt
+!/requirements/**
 
 # Git
 !/.gitconfig
