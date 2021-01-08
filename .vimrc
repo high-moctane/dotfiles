@@ -118,9 +118,9 @@ if has('mouse')
 endif
 
 " ターミナル
-if executable('xonsh')
-    set shell=xonsh
-endif
+" if executable('xonsh')
+"     set shell=xonsh
+" endif
 
 " Conceal
 let g:vim_json_conceal = 0
