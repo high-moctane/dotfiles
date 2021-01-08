@@ -1,4 +1,17 @@
-/.vim/autoload
-/.vim/plugged
-/.vim/.netrwhist
-/.config/configstore
+# Ignore all
+/**
+/.**
+
+!/LICENSE
+!/README.md
+
+# Git
+!/.gitconfig
+!/.gitignore_global
+
+# Vim
+!/.vimrc
+!/.gvimrc
+!/.vim/_config/**
+!/.vim/ftplugin/**
+!/.vim/coc-settings.json
