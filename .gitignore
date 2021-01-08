@@ -5,8 +5,11 @@
 !/LICENSE
 !/README.md
 
+# Bin
+!/bin
+
 # Requirements
-!/requirements/**
+!/requirements/
 
 # Git
 !/.gitconfig
