@@ -50,9 +50,10 @@ vim-install: vim-suggests vim-link vim-install-plug
 
 .PHONY: vim-install-plug
 vim-install-plug: vim-depends vim-suggests vim-link
+	mkdir $(DST)/.vim/autoload
+	mkdir $(DST)/.vim/plugged
 	curl -fLo $(DST)/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	mkdir $(DST)/.vim/plugged
 
 .PHONY: vim-depends
 vim-depends:
@@ -67,7 +68,7 @@ vim-suggests:
 #	SKK
 # ----------------------------------------------------------------------
 SKK_REPO := https://github.com/skk-dev/dict.git
-SKK_DIR := $(HOME)/.local/share/skk
+SKK_DIR := $(DST)/.local/share/skk
 
 .PHONY: skk
 skk: skk-build
