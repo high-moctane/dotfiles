@@ -1,3 +1,4 @@
+MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
 DST := $(HOME)
 DOTFILES_DIR := $(DST)/dotfiles
 PROTOCOL := ssh
@@ -6,7 +7,7 @@ DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
 
 define find-missing-command
-	@cat $1 | \
+	@cat $(DOTFILES_DIR)/$1 | \
 		xargs -L 1 -I COMMAND sh -c "which COMMAND > /dev/null || (echo COMMAND not found && false)"
 endef
 
@@ -31,7 +32,11 @@ endif
 endif
 	cd $(DOTFILES_DIR) && git checkout $(BRANCH)
 
+# ----------------------------------------------------------------------
+#	Vim
+# ----------------------------------------------------------------------
 .PHONY: vim
+vim: vim-link vim-install
 
 .PHONY: vim-link
 vim-link: download vim-depends
