@@ -146,7 +146,11 @@ if isdirectory(s:plug_dir)
         Plug 'vim-jp/vimdoc-ja'
 
         " カラースキーム
-        Plug '~/LDoc/projects/anthraxylon/vim'
+        if isdirectory(expand('~/LDoc/projects/anthraxylon'))
+            Plug '~/LDoc/projects/anthraxylon/vim'
+        else
+            Plug 'high-moctane/anthraxylon', {'rtp': 'vim'}
+        endif
 
         " インデント可視化
         Plug 'Yggdroot/indentLine'
