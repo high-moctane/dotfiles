@@ -21,12 +21,13 @@ download: $(DOTFILES_DIR)
 $(DOTFILES_DIR):
 ifeq "$(PROTOCOL)" "https"
 	git clone $(DOTFILES_HTTPS) $(DOTFILES_DIR)
-endif
+else
 ifeq "$(PROTOCOL)" "ssh"
 	git clone $(DOTFILES_SSH) $(DOTFILES_DIR)
 else
 	@echo "invalid git protocol: $(PROTOCOL)"
 	@false
+endif
 endif
 	cd $(DOTFILES_DIR) && git checkout $(BRANCH)
 
