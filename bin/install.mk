@@ -15,6 +15,7 @@ endef
 .PHONY: all
 all: download
 all: vim
+all: skk
 
 .PHONY: download
 download: $(DOTFILES_DIR)
@@ -60,3 +61,43 @@ vim-depends:
 .PHONY: vim-suggests
 vim-suggests:
 	$(call find-missing-command,requirements/vim-suggests.txt)
+
+
+# ----------------------------------------------------------------------
+#	SKK
+# ----------------------------------------------------------------------
+SKK_REPO := https://github.com/skk-dev/dict.git
+SKK_DIR := $(HOME)/.local/share/skk
+
+.PHONY: skk
+skk: skk-build
+
+.PHONY: skk-update
+skk-update: skk-dict-pull skk-build
+
+.PHONY: skk-dict-pull
+skk-dict-pull: skk-download
+	cd $(SKK_DIR)/dict && git pull
+
+.PHONY: skk-download
+skk-download: $(SKK_DIR)/dict
+
+$(SKK_DIR)/dict:
+	mkdir -p $(SKK_DIR)
+	git clone --depth 1 -b master $(SKK_REPO) $@
+
+.PHONY: skk-build
+skk-build: $(SKK_DIR)/SKK-JISYO.total
+
+$(SKK_DIR)/SKK-JISYO.total: skk-depends $(SKK_DIR)/dict
+	skkdic-expr2 \
+		$(SKK_DIR)/dict/SKK-JISYO.L \
+		$(SKK_DIR)/dict/SKK-JISYO.jinmei \
+		$(SKK_DIR)/dict/SKK-JISYO.geo \
+		$(SKK_DIR)/dict/SKK-JISYO.station \
+		$(SKK_DIR)/dict/SKK-JISYO.propernoun \
+		> $@
+
+.PHONY: skk-depends
+skk-depends:
+	$(call find-missing-command,requirements/skk-depends.txt)
