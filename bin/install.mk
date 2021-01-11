@@ -14,6 +14,7 @@ endef
 
 .PHONY: all
 all: download
+all: dot-config
 all: vim
 all: skk
 all: zsh
@@ -33,6 +34,10 @@ else
 endif
 endif
 	cd $@ && git checkout $(BRANCH)
+
+.PHONY: dot-config
+dot-config:
+	ln -lf $(DOTFILES_DIR)/.config $(DST)/.config
 
 # ----------------------------------------------------------------------
 #	Vim

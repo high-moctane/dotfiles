@@ -26,3 +26,6 @@
 !/.zshenv
 !/.zshrc
 !/.shell_common
+
+# Tmux
+!/.config/tmux/tmux.conf
