@@ -25,3 +25,4 @@
 # ZSH
 !/.zshenv
 !/.zshrc
+!/.shell_common
