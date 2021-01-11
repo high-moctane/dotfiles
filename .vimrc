@@ -165,6 +165,10 @@ if isdirectory(s:plug_dir)
         " Plug 'mattn/vim-lsp-settings'
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+        " fuzzy finder
+        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+        Plug 'junegunn/fzf.vim'
+
         " 括弧を閉じる
         Plug 'cohama/lexima.vim'
 
