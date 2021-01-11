@@ -156,13 +156,14 @@ if isdirectory(s:plug_dir)
         Plug 'Yggdroot/indentLine'
 
         " 補完
-        Plug 'prabirshrestha/asyncomplete.vim'
-        Plug 'prabirshrestha/asyncomplete-buffer.vim'
-        Plug 'prabirshrestha/asyncomplete-emoji.vim'
-        Plug 'prabirshrestha/asyncomplete-file.vim'
-        Plug 'prabirshrestha/asyncomplete-lsp.vim'
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'mattn/vim-lsp-settings'
+        " Plug 'prabirshrestha/asyncomplete.vim'
+        " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+        " Plug 'prabirshrestha/asyncomplete-emoji.vim'
+        " Plug 'prabirshrestha/asyncomplete-file.vim'
+        " Plug 'prabirshrestha/asyncomplete-lsp.vim'
+        " Plug 'prabirshrestha/vim-lsp'
+        " Plug 'mattn/vim-lsp-settings'
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
         " 括弧を閉じる
         Plug 'cohama/lexima.vim'
