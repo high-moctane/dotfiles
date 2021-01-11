@@ -61,6 +61,8 @@ zinit load Tarrasch/zsh-bd
 zinit ice wait lucid
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
+zinit ice wait lucid
+zinit load unixorn/fzf-zsh-plugin
 
 # ----------------------------------------------------------------------
 

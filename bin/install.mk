@@ -111,7 +111,7 @@ skk-depends:
 zsh: zsh-link
 
 .PHONY: zsh-link
-zsh-link: zsh-depends
+zsh-link: zsh-depends zsh-suggests
 	ln -fs $(DOTFILES_DIR)/.shell_common $(DST)/.shell_common
 	ln -fs $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
 	ln -fs $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
@@ -120,3 +120,5 @@ zsh-link: zsh-depends
 zsh-depends:
 	$(call find-missing-command,requirements/zsh-depends.txt)
 
+.PHONY: zsh-suggests
+	$(call find-missing-command,requirements/zsh-suggests.txt)
