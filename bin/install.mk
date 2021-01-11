@@ -112,8 +112,8 @@ zsh: zsh-link
 
 .PHONY: zsh-link
 zsh-link: zsh-depends
-	ln -s $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
-	ln -s $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
+	ln -fs $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
+	ln -fs $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
 
 .PHONY: zsh-depends
 zsh-depends:
