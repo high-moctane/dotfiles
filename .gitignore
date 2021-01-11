@@ -21,3 +21,7 @@
 !/.vim/_config/**
 !/.vim/ftplugin/**
 !/.vim/coc-settings.json
+
+# ZSH
+!/.zshenv
+!/.zshrc

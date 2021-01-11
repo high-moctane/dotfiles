@@ -16,6 +16,7 @@ endef
 all: download
 all: vim
 all: skk
+all: zsh
 
 .PHONY: download
 download: $(DOTFILES_DIR)
@@ -102,3 +103,19 @@ $(SKK_DIR)/SKK-JISYO.total: skk-depends $(SKK_DIR)/dict
 .PHONY: skk-depends
 skk-depends:
 	$(call find-missing-command,requirements/skk-depends.txt)
+
+# ----------------------------------------------------------------------
+#	Zsh
+# ----------------------------------------------------------------------
+.PHONY: zsh
+zsh: zsh-link
+
+.PHONY: zsh-link
+zsh-link: zsh-depends
+	ln -s $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
+	ln -s $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
+
+.PHONY: zsh-depends
+zsh-depends:
+	$(call find-missing-command,requirements/zsh-depends.txt)
+
