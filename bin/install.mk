@@ -37,7 +37,7 @@ endif
 
 .PHONY: dot-config
 dot-config:
-	ln -lf $(DOTFILES_DIR)/.config $(DST)/.config
+	ln -s $(DOTFILES_DIR)/.config $(DST)/.config
 
 # ----------------------------------------------------------------------
 #	Vim
@@ -47,9 +47,9 @@ vim: vim-link vim-install
 
 .PHONY: vim-link
 vim-link: download vim-depends
-	ln -fs $(DOTFILES_DIR)/.vimrc $(DST)/.vimrc
-	ln -fs $(DOTFILES_DIR)/.gvimrc $(DST)/.gvimrc
-	ln -fs $(DOTFILES_DIR)/.vim $(DST)/.vim
+	ln -s $(DOTFILES_DIR)/.vimrc $(DST)/.vimrc
+	ln -s $(DOTFILES_DIR)/.gvimrc $(DST)/.gvimrc
+	ln -s $(DOTFILES_DIR)/.vim $(DST)/.vim
 
 .PHONY: vim-install
 vim-install: vim-suggests vim-link vim-install-plug
@@ -117,9 +117,9 @@ zsh: zsh-link
 
 .PHONY: zsh-link
 zsh-link: zsh-depends zsh-suggests
-	ln -fs $(DOTFILES_DIR)/.shell_common $(DST)/.shell_common
-	ln -fs $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
-	ln -fs $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
+	ln -s $(DOTFILES_DIR)/.shell_common $(DST)/.shell_common
+	ln -s $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
+	ln -s $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
 
 .PHONY: zsh-depends
 zsh-depends:
