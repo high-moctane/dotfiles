@@ -69,6 +69,8 @@ zinit load unixorn/fzf-zsh-plugin
 bindkey "^P" up-line-or-search
 
 alias ls='ls -G'
+alias ll='ls -l'
+alias la='ls -la'
 
 setopt auto_cd
 setopt share_history
