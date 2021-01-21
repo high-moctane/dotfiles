@@ -1,7 +1,8 @@
 {
-    "coc.preferences.formatOnSaveFiletypes": [
-        "json",
-        "python",
-        "rust"
-    ]
+	"coc.preferences.formatOnSaveFiletypes": [
+		"json",
+		"python",
+		"rust",
+		"go"
+	]
 }
