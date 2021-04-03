@@ -1,6 +1,7 @@
 MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
 DST := $(HOME)
 DOTFILES_DIR := $(DST)/dotfiles
+BACKUP_DIR := $(DST)/.dotfiles_backup/$(shell date +%N)
 PROTOCOL := ssh
 DOTFILES_HTTPS := https://github.com/high-moctane/dotfiles.git
 DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
@@ -11,9 +12,14 @@ define find-missing-command
 		xargs -L 1 -I COMMAND sh -c "which COMMAND > /dev/null || (echo COMMAND not found && false)"
 endef
 
+define backup-and-link
+	-mv $(DST)/$1 $(BACKUP_DIR)/$1
+	ln -s $(DOTFILES_DIR)/$1 $(DST)/$1
+endef
 
 .PHONY: all
 all: download
+all: $(BACKUP_DIR)
 all: dot-config
 all: vim
 all: skk
@@ -35,31 +41,18 @@ endif
 endif
 	cd $@ && git checkout $(BRANCH)
 
+$(BACKUP_DIR):
+	mkdir -p $(BACKUP_DIR)
+
 .PHONY: dot-config
 dot-config:
-	ln -s $(DOTFILES_DIR)/.config $(DST)/.config
+	$(call backup-and-link,.config)
 
 # ----------------------------------------------------------------------
 #	Vim
 # ----------------------------------------------------------------------
 .PHONY: vim
-vim: vim-link vim-install
-
-.PHONY: vim-link
-vim-link: download vim-depends
-	ln -s $(DOTFILES_DIR)/.vimrc $(DST)/.vimrc
-	ln -s $(DOTFILES_DIR)/.gvimrc $(DST)/.gvimrc
-	ln -s $(DOTFILES_DIR)/.vim $(DST)/.vim
-
-.PHONY: vim-install
-vim-install: vim-link vim-install-plug
-
-.PHONY: vim-install-plug
-vim-install-plug: vim-depends vim-link
-	mkdir $(DST)/.vim/autoload
-	mkdir $(DST)/.vim/plugged
-	curl -fLo $(DST)/.vim/autoload/plug.vim --create-dirs \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim: vim-depends vim-link vim-install
 
 .PHONY: vim-depends
 vim-depends:
@@ -69,6 +62,18 @@ vim-depends:
 vim-suggests:
 	$(call find-missing-command,requirements/vim-suggests.txt)
 
+.PHONY: vim-link
+vim-link: download
+	$(call backup-and-link,.vimrc)
+	$(call backup-and-link,.gvimrc)
+	$(call backup-and-link,.vim)
+
+.PHONY: vim-install
+vim-install:
+	-mkdir $(DST)/.vim/autoload
+	-mkdir $(DST)/.vim/plugged
+	curl -fLo $(DST)/.vim/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # ----------------------------------------------------------------------
 #	SKK
@@ -117,9 +122,9 @@ zsh: zsh-depends zsh-link
 
 .PHONY: zsh-link
 zsh-link:
-	ln -s $(DOTFILES_DIR)/.shell_common $(DST)/.shell_common
-	ln -s $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
-	ln -s $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
+	$(call backup-and-link,.shell_common)
+	$(call backup-and-link,.zshenv)
+	$(call backup-and-link,.zshrc)
 
 .PHONY: zsh-depends
 zsh-depends:
