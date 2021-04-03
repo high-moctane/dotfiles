@@ -55,7 +55,7 @@ vim-link: download vim-depends
 vim-install: vim-link vim-install-plug
 
 .PHONY: vim-install-plug
-vim-install-plug: vim-depends vim-suggests vim-link
+vim-install-plug: vim-depends vim-link
 	mkdir $(DST)/.vim/autoload
 	mkdir $(DST)/.vim/plugged
 	curl -fLo $(DST)/.vim/autoload/plug.vim --create-dirs \
