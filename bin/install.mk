@@ -52,7 +52,7 @@ vim-link: download vim-depends
 	ln -s $(DOTFILES_DIR)/.vim $(DST)/.vim
 
 .PHONY: vim-install
-vim-install: vim-suggests vim-link vim-install-plug
+vim-install: vim-link vim-install-plug
 
 .PHONY: vim-install-plug
 vim-install-plug: vim-depends vim-suggests vim-link
@@ -113,10 +113,10 @@ skk-depends:
 #	Zsh
 # ----------------------------------------------------------------------
 .PHONY: zsh
-zsh: zsh-link
+zsh: zsh-depends zsh-link
 
 .PHONY: zsh-link
-zsh-link: zsh-depends zsh-suggests
+zsh-link:
 	ln -s $(DOTFILES_DIR)/.shell_common $(DST)/.shell_common
 	ln -s $(DOTFILES_DIR)/.zshenv $(DST)/.zshenv
 	ln -s $(DOTFILES_DIR)/.zshrc $(DST)/.zshrc
