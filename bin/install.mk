@@ -1,7 +1,7 @@
 MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
 DST := $(HOME)
 DOTFILES_DIR := $(DST)/dotfiles
-BACKUP_DIR := $(DST)/.dotfiles_backup/$(shell date +%N)
+BACKUP_DIR := $(DST)/.dotfiles_backup/$(shell date +%Y-%m-%d-%H-%M-%S)
 PROTOCOL := ssh
 DOTFILES_HTTPS := https://github.com/high-moctane/dotfiles.git
 DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
@@ -24,6 +24,7 @@ all: dot-config
 all: vim
 all: skk
 all: zsh
+all: done
 
 .PHONY: download
 download: $(DOTFILES_DIR)
@@ -47,6 +48,9 @@ $(BACKUP_DIR):
 .PHONY: dot-config
 dot-config:
 	$(call backup-and-link,.config)
+
+.PHONY: done
+	@echo done
 
 # ----------------------------------------------------------------------
 #	Vim
