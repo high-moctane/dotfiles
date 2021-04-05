@@ -50,6 +50,7 @@ dot-config:
 	$(call backup-and-link,.config)
 
 .PHONY: done
+done:
 	@echo done
 
 # ----------------------------------------------------------------------
