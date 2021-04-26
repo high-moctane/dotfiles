@@ -22,6 +22,7 @@ all: download
 all: $(BACKUP_DIR)
 all: dot-config
 all: vim
+all: nvim
 all: skk
 all: zsh
 all: done
@@ -79,6 +80,33 @@ vim-install:
 	-mkdir $(DST)/.vim/plugged
 	curl -fLo $(DST)/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# ----------------------------------------------------------------------
+#	Neovim
+# ----------------------------------------------------------------------
+
+.PHONY: nvim
+nvim: nvim-depends nvim-link nvim-install
+
+.PHONY: nvim-depends
+nvim-depends:
+	$(call find-missing-command,requirements/nvim-depends.txt)
+
+.PHONY: nvim-suggests
+nvim-suggests:
+	$(call find-missing-command,requirements/nvim-suggests.txt)
+
+.PHONY: nvim-link
+nvim-link: download
+
+.PHONY: nvim-install
+nvim-install:
+	-mkdir $(DST)/.cache/dein
+	-mkdir /tmp/high-moctane-dotfiles
+	curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/high-moctane-dotfiles/installer.sh
+	sh /tmp/high-moctane-dotfiles/installer.sh $(DST)/.cache/dein
+	rm -rf /tmp/high-moctane-dotfiles
+
 
 # ----------------------------------------------------------------------
 #	SKK

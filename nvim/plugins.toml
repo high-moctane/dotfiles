@@ -1,0 +1,92 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+hook_source = '''
+    let g:indentLine_fileTypeExclude = ['help']
+    let g:indentLine_showFirstIndentLevel = 1
+'''
+
+[[plugins]]
+repo = 'junegunn/fzf'
+hook_post_update = 'call fzf#install()'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+
+# Close pairs
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+# Comment out
+[[plugins]]
+repo = 'tyru/caw.vim'
+
+[[plugins]]
+repo = 'kana/vim-repeat'
+
+# Git
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+# Ctags
+[[plugins]]
+repo = 'ludovicchabant/vim-gutentags'
+
+[[plugins]]
+repo = 'preservim/tagbar'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'ntpeters/vim-better-whitespace'
+hook_source = '''
+    let g:better_whitespace_ctermcolor = 'Brown'
+    let g:better_whitespace_guicolor = '#CB4B16'
+    let g:strip_whitelines_at_eof = 1
+    let g:strip_whitespace_on_save = 1
+'''
+
+[[plugins]]
+repo = 'tyru/eskk.vim'
+hook_source = '''
+    " Local dictionary
+    let g:eskk#large_dictionary = {
+       \   'path': expand('~/.local/share/skk/SKK-JISYO.total'),
+       \   'sorted': 1,
+       \   'encoding': 'euc-jp',
+       \ }
+
+    " yaskkserv2
+    let g:eskk#server = {
+        \    'host': 'localhost',
+        \    'port': 1178,
+        \}
+
+    augroup MyEskkInitializePre
+        autocmd!
+        autocmd User eskk-initialize-pre call s:eskk_initial_pre()
+    augroup END
+    function! s:eskk_initial_pre()
+        let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
+        call l:t.add_map(',', '，')
+        call l:t.add_map('.', '。')
+        call eskk#register_mode_table('hira', l:t)
+        let l:t = eskk#table#new('rom_to_kata*', 'rom_to_kata')
+        call l:t.add_map(',', '，')
+        call l:t.add_map('.', '。')
+        call eskk#register_mode_table('kata', l:t)
+    endfunction
+'''
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+hook_source = '''
+    xmap <Leader>g <Plug>(EasyAlign)
+    nmap <Leader>g <Plug>(EasyAlign)
+'''
