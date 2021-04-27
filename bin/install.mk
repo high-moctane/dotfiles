@@ -99,7 +99,7 @@ nvim-suggests:
 .PHONY: nvim-link
 nvim-link: download
 
-.PHONY: nvim-install
+.PHONY: nvim-install nvim-modify-json-syntax
 nvim-install:
 	-mkdir $(DST)/.cache/dein
 	-mkdir /tmp/high-moctane-dotfiles
@@ -107,6 +107,11 @@ nvim-install:
 	sh /tmp/high-moctane-dotfiles/installer.sh $(DST)/.cache/dein
 	rm -rf /tmp/high-moctane-dotfiles
 
+.PHONY: nvim-modify-json-syntax
+nvim-modify-json-syntax:
+	sed -i \
+		-e "s/^if has('conceal')/if has('conceal') \&\& (!exists('g:vim_json_conceal') || g:vim_json_conceal==1)/" \
+		$(shell LANG=C nvim --version | grep '$VIM:' | cut -d '"' -f 2)/runtime/syntax/json.vim
 
 # ----------------------------------------------------------------------
 #	SKK

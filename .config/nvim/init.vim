@@ -41,7 +41,6 @@ set listchars=tab:\|\ ,extends:>,precedes:<,trail:-,eol:¬
 set updatetime=300
 
 " Folding
-set foldmethod=syntax
 set foldlevel=100
 
 " Tmux (color)
@@ -49,6 +48,7 @@ set termguicolors
 
 " Completion
 set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 
 " Spell check
 set spell

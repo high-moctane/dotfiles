@@ -4,8 +4,8 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo = 'Yggdroot/indentLine'
 hook_source = '''
-    let g:indentLine_fileTypeExclude = ['help']
-    let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_fileTypeExclude = ['help']
+let g:indentLine_showFirstIndentLevel = 1
 '''
 
 [[plugins]]
@@ -34,11 +34,11 @@ repo = 'tpope/vim-fugitive'
 repo = 'airblade/vim-gitgutter'
 
 # Ctags
-[[plugins]]
-repo = 'ludovicchabant/vim-gutentags'
+# [[plugins]]
+# repo = 'ludovicchabant/vim-gutentags'
 
-[[plugins]]
-repo = 'preservim/tagbar'
+# [[plugins]]
+# repo = 'preservim/tagbar'
 
 [[plugins]]
 repo = 'tpope/vim-surround'
@@ -46,47 +46,154 @@ repo = 'tpope/vim-surround'
 [[plugins]]
 repo = 'ntpeters/vim-better-whitespace'
 hook_source = '''
-    let g:better_whitespace_ctermcolor = 'Brown'
-    let g:better_whitespace_guicolor = '#CB4B16'
-    let g:strip_whitelines_at_eof = 1
-    let g:strip_whitespace_on_save = 1
+let g:better_whitespace_ctermcolor = 'Brown'
+let g:better_whitespace_guicolor = '#CB4B16'
+let g:strip_whitelines_at_eof = 1
+let g:strip_whitespace_on_save = 1
 '''
 
 [[plugins]]
 repo = 'tyru/eskk.vim'
 hook_source = '''
-    " Local dictionary
-    let g:eskk#large_dictionary = {
-       \   'path': expand('~/.local/share/skk/SKK-JISYO.total'),
-       \   'sorted': 1,
-       \   'encoding': 'euc-jp',
-       \ }
+" Local dictionary
+let g:eskk#large_dictionary = {
+   \   'path': expand('~/.local/share/skk/SKK-JISYO.total'),
+   \   'sorted': 1,
+   \   'encoding': 'euc-jp',
+   \ }
 
-    " yaskkserv2
-    let g:eskk#server = {
-        \    'host': 'localhost',
-        \    'port': 1178,
-        \}
+" yaskkserv2
+let g:eskk#server = {
+    \    'host': 'localhost',
+    \    'port': 1178,
+    \}
 
-    augroup MyEskkInitializePre
-        autocmd!
-        autocmd User eskk-initialize-pre call s:eskk_initial_pre()
-    augroup END
-    function! s:eskk_initial_pre()
-        let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
-        call l:t.add_map(',', '，')
-        call l:t.add_map('.', '。')
-        call eskk#register_mode_table('hira', l:t)
-        let l:t = eskk#table#new('rom_to_kata*', 'rom_to_kata')
-        call l:t.add_map(',', '，')
-        call l:t.add_map('.', '。')
-        call eskk#register_mode_table('kata', l:t)
-    endfunction
+augroup MyEskkInitializePre
+    autocmd!
+    autocmd User eskk-initialize-pre call s:eskk_initial_pre()
+augroup END
+function! s:eskk_initial_pre()
+    let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
+    call l:t.add_map(',', '，')
+    call l:t.add_map('.', '。')
+    call eskk#register_mode_table('hira', l:t)
+    let l:t = eskk#table#new('rom_to_kata*', 'rom_to_kata')
+    call l:t.add_map(',', '，')
+    call l:t.add_map('.', '。')
+    call eskk#register_mode_table('kata', l:t)
+endfunction
 '''
 
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 hook_source = '''
-    xmap <Leader>g <Plug>(EasyAlign)
-    nmap <Leader>g <Plug>(EasyAlign)
+xmap <Leader>g <Plug>(EasyAlign)
+nmap <Leader>g <Plug>(EasyAlign)
 '''
+
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
+hook_source = '''
+lua << EOF
+local function setup_servers()
+    require'lspinstall'.setup()
+    local servers = require'lspinstall'.installed_servers()
+    for _, server in pairs(servers) do
+        require'lspconfig'[server].setup{}
+    end
+end
+
+setup_servers()
+
+-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+require'lspinstall'.post_install_hook = function ()
+    setup_servers() -- reload installed servers
+    vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+end
+EOF
+'''
+
+[[plugins]]
+repo = 'kabouzeid/nvim-lspinstall'
+hook_source = '''
+'''
+
+[[plugins]]
+repo = 'nvim-lua/completion-nvim'
+hook_source = '''
+augroup MyCompletionNvimEnable
+    autocmd!
+    autocmd BufEnter * lua require'completion'.on_attach()
+augroup END
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+let g:completion_enable_snippet = 'snippets.nvim'
+
+let g:completion_confirm_key = ""
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
+
+let g:completion_matching_smart_case = 1
+
+lua << EOF
+vim.g.completion_chain_complete_list = {
+    default = {
+        { complete_items = {
+            'lsp', 'snippet', 'buffers', 'snippets', 'vim-dadbod-completion'
+        } },
+        { mode = { '<c-p>' } },
+        { mode = { '<c-n>' } }
+    },
+}
+EOF
+'''
+
+[[plugins]]
+repo = 'steelsojka/completion-buffers'
+
+[[plugins]]
+repo = 'norcalli/snippets.nvim'
+hook_source = '''
+lua require'snippets'.use_suggested_mappings()
+'''
+
+[[plugins]]
+repo = 'albertoCaroM/completion-tmux'
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+hook_post_update = '''
+TSUpdate
+TSInstall maintained
+'''
+hook_source = '''
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+    },
+    indent = {
+        enable = true,
+    }
+}
+EOF
+
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+'''
+
+# Syntax
+[[plugins]]
+repo = 'nvim-treesitter/completion-treesitter'
+
+# Database
+[[plugins]]
+repo = 'tpope/vim-dadbod'
+
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-ui'
+
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-completion'
