@@ -1,7 +1,0 @@
-*~
-.DS_Store
-.vscode/
-*.swp
-tags
-tags.lock
-.devcontainer

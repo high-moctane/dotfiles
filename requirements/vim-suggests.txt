@@ -1,4 +1,0 @@
-ctags
-curl
-git
-node

@@ -1,4 +1,0 @@
-[[plugins]]
-repo = 'wsdjeg/dein-ui.vim'
-on_cmd = 'DeinUpdate'
-

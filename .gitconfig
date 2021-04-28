@@ -1,5 +1,0 @@
-[user]
-	name = high-moctane
-	email = high.moctane@gmail.com
-[core]
-	excludesfile = ~/.gitignore_global
