@@ -1,0 +1,23 @@
+services:
+  alpine:
+    build:
+      dockerfile: dev-dockerfiles/Dockerfile-alpine
+      context: .
+    container_name: dotfiles-alpine
+    tty: true
+
+  arch:
+    build:
+      dockerfile: dev-dockerfiles/Dockerfile-arch
+      context: .
+    container_name: dotfiles-arch
+    tty: true
+
+  debian:
+    build:
+      dockerfile: dev-dockerfiles/Dockerfile-debian
+      context: .
+    container_name: dotfiles-debian
+    tty: true
+    volumes:
+      - .:/root/dotfiles:ro

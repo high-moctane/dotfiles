@@ -1,0 +1,8 @@
+font:
+  normal:
+    family: Cica
+
+  size: 15.0
+
+mouse:
+  hide_when_typing: true

@@ -1,0 +1,9 @@
+*~
+.DS_Store
+.vscode/
+*.swp
+tags
+tags.lock
+.devcontainer
+Session.vim
+.session.vim
