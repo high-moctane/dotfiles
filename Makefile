@@ -29,6 +29,7 @@ all: bash
 all: docker
 all: git
 all: neovim
+all: skk
 all: tmux
 all: zsh
 all: done
@@ -114,6 +115,9 @@ git:
 #	Neovim
 # ----------------------------------------------------------------------
 
+NVIM_APPIMAGE := https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+NVIM_PACKER_REPO := https://github.com/wbthomason/packer.nvim
+
 .PHONY: neovim
 neovim: neovim-link neovim-appimage
 
@@ -121,17 +125,58 @@ neovim: neovim-link neovim-appimage
 neovim-link:
 	$(call backup-and-link,nvim,.config/nvim)
 
-
 .PHONY: neovim-appimage
 neovim-appimage:
 ifeq "$(shell uname)" "Linux"
 	mkdir -p $(DST)/.local/lib/nvim
-	curl -L -o $(DST)/.local/lib/nvim/nvim.appimage https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+	curl -L -o $(DST)/.local/lib/nvim/nvim.appimage $(NVIM_APPIMAGE)
 	chmod u+x $(DST)/.local/lib/nvim/nvim.appimage
 	cd $(DST)/.local/lib/nvim && ./nvim.appimage --appimage-extract
 	mkdir -p $(DST)/.local/bin
 	ln -sf $(DST)/.local/lib/nvim/squashfs-root/usr/bin/nvim $(DST)/.local/bin/nvim
 endif
+
+.PHONY: neovim-packer
+neovim-packer:
+	git clone $(NVIM_PACKER_REPO) $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+
+# ----------------------------------------------------------------------
+#	SKK
+# ----------------------------------------------------------------------
+
+SKK_REPO := https://github.com/skk-dev/dict.git
+SKK_DIR := $(DST)/.local/share/skk
+
+.PHONY: skk
+skk: skk-build
+
+.PHONY: skk-update
+skk-update: skk-dict-pull skk-build
+
+.PHONY: skk-dict-pull
+skk-dict-pull: skk-download
+	cd $(SKK_DIR)/dict && git pull
+
+.PHONY: skk-download
+skk-download: $(SKK_DIR)/dict
+
+$(SKK_DIR)/dict:
+	mkdir -p $(SKK_DIR)
+	git clone --depth 1 $(SKK_REPO) $@
+
+.PHONY: skk-build
+skk-build: $(SKK_DIR)/SKK-JISYO.total
+
+$(SKK_DIR)/SKK-JISYO.total: $(SKK_DIR)/dict
+	skkdic-expr2 \
+		$(SKK_DIR)/dict/SKK-JISYO.L \
+		$(SKK_DIR)/dict/SKK-JISYO.jinmei \
+		$(SKK_DIR)/dict/SKK-JISYO.geo \
+		$(SKK_DIR)/dict/SKK-JISYO.station \
+		$(SKK_DIR)/dict/SKK-JISYO.propernoun \
+		> $@
+
 
 # ----------------------------------------------------------------------
 #	Tmux
