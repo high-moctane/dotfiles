@@ -77,14 +77,22 @@ packer.startup(function(use)
 
     -- Colorscheme
     use {
-        "~/Documents/projects/anthraxylon/vim",
-        cond = vim.fn.isdirectory("~/Documents/projects/anthraxylon/vim") == 1,
-    }
-    use {
-        "high-moctane/anthraxylon",
+        "~/Documents/projects/anthraxylon",
         rtp = "vim",
-        cond = vim.fn.isdirectory("~/Documents/projects/anthraxylon/vim") == 0,
+        as = "anthraxylon_local",
+        cond = vim.fn.isdirectory("~/Documents/projects/anthraxylon/vim") == 1,
+        config = function()
+            vim.cmd "colorscheme anthraxylon"
+        end,
     }
+
+    -- use {
+    --     "high-moctane/anthraxylon",
+    --     rtp = "vim",
+    --     as = "anthraxylon_github",
+    --     cond = vim.fn.isdirectory("~/Documents/projects/anthraxylon/vim") == 0,
+    --     config = vim.cmd "colorscheme anthraxylon",
+    -- }
 end)
 
 vim.cmd "PackerCompile"
