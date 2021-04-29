@@ -25,6 +25,7 @@ all: $(BACKUP_DIR)
 all: $(HOME)/.config
 all: home
 all: alacritty
+all: bash
 all: docker
 all: git
 all: neovim
@@ -79,6 +80,15 @@ shell_common:
 .PHONY: alacritty
 alacritty:
 	$(call backup-and-link,alacritty/alacritty.yml,.config/alacritty/alacritty.yml)
+
+
+# ----------------------------------------------------------------------
+#	Bash
+# ----------------------------------------------------------------------
+
+.PHONY: bash
+bash:
+	$(call backup-and-link,bash/bash_profile,.bash_profile)
 
 
 # ----------------------------------------------------------------------
@@ -140,3 +150,21 @@ tmux:
 zsh:
 	$(call backup-and-link,zsh/zshenv,.zshenv)
 	$(call backup-and-link,zsh/zshrc,.zshrc)
+
+
+# ----------------------------------------------------------------------
+#	Install dependencies
+# ----------------------------------------------------------------------
+
+# --------------------------------------------------
+#	Apt
+# --------------------------------------------------
+
+.PHONY: apt
+apt:
+	apt-get update
+
+	# Node
+	curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+
+	apt-get install -y nodejs luajit zsh git skktools build-essential

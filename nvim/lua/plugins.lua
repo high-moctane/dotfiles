@@ -1,5 +1,4 @@
-local status, packer = pcall(require, "packer")
-if not status then
+local status, packer = pcall(require, "packer") if not status then
     return
 end
 

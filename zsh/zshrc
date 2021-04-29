@@ -78,3 +78,5 @@ alias la='ls -la'
 
 setopt auto_cd
 setopt share_history
+
+export EDITOR=nvim

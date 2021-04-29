@@ -1,7 +1,12 @@
 FROM debian:buster
 
 RUN apt-get update \
-    && apt-get install -y make curl zsh git skktools
+    && apt-get install -y make curl
+
+RUN curl -L https://raw.githubusercontent.com/high-moctane/dotfiles/210428/Makefile | \
+        make apt -f - PROTOCOL=https BRANCH=210428
+RUN curl -L https://raw.githubusercontent.com/high-moctane/dotfiles/210428/Makefile | \
+        make -f - PROTOCOL=https BRANCH=210428
 
 WORKDIR /root
 

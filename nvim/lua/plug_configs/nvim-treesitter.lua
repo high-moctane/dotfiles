@@ -17,8 +17,12 @@ M.config = function()
         },
         indent = {
             enable = true,
+            disable = { "python" },
         },
     }
+
+    vim.wo.foldmethod = "expr"
+    vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 end
 
 
