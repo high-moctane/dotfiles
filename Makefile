@@ -33,7 +33,7 @@ all: nvim
 all: skk
 all: tmux
 # all: zellij
-ll: zsh
+all: zsh
 all: done
 
 .PHONY: download

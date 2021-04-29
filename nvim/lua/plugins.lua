@@ -74,6 +74,17 @@ packer.startup(function(use)
     use "steelsojka/completion-buffers"
     use "albertoCaroM/completion-tmux"
     use "nvim-treesitter/completion-treesitter"
+
+    -- Colorscheme
+    use {
+        "~/Documents/projects/anthraxylon/vim",
+        cond = vim.fn.isdirectory("~/Documents/projects/anthraxylon/vim") == 1,
+    }
+    use {
+        "high-moctane/anthraxylon",
+        rtp = "vim",
+        cond = vim.fn.isdirectory("~/Documents/projects/anthraxylon/vim") == 0,
+    }
 end)
 
 vim.cmd "PackerCompile"
