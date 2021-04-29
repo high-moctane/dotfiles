@@ -117,6 +117,7 @@ git:
 
 NVIM_APPIMAGE := https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 NVIM_PACKER_REPO := https://github.com/wbthomason/packer.nvim
+NVIM_PACKER_DST := $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 .PHONY: nvim
 nvim: nvim-link nvim-appimage nvim-packer
@@ -137,8 +138,10 @@ ifeq "$(shell uname)" "Linux"
 endif
 
 .PHONY: nvim-packer
-nvim-packer:
-	git clone $(NVIM_PACKER_REPO) $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
+nvim-packer: $(NVIM_PACKER_DST)
+
+$(NVIM_PACKER_DST):
+	git clone $(NVIM_PACKER_REPO) $@
 
 
 # ----------------------------------------------------------------------
