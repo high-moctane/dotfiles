@@ -19,5 +19,5 @@ services:
       context: .
     container_name: dotfiles-debian
     tty: true
-    volumes:
-      - .:/root/dotfiles:ro
+    # volumes:
+    #   - .:/root/dotfiles:ro
