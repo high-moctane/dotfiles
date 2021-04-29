@@ -28,7 +28,7 @@ all: alacritty
 all: bash
 all: docker
 all: git
-all: neovim
+all: nvim
 all: skk
 all: tmux
 all: zsh
@@ -118,15 +118,15 @@ git:
 NVIM_APPIMAGE := https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 NVIM_PACKER_REPO := https://github.com/wbthomason/packer.nvim
 
-.PHONY: neovim
-neovim: neovim-link neovim-appimage
+.PHONY: nvim
+nvim: nvim-link nvim-appimage nvim-packer
 
-.PHONY: neovim-link
-neovim-link:
+.PHONY: nvim-link
+nvim-link:
 	$(call backup-and-link,nvim,.config/nvim)
 
-.PHONY: neovim-appimage
-neovim-appimage:
+.PHONY: nvim-appimage
+nvim-appimage:
 ifeq "$(shell uname)" "Linux"
 	mkdir -p $(DST)/.local/lib/nvim
 	curl -L -o $(DST)/.local/lib/nvim/nvim.appimage $(NVIM_APPIMAGE)
@@ -136,8 +136,8 @@ ifeq "$(shell uname)" "Linux"
 	ln -sf $(DST)/.local/lib/nvim/squashfs-root/usr/bin/nvim $(DST)/.local/bin/nvim
 endif
 
-.PHONY: neovim-packer
-neovim-packer:
+.PHONY: nvim-packer
+nvim-packer:
 	git clone $(NVIM_PACKER_REPO) $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 
