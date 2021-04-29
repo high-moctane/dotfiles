@@ -9,7 +9,7 @@ local large_dictionary_path = skk_dir .. "/SKK-JISYO.total"
 
 M.config = function()
     vim.g["eskk#large_dictionary"] = {
-        path = large_dictionary_path,
+        path = "/Users/moctane/.local/share/skk/SKK-JISYO.total",
         sorted = 1,
         encoding = "euc-jp",
     }

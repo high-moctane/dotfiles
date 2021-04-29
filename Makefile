@@ -29,6 +29,7 @@ all: docker
 all: git
 all: neovim
 all: tmux
+all: zsh
 all: done
 
 .PHONY: download
@@ -60,7 +61,7 @@ done:
 
 
 # ----------------------------------------------------------------------
-#	HOME 	
+#	HOME
 # ----------------------------------------------------------------------
 
 .PHONY: home
@@ -72,7 +73,7 @@ shell_common:
 
 
 # ----------------------------------------------------------------------
-#	Alacritty 	
+#	Alacritty
 # ----------------------------------------------------------------------
 
 .PHONY: alacritty
@@ -104,12 +105,23 @@ git:
 # ----------------------------------------------------------------------
 
 .PHONY: neovim
-neovim: neovim-link
+neovim: neovim-link neovim-appimage
 
 .PHONY: neovim-link
 neovim-link:
 	$(call backup-and-link,nvim,.config/nvim)
 
+
+.PHONY: neovim-appimage
+neovim-appimage:
+ifeq "$(shell uname)" "Linux"
+	mkdir -p $(DST)/.local/lib/nvim
+	curl -L -o $(DST)/.local/lib/nvim/nvim.appimage https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+	chmod u+x $(DST)/.local/lib/nvim/nvim.appimage
+	cd $(DST)/.local/lib/nvim && ./nvim.appimage --appimage-extract
+	mkdir -p $(DST)/.local/bin
+	ln -sf $(DST)/.local/lib/nvim/squashfs-root/usr/bin/nvim $(DST)/.local/bin/nvim
+endif
 
 # ----------------------------------------------------------------------
 #	Tmux

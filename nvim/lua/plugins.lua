@@ -1,4 +1,9 @@
-return require"packer".startup(function(use)
+local status, packer = pcall(require, "packer")
+if not status then
+    return
+end
+
+packer.startup(function(use)
     use "wbthomason/packer.nvim"
 
     -- Indent guide
@@ -71,3 +76,5 @@ return require"packer".startup(function(use)
     use "albertoCaroM/completion-tmux"
     use "nvim-treesitter/completion-treesitter"
 end)
+
+vim.cmd "PackerCompile"
