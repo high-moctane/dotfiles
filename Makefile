@@ -29,9 +29,11 @@ all: bash
 all: docker
 all: git
 all: nvim
+# all: rust
 all: skk
 all: tmux
-all: zsh
+# all: zellij
+ll: zsh
 all: done
 
 .PHONY: download
@@ -145,6 +147,18 @@ $(NVIM_PACKER_DST):
 
 
 # ----------------------------------------------------------------------
+#	Rust
+# ----------------------------------------------------------------------
+
+.PHONY: rust
+rust:
+	mkdir -p /tmp/dotfiles-rust
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/dotfiles-rust/rustup-init
+	sh /tmp/dotfiles-rust/rustup-init -y
+	rm -rf /tmp/dotfiles-rust
+
+
+# ----------------------------------------------------------------------
 #	SKK
 # ----------------------------------------------------------------------
 
@@ -191,6 +205,21 @@ tmux:
 
 
 # ----------------------------------------------------------------------
+#	Zellij
+# ----------------------------------------------------------------------
+
+.PHONY: zellij
+zellij: zellij-install
+
+.PHONY: zellij-install
+zellij-install:
+	cargo install zellij
+
+.PHONY: zellij-update
+zellij-update:
+	cargo update zellij
+
+# ----------------------------------------------------------------------
 #	Zsh
 # ----------------------------------------------------------------------
 
@@ -215,4 +244,4 @@ apt:
 	# Node
 	curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 
-	apt-get install -y nodejs luajit zsh git skktools build-essential
+	apt-get install -y nodejs luajit zsh git skktools build-essential tmux htop
