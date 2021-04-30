@@ -145,7 +145,7 @@ git:
 
 .PHONY: luajit
 luajit: asdf
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf package add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git"
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf install luaJIT latest"
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf global luaJIT `asdf latest luaJIT`"
 
@@ -190,7 +190,7 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nodejs
 nodejs: asdf
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf package add nodejs"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add nodejs"
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf install nodejs latest"
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf global nodejs `asdf latest nodejs`"
 
