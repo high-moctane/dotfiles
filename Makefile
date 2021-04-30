@@ -185,7 +185,7 @@ $(NVIM_PACKER_DST):
 	git clone $(NVIM_PACKER_REPO) $@
 
 .PHONY: nvim-build
-nvim-build: nvim-link nvim-appimage nvim-packer nvim-build-apt
+nvim-build: nvim-link nvim-packer nvim-build-apt
 	mkdir -p $(DST)/.local/lib
 	git clone https://github.com/neovim/neovim.git $(DST)/.local/lib/neovim
 	cd $(DST)/.local/lib/neovim && make
