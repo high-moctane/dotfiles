@@ -29,7 +29,8 @@ all: asdf
 all: bash
 all: docker
 all: git
-all: nvim
+# all: nvim
+all: nvim-build
 # all: rust
 all: skk
 all: tmux
@@ -183,6 +184,16 @@ nvim-packer: $(NVIM_PACKER_DST)
 $(NVIM_PACKER_DST):
 	git clone $(NVIM_PACKER_REPO) $@
 
+.PHONY: nvim-build
+nvim-build: nvim-link nvim-appimage nvim-packer nvim-build-apt
+	mkdir -p $(DST)/.local/lib
+	git clone https://github.com/neovim/neovim.git $(DST)/.local/lib/neovim
+	cd $(DST)/.local/lib/neovim && make
+	ln -sf $(DST)/.local/lib/neovim/build/bin/* $(DST)/.local/bin
+
+.PHONY: nvim-build-apt
+nvim-build-apt:
+	apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
 
 # ----------------------------------------------------------------------
 #	Node.js
