@@ -5,8 +5,8 @@ fi
 
 # Asdf
 if [ -d $HOME/.local/bin ]; then
-    source $HOME/.asdf/asdf.sh
-    source $HOME/.asdf/completions/asdf.bash
+    . $HOME/.asdf/asdf.sh
+    . $HOME/.asdf/completions/asdf.bash
 fi
 
 # Language Setup
