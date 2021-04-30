@@ -91,7 +91,9 @@ packer.startup(function(use)
     --     rtp = "vim",
     --     as = "anthraxylon_github",
     --     cond = vim.fn.isdirectory("~/Documents/projects/anthraxylon/vim") == 0,
-    --     config = vim.cmd "colorscheme anthraxylon",
+    --     config = function()
+    --         vim.cmd "colorscheme anthraxylon"
+    --     end,
     -- }
 end)
 

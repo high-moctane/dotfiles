@@ -32,6 +32,7 @@ all: nvim
 # all: rust
 all: skk
 all: tmux
+all: vim-plugins
 # all: zellij
 all: zsh
 all: done
@@ -161,7 +162,9 @@ $(NVIM_PACKER_DST):
 # ----------------------------------------------------------------------
 
 .PHONY: rust
-rust:
+rust: $(DST)/.cargo
+
+$(DST)/.cargo:
 	mkdir -p /tmp/dotfiles-rust
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/dotfiles-rust/rustup-init
 	sh /tmp/dotfiles-rust/rustup-init -y
@@ -223,6 +226,32 @@ tmux-terminfo:
 	tic /tmp/dotfiles-tmux/tmux-256color.terminfo.txt
 	rm -rf /tmp/dotfiles-tmux
 
+
+# ----------------------------------------------------------------------
+#	Vim plugins
+# ----------------------------------------------------------------------
+
+.PHONY: vim-plugins
+vim-plugins: anthraxylon
+
+ANTHRAXYLON_HTTPS := https://github.com/high-moctane/anthraxylon.git
+ANTHRAXYLON_SSH := git@github.com:high-moctane/anthraxylon.git
+
+.PHONY: anthraxylon
+anthraxylon: $(DST)/Documents/projects/anthraxylon
+
+$(DST)/Documents/projects/anthraxylon:
+ifeq "$(PROTOCOL)" "https"
+	git clone $(ANTHRAXYLON_HTTPS) $@
+else
+ifeq "$(PROTOCOL)" "ssh"
+	git clone $(ANTHRAXYLON_SSH) $@
+else
+	@echo "invalid git protocol: $(PROTOCOL)"
+	@false
+endif
+endif
+
 # ----------------------------------------------------------------------
 #	Zellij
 # ----------------------------------------------------------------------
@@ -230,11 +259,11 @@ tmux-terminfo:
 .PHONY: zellij
 zellij: zellij-install
 
-.PHONY: zellij-install
+.PHONY: rust zellij-install
 zellij-install:
 	cargo install zellij
 
-.PHONY: zellij-update
+.PHONY: rust zellij-update
 zellij-update:
 	cargo update zellij
 
