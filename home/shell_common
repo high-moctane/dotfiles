@@ -3,6 +3,12 @@ if [ -d $HOME/.local/bin ]; then
     export PATH=$PATH:$HOME/.local/bin
 fi
 
+# Asdf
+if [ -d $HOME/.local/bin ]; then
+    source $HOME/.asdf/asdf.sh
+    source $HOME/.asdf/completions/asdf.bash
+fi
+
 # Language Setup
 
 ## Go
