@@ -148,7 +148,7 @@ git:
 luajit: asdf
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git"
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf install luaJIT latest"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf global luaJIT `bash -c 'asdf latest luaJIT'`"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf global luaJIT `bash -c '. $(DST)/.asdf/asdf.sh && asdf latest luaJIT'`"
 
 
 # ----------------------------------------------------------------------
@@ -203,7 +203,7 @@ nvim-build-apt:
 nodejs: asdf
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add nodejs"
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf install nodejs latest"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf global nodejs `bash -c 'asdf latest nodejs'`"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf global nodejs `bash -c '. $(DST)/.asdf/asdf.sh && asdf latest nodejs'`"
 
 
 # ----------------------------------------------------------------------
@@ -268,7 +268,7 @@ tmux: tmux-install tmux-link tmux-terminfo
 tmux-install: asdf
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git"
 	bash -c ". $(DST)/.asdf/asdf.sh && asdf install tmux latest"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf global tmux `bash -c 'asdf latest tmux'`"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf global tmux `bash -c '. $(DST)/.asdf/asdf.sh && asdf latest tmux'`"
 
 .PHONY: tmux-link
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
