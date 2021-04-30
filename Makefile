@@ -186,10 +186,10 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nvim-build
 nvim-build: nvim-link nvim-packer nvim-build-apt
-	mkdir -p $(DST)/.local/lib
-	git clone https://github.com/neovim/neovim.git $(DST)/.local/lib/neovim
-	cd $(DST)/.local/lib/neovim && make
-	ln -sf $(DST)/.local/lib/neovim/build/bin/* $(DST)/.local/bin
+	git clone https://github.com/neovim/neovim.git /tmp/nvim
+	cd /tmp/nvim && make
+	mv /tmp/nvim /usr/local/lib/nvim
+	cd /usr/local/lib/nvim && make install
 
 .PHONY: nvim-build-apt
 nvim-build-apt:
