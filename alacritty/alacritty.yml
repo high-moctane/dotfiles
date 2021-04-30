@@ -1,6 +1,3 @@
-env:
-  TERM: alacritty
-
 font:
   normal:
     family: Cica

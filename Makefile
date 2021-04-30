@@ -81,8 +81,18 @@ shell_common:
 # ----------------------------------------------------------------------
 
 .PHONY: alacritty
-alacritty:
+alacritty: alacritty-link alacritty-terminfo
+
+.PHONY:
+alacritty-link:
 	$(call backup-and-link,alacritty/alacritty.yml,.config/alacritty/alacritty.yml)
+
+alacritty-terminfo:
+	mkdir -p /tmp/dotfiles-alacritty
+	curl -L https://github.com/alacritty/alacritty/raw/master/extra/alacritty.info \
+		> /tmp/dotfiles-alacritty/alacritty.info
+	tic -xe alacritty,alacritty-direct /tmp/dotfiles-alacritty/alacritty.info
+	rm -rf /tmp/dotfiles-alacritty
 
 
 # ----------------------------------------------------------------------
@@ -200,9 +210,18 @@ $(SKK_DIR)/SKK-JISYO.total: $(SKK_DIR)/dict
 # ----------------------------------------------------------------------
 
 .PHONY: tmux
-tmux:
+tmux: tmux-link tmux-terminfo
+
+.PHONY: tmux-link
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
 
+.PHONY: tmux-terminfo
+tmux-terminfo:
+	mkdir -p /tmp/dotfiles-tmux
+	curl -L https://github.com/tmux/tmux/files/1725937/tmux-256color.terminfo.txt \
+		> /tmp/dotfiles-tmux/tmux-256color.terminfo.txt
+	tic /tmp/dotfiles-tmux/tmux-256color.terminfo.txt
+	rm -rf /tmp/dotfiles-tmux
 
 # ----------------------------------------------------------------------
 #	Zellij
