@@ -25,6 +25,7 @@ all: $(BACKUP_DIR)
 all: $(HOME)/.config
 all: home
 all: alacritty
+all: asdf
 all: bash
 all: docker
 all: git
@@ -97,6 +98,19 @@ alacritty-terminfo:
 
 
 # ----------------------------------------------------------------------
+#	Asdf
+# ----------------------------------------------------------------------
+
+.PHONY: asdf
+asdf: $(DST)/.asdf
+
+$(DST)/.asdf:
+	git clone https://github.com/asdf-vm/asdf.git $@
+	cd $@ && git checkout "$(git describe --abbrev=0 --tags)"
+
+
+
+# ----------------------------------------------------------------------
 #	Bash
 # ----------------------------------------------------------------------
 
@@ -125,15 +139,27 @@ git:
 
 
 # ----------------------------------------------------------------------
+#	LuaJIT
+# ----------------------------------------------------------------------
+
+.PHONY: luajit
+luajit: asdf
+	asdf package add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git
+	asdf install luaJIT latest
+	asdf global luaJIT $(asdf latest luaJIT)
+
+
+# ----------------------------------------------------------------------
 #	Neovim
 # ----------------------------------------------------------------------
 
-NVIM_APPIMAGE := https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+NVIM_TAG := nightly
+NVIM_APPIMAGE := https://github.com/neovim/neovim/releases/download/$(NVIM_TAG)/nvim.appimage
 NVIM_PACKER_REPO := https://github.com/wbthomason/packer.nvim
 NVIM_PACKER_DST := $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 .PHONY: nvim
-nvim: nvim-link nvim-appimage nvim-packer
+nvim: nvim-link nvim-appimage nvim-packer luajit nodejs
 
 .PHONY: nvim-link
 nvim-link:
@@ -155,6 +181,17 @@ nvim-packer: $(NVIM_PACKER_DST)
 
 $(NVIM_PACKER_DST):
 	git clone $(NVIM_PACKER_REPO) $@
+
+
+# ----------------------------------------------------------------------
+#	Node.js
+# ----------------------------------------------------------------------
+
+.PHONY: nodejs
+nodejs: asdf
+	asdf package add nodejs
+	asdf install nodejs latest
+	asdf global nodejs $(asdf latest nodejs)
 
 
 # ----------------------------------------------------------------------
@@ -213,7 +250,13 @@ $(SKK_DIR)/SKK-JISYO.total: $(SKK_DIR)/dict
 # ----------------------------------------------------------------------
 
 .PHONY: tmux
-tmux: tmux-link tmux-terminfo
+tmux: tmux-install tmux-link tmux-terminfo
+
+.PHONY: tmux-install
+tmux-install: asdf
+	asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git
+	asdf install tmux latest
+	asdf global tmux $(asdf latest tmux)
 
 .PHONY: tmux-link
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
@@ -288,8 +331,4 @@ zsh:
 .PHONY: apt
 apt:
 	apt-get update
-
-	# Node
-	curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-
-	apt-get install -y nodejs luajit zsh git skktools build-essential tmux htop
+	apt-get install -y zsh git skktools build-essential tmux htop
