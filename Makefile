@@ -106,7 +106,8 @@ asdf: $(DST)/.asdf
 
 $(DST)/.asdf:
 	git clone https://github.com/asdf-vm/asdf.git $@
-	cd $@ && git checkout "$(git describe --abbrev=0 --tags)"
+	cd $@ && git describe --abbrev=0 --tags
+	cd $@ && git checkout `git describe --abbrev=0 --tags)`
 
 
 
@@ -146,7 +147,7 @@ git:
 luajit: asdf
 	asdf package add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git
 	asdf install luaJIT latest
-	asdf global luaJIT $(asdf latest luaJIT)
+	asdf global luaJIT `asdf latest luaJIT`
 
 
 # ----------------------------------------------------------------------
@@ -191,7 +192,7 @@ $(NVIM_PACKER_DST):
 nodejs: asdf
 	asdf package add nodejs
 	asdf install nodejs latest
-	asdf global nodejs $(asdf latest nodejs)
+	asdf global nodejs `asdf latest nodejs`
 
 
 # ----------------------------------------------------------------------
@@ -256,7 +257,7 @@ tmux: tmux-install tmux-link tmux-terminfo
 tmux-install: asdf
 	asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git
 	asdf install tmux latest
-	asdf global tmux $(asdf latest tmux)
+	asdf global tmux `asdf latest tmux`
 
 .PHONY: tmux-link
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
