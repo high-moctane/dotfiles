@@ -145,9 +145,9 @@ git:
 
 .PHONY: luajit
 luajit: asdf
-	asdf package add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git
-	asdf install luaJIT latest
-	asdf global luaJIT `asdf latest luaJIT`
+	source $(DST)/.asdf/asdf.sh && asdf package add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git
+	source $(DST)/.asdf/asdf.sh && asdf install luaJIT latest
+	source $(DST)/.asdf/asdf.sh && asdf global luaJIT `asdf latest luaJIT`
 
 
 # ----------------------------------------------------------------------
@@ -190,9 +190,9 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nodejs
 nodejs: asdf
-	asdf package add nodejs
-	asdf install nodejs latest
-	asdf global nodejs `asdf latest nodejs`
+	source $(DST)/.asdf/asdf.sh && asdf package add nodejs
+	source $(DST)/.asdf/asdf.sh && asdf install nodejs latest
+	source $(DST)/.asdf/asdf.sh && asdf global nodejs `asdf latest nodejs`
 
 
 # ----------------------------------------------------------------------
@@ -332,4 +332,4 @@ zsh:
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y zsh git skktools build-essential tmux htop
+	apt-get install -y zsh git skktools build-essential htop
