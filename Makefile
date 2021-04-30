@@ -145,9 +145,9 @@ git:
 
 .PHONY: luajit
 luajit: asdf
-	. $(DST)/.asdf/asdf.sh && asdf package add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git
-	. $(DST)/.asdf/asdf.sh && asdf install luaJIT latest
-	. $(DST)/.asdf/asdf.sh && asdf global luaJIT `asdf latest luaJIT`
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf package add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf install luaJIT latest"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf global luaJIT `asdf latest luaJIT`"
 
 
 # ----------------------------------------------------------------------
@@ -190,9 +190,9 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nodejs
 nodejs: asdf
-	. $(DST)/.asdf/asdf.sh && asdf package add nodejs
-	. $(DST)/.asdf/asdf.sh && asdf install nodejs latest
-	. $(DST)/.asdf/asdf.sh && asdf global nodejs `asdf latest nodejs`
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf package add nodejs"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf install nodejs latest"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf global nodejs `asdf latest nodejs`"
 
 
 # ----------------------------------------------------------------------
@@ -255,9 +255,9 @@ tmux: tmux-install tmux-link tmux-terminfo
 
 .PHONY: tmux-install
 tmux-install: asdf
-	asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git
-	asdf install tmux latest
-	asdf global tmux `asdf latest tmux`
+	bash -c "asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git"
+	bash -c "asdf install tmux latest"
+	bash -c "asdf global tmux `asdf latest tmux`"
 
 .PHONY: tmux-link
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
@@ -332,4 +332,4 @@ zsh:
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y zsh git skktools build-essential htop
+	apt-get install -y bash zsh git skktools build-essential htop
