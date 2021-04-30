@@ -266,9 +266,9 @@ tmux: tmux-install tmux-link tmux-terminfo
 
 .PHONY: tmux-install
 tmux-install: asdf
-	bash -c "asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git"
-	bash -c "asdf install tmux latest"
-	bash -c "asdf global tmux `asdf latest tmux`"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf install tmux latest"
+	bash -c ". $(DST)/.asdf/asdf.sh && asdf global tmux `asdf latest tmux`"
 
 .PHONY: tmux-link
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
