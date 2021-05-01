@@ -283,7 +283,7 @@ brew: brew-setup brew-install
 
 .PHONY: brew-setup
 brew-setup: download
-ifeq "$(uname)" "Linux"
+ifeq "$(shell uname)" "Linux"
 	make -f $(DOTFILES_DIR)/Makefile brew-setup-linux
 else
 	make -f $(DOTFILES_DIR)/Makefile brew-setup-mac
