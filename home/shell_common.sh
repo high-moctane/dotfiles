@@ -10,7 +10,7 @@ if [ -d $HOME/.asdf ]; then
 fi
 
 # Homebrew (Linux)
-if [[ $(uname) == "Linux" ]]; then
+if [ $(uname) = "Linux" ]; then
     test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
     test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
     test -r ~/.bash_profile && eval $($(brew --prefix)/bin/brew shellenv)
@@ -21,7 +21,7 @@ fi
 
 ## Go
 if [ -d $HOME/go/bin ]; then
-    export PATH=$PATH:$HOME/go/bin
+    export PATH=$HOME/go/bin:$PATH
 fi
 
 ## Rust
@@ -31,7 +31,7 @@ fi
 
 ## LaTeX
 if [ -d /Library/TeX/texbin ]; then
-    export PATH=$PATH:/Library/TeX/texbin
+    export PATH=/Library/TeX/texbin:$PATH
 fi
 
 # Utility Setup
