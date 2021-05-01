@@ -294,13 +294,13 @@ brew-setup-linux: /home/linuxbrew/.linuxbrew
 
 /home/linuxbrew/.linuxbrew:
 	-sudo useradd -m linuxbrew
-	echo | sudo -u linuxbrew /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	echo | sudo -u linuxbrew /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 .PHONY: brew-setup-mac
 brew-setup-mac: /usr/local/bin/brew
 
 /usr/local/bin/brew:
-	echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	echo | /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 .PHONY: brew-install
 brew-install: download

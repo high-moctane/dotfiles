@@ -1,9 +1,8 @@
 FROM debian:buster
 
 RUN apt-get update \
-    && apt-get install -y make curl
-
-RUN curl -L mocdot.ml | make apt all -f - PROTOCOL=https NVIM_TAG=untagged-d002fb3847115e4bcbfc
+    && apt-get install -y curl make git
+RUN curl -L mocdot.ml | make apt brew all -f - PROTOCOL=https
 
 WORKDIR /root
 
