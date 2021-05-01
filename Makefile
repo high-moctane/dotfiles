@@ -7,11 +7,6 @@ DOTFILES_HTTPS := https://github.com/high-moctane/dotfiles.git
 DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
 
-define find-missing-command
-	@cat $(DOTFILES_DIR)/$1 | \
-		xargs -L 1 -I COMMAND sh -c "which COMMAND > /dev/null || (echo COMMAND not found && false)"
-endef
-
 define backup-and-link
 	mkdir -p $(BACKUP_DIR)/$(dir $2)
 	-mv $(DST)/$2 $(BACKUP_DIR)/$2
@@ -29,13 +24,12 @@ all: asdf
 all: bash
 all: docker
 all: git
-# all: nvim
+all: nvim
 all: nvim-build
 # all: rust
 all: skk
 all: tmux
 all: vim-plugins
-# all: zellij
 all: zsh
 all: done
 
@@ -76,7 +70,7 @@ home: shell_common
 
 .PHONY: shell_common
 shell_common:
-	$(call backup-and-link,home/shell_common,.shell_common)
+	$(call backup-and-link,home/shell_common.sh,.shell_common.sh)
 
 
 # ----------------------------------------------------------------------
@@ -108,8 +102,7 @@ asdf: $(DST)/.asdf
 $(DST)/.asdf:
 	git clone https://github.com/asdf-vm/asdf.git $@
 	cd $@ && git describe --abbrev=0 --tags
-	cd $@ && git checkout `git describe --abbrev=0 --tags)`
-
+	cd $@ && git checkout $$(git describe --abbrev=0 --tags)
 
 
 # ----------------------------------------------------------------------
@@ -141,69 +134,24 @@ git:
 
 
 # ----------------------------------------------------------------------
-#	LuaJIT
-# ----------------------------------------------------------------------
-
-.PHONY: luajit
-luajit: asdf
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf install luaJIT latest"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf global luaJIT `bash -c '. $(DST)/.asdf/asdf.sh && asdf latest luaJIT'`"
-
-
-# ----------------------------------------------------------------------
 #	Neovim
 # ----------------------------------------------------------------------
 
-NVIM_TAG := nightly
-NVIM_APPIMAGE := https://github.com/neovim/neovim/releases/download/$(NVIM_TAG)/nvim.appimage
 NVIM_PACKER_REPO := https://github.com/wbthomason/packer.nvim
 NVIM_PACKER_DST := $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 .PHONY: nvim
-nvim: nvim-link nvim-appimage nvim-packer luajit nodejs
+nvim: nvim-link nvim-packer
 
 .PHONY: nvim-link
 nvim-link:
 	$(call backup-and-link,nvim,.config/nvim)
-
-.PHONY: nvim-appimage
-nvim-appimage:
-ifeq "$(shell uname)" "Linux"
-	mkdir -p $(DST)/.local/lib/nvim
-	curl -L -o $(DST)/.local/lib/nvim/nvim.appimage $(NVIM_APPIMAGE)
-	chmod u+x $(DST)/.local/lib/nvim/nvim.appimage
-	cd $(DST)/.local/lib/nvim && ./nvim.appimage --appimage-extract
-	mkdir -p $(DST)/.local/bin
-	ln -sf $(DST)/.local/lib/nvim/squashfs-root/usr/bin/nvim $(DST)/.local/bin/nvim
-endif
 
 .PHONY: nvim-packer
 nvim-packer: $(NVIM_PACKER_DST)
 
 $(NVIM_PACKER_DST):
 	git clone $(NVIM_PACKER_REPO) $@
-
-.PHONY: nvim-build
-nvim-build: nvim-link nvim-packer nvim-build-apt
-	git clone https://github.com/neovim/neovim.git /tmp/nvim
-	cd /tmp/nvim && make
-	mv /tmp/nvim /usr/local/lib/nvim
-	cd /usr/local/lib/nvim && make install
-
-.PHONY: nvim-build-apt
-nvim-build-apt:
-	apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-
-# ----------------------------------------------------------------------
-#	Node.js
-# ----------------------------------------------------------------------
-
-.PHONY: nodejs
-nodejs: asdf
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add nodejs"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf install nodejs latest"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf global nodejs `bash -c '. $(DST)/.asdf/asdf.sh && asdf latest nodejs'`"
 
 
 # ----------------------------------------------------------------------
@@ -262,13 +210,7 @@ $(SKK_DIR)/SKK-JISYO.total: $(SKK_DIR)/dict
 # ----------------------------------------------------------------------
 
 .PHONY: tmux
-tmux: tmux-install tmux-link tmux-terminfo
-
-.PHONY: tmux-install
-tmux-install: asdf
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf plugin add tmux https://github.com/aphecetche/asdf-tmux.git"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf install tmux latest"
-	bash -c ". $(DST)/.asdf/asdf.sh && asdf global tmux `bash -c '. $(DST)/.asdf/asdf.sh && asdf latest tmux'`"
+tmux: tmux-link tmux-terminfo
 
 .PHONY: tmux-link
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
@@ -307,20 +249,6 @@ else
 endif
 endif
 
-# ----------------------------------------------------------------------
-#	Zellij
-# ----------------------------------------------------------------------
-
-.PHONY: zellij
-zellij: zellij-install
-
-.PHONY: rust zellij-install
-zellij-install:
-	cargo install zellij
-
-.PHONY: rust zellij-update
-zellij-update:
-	cargo update zellij
 
 # ----------------------------------------------------------------------
 #	Zsh
@@ -343,4 +271,39 @@ zsh:
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y bash zsh git skktools build-essential htop
+	apt-get install -y bash git sudo zsh
+
+
+# --------------------------------------------------
+#	Homebrew
+# --------------------------------------------------
+
+.PHONY: brew
+brew: brew-setup brew-install
+
+.PHONY: brew-setup
+brew-setup: download
+ifeq "$(uname)" "Linux"
+	make -f $(DOTFILES_DIR)/Makefile brew-setup-linux
+else
+	make -f $(DOTFILES_DIR)/Makefile brew-setup-mac
+endif
+
+.PHONY: brew-setup-linux
+brew-setup-linux: /home/linuxbrew/.linuxbrew
+
+/home/linuxbrew/.linuxbrew:
+	-sudo useradd -m linuxbrew
+	echo | sudo -u linuxbrew /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+.PHONY: brew-setup-mac
+brew-setup-mac: /usr/local/bin/brew
+
+/usr/local/bin/brew:
+	echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+.PHONY: brew-install
+brew-install: download
+	brew update
+	brew install bundle
+	brew bundle --file $(DOTFILES_DIR)/homebrew/Brewfile
