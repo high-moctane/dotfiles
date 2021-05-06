@@ -305,5 +305,4 @@ brew-setup-mac: /usr/local/bin/brew
 .PHONY: brew-install
 brew-install: download
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew update
-	. $(DOTFILES_DIR)/home/shell_common.sh && brew install bundle
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/homebrew/Brewfile
