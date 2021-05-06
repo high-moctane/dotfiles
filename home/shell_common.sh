@@ -41,4 +41,6 @@ export NEXTWORD_DATA_PATH=$HOME'/.local/share/nextword-data-large'
 
 # Environment
 
-which nvim 2>&1 > /dev/null && EDITOR=nvim
+if $(which nvim > /dev/null); then
+    EDITOR=nvim
+fi
