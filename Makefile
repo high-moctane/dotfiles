@@ -271,7 +271,7 @@ zsh:
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y bash git procps sudo zsh
+	apt-get install -y bash build-essential git procps sudo zsh
 
 
 # --------------------------------------------------
