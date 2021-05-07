@@ -15,6 +15,12 @@ define backup-and-link
 	ln -s $(DOTFILES_DIR)/$1 $(DST)/$2
 endef
 
+define asdf-install-on-bash
+	bash -c "$(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1"
+	bash -c "$(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $2"
+	bash -c "$(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$(bash -c "$(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1)"
+endef
+
 .PHONY: all
 all: download
 all: $(BACKUP_DIR)
@@ -162,9 +168,7 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nvim-asdf
 nvim-asdf: download
-	. $(DOTFILES_DIR)/home/shell_common && asdf plugin add neovim
-	. $(DOTFILES_DIR)/home/shell_common && asdf install neovim nightly
-	. $(DOTFILES_DIR)/home/shell_common && asdf global neovim nightly
+	$(call asdf-install-on-bash,neovim,nightly)
 
 
 # ----------------------------------------------------------------------
@@ -173,9 +177,7 @@ nvim-asdf: download
 
 .PHONY: node-asdf
 node-asdf: download
-	. $(DOTFILES_DIR)/home/shell_common && asdf plugin add nodejs
-	. $(DOTFILES_DIR)/home/shell_common && asdf install nodejs latest
-	. $(DOTFILES_DIR)/home/shell_common && asdf global nodejs $$(. $$(DOTFILES_DIR)/home/shell_common && asdf list nodejs | tail -n 1)
+	$(call asdf-install-on-bash,nodejs,latest)
 
 
 # ----------------------------------------------------------------------
