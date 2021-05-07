@@ -18,7 +18,7 @@ endef
 define asdf-install-on-bash
 	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1"
 	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $2"
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$(bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1)"
+	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$(bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1")"
 endef
 
 .PHONY: all
