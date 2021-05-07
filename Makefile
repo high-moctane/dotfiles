@@ -296,7 +296,7 @@ zsh: download
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y awk bash build-essential dirmngr git gpg procps sed sudo zsh
+	apt-get install -y bash build-essential dirmngr gawk git gpg procps sed sudo zsh
 
 
 # --------------------------------------------------
