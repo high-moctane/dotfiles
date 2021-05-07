@@ -16,8 +16,8 @@ define backup-and-link
 endef
 
 define asdf-install-on-bash
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1"
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $2"
+	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1 $2"
+	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $3"
 	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$(bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1")"
 endef
 
@@ -153,7 +153,7 @@ git: download
 
 .PHONY: luajit-asdf
 luajit-asdf: download
-	$(call asdf-install-on-bash,luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git,latest)
+	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest)
 
 # ----------------------------------------------------------------------
 #	Neovim
@@ -177,7 +177,7 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nvim-asdf
 nvim-asdf: download
-	$(call asdf-install-on-bash,neovim,nightly)
+	$(call asdf-install-on-bash,neovim,,nightly)
 
 
 # ----------------------------------------------------------------------
@@ -186,7 +186,7 @@ nvim-asdf: download
 
 .PHONY: node-asdf
 node-asdf: download
-	$(call asdf-install-on-bash,nodejs,latest)
+	$(call asdf-install-on-bash,nodejs,,latest)
 
 
 # ----------------------------------------------------------------------
