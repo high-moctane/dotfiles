@@ -114,8 +114,9 @@ $(DST)/.asdf:
 asdf-install: download
 ifeq "$(DOCKER)" "F"
 else
-	make nvim-asdf -f $(DOTFILES_DIR)/Makefile
+	make luajit-asdf -f $(DOTFILES_DIR)/Makefile
 	make node-asdf -f $(DOTFILES_DIR)/Makefile
+	make nvim-asdf -f $(DOTFILES_DIR)/Makefile
 endif
 
 # ----------------------------------------------------------------------
@@ -150,8 +151,8 @@ git: download
 #	Luajit
 # ----------------------------------------------------------------------
 
-.PHONY: lua-asdf
-lua-asdf: download
+.PHONY: luajit-asdf
+luajit-asdf: download
 	$(call asdf-install-on-bash,luaJIT https://github.com/smashedtoatoms/asdf-luaJIT.git,latest)
 
 # ----------------------------------------------------------------------
