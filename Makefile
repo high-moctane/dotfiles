@@ -6,6 +6,7 @@ PROTOCOL := ssh
 DOTFILES_HTTPS := https://github.com/high-moctane/dotfiles.git
 DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
+DOCKER := F
 
 define backup-and-link
 	mkdir -p $(BACKUP_DIR)/$(dir $2)
@@ -25,7 +26,6 @@ all: bash
 all: docker
 all: git
 all: nvim
-all: nvim-build
 # all: rust
 all: skk
 all: tmux
@@ -69,7 +69,7 @@ done:
 home: shell_common
 
 .PHONY: shell_common
-shell_common:
+shell_common: download
 	$(call backup-and-link,home/shell_common.sh,.shell_common.sh)
 
 
@@ -78,10 +78,10 @@ shell_common:
 # ----------------------------------------------------------------------
 
 .PHONY: alacritty
-alacritty: alacritty-link alacritty-terminfo
+alacritty: alacritty-link
 
 .PHONY:
-alacritty-link:
+alacritty-link: download
 	$(call backup-and-link,alacritty/alacritty.yml,.config/alacritty/alacritty.yml)
 
 alacritty-terminfo:
@@ -96,7 +96,7 @@ alacritty-terminfo:
 #	Asdf
 # ----------------------------------------------------------------------
 
-.PHONY: asdf
+.PHONY: asdf asdf-install
 asdf: $(DST)/.asdf
 
 $(DST)/.asdf:
@@ -104,13 +104,20 @@ $(DST)/.asdf:
 	cd $@ && git describe --abbrev=0 --tags
 	cd $@ && git checkout $$(git describe --abbrev=0 --tags)
 
+.PHONY: asdf-install
+asdf-install: download
+ifeq "$(DOCKER)" "F"
+else
+	make nvim-asdf -f $(DOTFILES_DIR)/Makefile
+	make node-asdf -f $(DOTFILES_DIR)/Makefile
+endif
 
 # ----------------------------------------------------------------------
 #	Bash
 # ----------------------------------------------------------------------
 
 .PHONY: bash
-bash:
+bash: download
 	$(call backup-and-link,bash/bash_profile,.bash_profile)
 
 
@@ -119,7 +126,7 @@ bash:
 # ----------------------------------------------------------------------
 
 .PHONY: docker
-docker:
+docker: download
 	$(call backup-and-link,docker/config.json,.docker/config.json)
 
 
@@ -128,7 +135,7 @@ docker:
 # ----------------------------------------------------------------------
 
 .PHONY: git
-git:
+git: download
 	$(call backup-and-link,git/gitconfig,.gitconfig)
 	$(call backup-and-link,git/gitignore_global,.gitignore_global)
 
@@ -144,7 +151,7 @@ NVIM_PACKER_DST := $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
 nvim: nvim-link nvim-packer
 
 .PHONY: nvim-link
-nvim-link:
+nvim-link: download
 	$(call backup-and-link,nvim,.config/nvim)
 
 .PHONY: nvim-packer
@@ -152,6 +159,23 @@ nvim-packer: $(NVIM_PACKER_DST)
 
 $(NVIM_PACKER_DST):
 	git clone $(NVIM_PACKER_REPO) $@
+
+.PHONY: nvim-asdf
+nvim-asdf: download
+	. $(DOTFILES_DIR)/home/shell_common && asdf plugin add neovim
+	. $(DOTFILES_DIR)/home/shell_common && asdf install neovim nightly
+	. $(DOTFILES_DIR)/home/shell_common && asdf global neovim nightly
+
+
+# ----------------------------------------------------------------------
+#	Node.js
+# ----------------------------------------------------------------------
+
+.PHONY: node-asdf
+node-asdf: download
+	. $(DOTFILES_DIR)/home/shell_common && asdf plugin add nodejs
+	. $(DOTFILES_DIR)/home/shell_common && asdf install nodejs latest
+	. $(DOTFILES_DIR)/home/shell_common && asdf global nodejs $$(. $$(DOTFILES_DIR)/home/shell_common && asdf list nodejs | tail -n 1)
 
 
 # ----------------------------------------------------------------------
@@ -213,6 +237,7 @@ $(SKK_DIR)/SKK-JISYO.total: $(SKK_DIR)/dict
 tmux: tmux-link tmux-terminfo
 
 .PHONY: tmux-link
+tmux-link: download
 	$(call backup-and-link,tmux/tmux.conf,.config/tmux/tmux.conf)
 
 .PHONY: tmux-terminfo
@@ -255,7 +280,7 @@ endif
 # ----------------------------------------------------------------------
 
 .PHONY: zsh
-zsh:
+zsh: download
 	$(call backup-and-link,zsh/zshenv,.zshenv)
 	$(call backup-and-link,zsh/zshrc,.zshrc)
 
@@ -305,4 +330,8 @@ brew-setup-mac: /usr/local/bin/brew
 .PHONY: brew-install
 brew-install: download
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew update
+ifeq "$(DOCKER)" "F"
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile
+else
+	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile-docker
+endif
