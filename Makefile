@@ -15,9 +15,10 @@ define backup-and-link
 	ln -s $(DOTFILES_DIR)/$1 $(DST)/$2
 endef
 
+# name, repo, version, env
 define asdf-install-on-bash
 	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1 $2"
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $3"
+	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && $4 asdf install $1 $3"
 	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$(bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1")"
 endef
 
@@ -155,7 +156,7 @@ git: download
 
 .PHONY: luajit-asdf
 luajit-asdf: download
-	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest)
+	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest,)
 
 # ----------------------------------------------------------------------
 #	Neovim
@@ -179,7 +180,7 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nvim-asdf
 nvim-asdf: download
-	$(call asdf-install-on-bash,neovim,,nightly)
+	$(call asdf-install-on-bash,neovim,,nightly,)
 
 
 # ----------------------------------------------------------------------
@@ -188,7 +189,7 @@ nvim-asdf: download
 
 .PHONY: node-asdf
 node-asdf: download
-	$(call asdf-install-on-bash,nodejs,,latest)
+	$(call asdf-install-on-bash,nodejs,,latest,)
 
 
 # ----------------------------------------------------------------------
@@ -273,9 +274,23 @@ vim: vim-link
 vim-link:
 	# NOP
 
+ASDF_VIM_CONFIG := \
+	--with-tlib=ncurses \
+	--with-compiledby=asdf \
+	--enable-multibyte \
+	--enable-cscope \
+	--enable-terminal \
+	--enable-perlinterp \
+	--enable-rubyinterp \
+	--enable-python3interp \
+	--enable-luainterp \
+	--with-luajit \
+	--enable-gui=no \
+	--without-x
+
 .PHONY: vim-asdf
 vim-asdf: download
-	$(call asdf-install-on-bash,vim,,8.2.2846)
+	$(call asdf-install-on-bash,vim,,8.2.2846,ASDF_VIM_CONFIG=$(ASDF_VIM_CONFIG))
 
 # ----------------------------------------------------------------------
 #	Vim plugins
