@@ -1,7 +1,5 @@
-FROM debian:buster
+FROM buildpack-deps:latest
 
-RUN apt-get update \
-    && apt-get install -y curl make git
 RUN curl -L mocdot.ml | make apt -f - PROTOCOL=https DOCKER=T
 RUN curl -L mocdot.ml | make brew-setup -f - PROTOCOL=https DOCKER=T
 RUN curl -L mocdot.ml | make brew-install -f - PROTOCOL=https DOCKER=T

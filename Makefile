@@ -31,10 +31,11 @@ all: asdf
 all: bash
 all: docker
 all: git
-all: nvim
+# all: nvim
 # all: rust
 all: skk
 all: tmux
+all: vim
 all: vim-plugins
 all: zsh
 all: done
@@ -114,9 +115,10 @@ $(DST)/.asdf:
 asdf-install: download
 ifeq "$(DOCKER)" "F"
 else
-	make luajit-asdf -f $(DOTFILES_DIR)/Makefile
+	# make luajit-asdf -f $(DOTFILES_DIR)/Makefile
 	make node-asdf -f $(DOTFILES_DIR)/Makefile
-	make nvim-asdf -f $(DOTFILES_DIR)/Makefile
+	make vim-asdf -f $(DOTFILES_DIR)/Makefile
+	# make nvim-asdf -f $(DOTFILES_DIR)/Makefile
 endif
 
 # ----------------------------------------------------------------------
@@ -261,6 +263,21 @@ tmux-terminfo:
 
 
 # ----------------------------------------------------------------------
+#	Vim
+# ----------------------------------------------------------------------
+
+.PHONY: vim
+vim: vim-link
+
+.PHONY: vim-link
+vim-link:
+	# NOP
+
+.PHONY: vim-asdf
+vim-asdf: download
+	$(call asdf-install-on-bash,vim,,8.2.2846)
+
+# ----------------------------------------------------------------------
 #	Vim plugins
 # ----------------------------------------------------------------------
 
@@ -307,7 +324,9 @@ zsh: download
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y bash build-essential dirmngr gawk git gpg procps sed skktools sudo unzip zsh
+	apt-get install -y dirmngr gawk gpg procps skktools sudo zsh
+	which python3 && true || apt-get install -y python3 python3-pip
+	which luajit && true || apt-get install luajit lubluajit-5.1-dev
 
 
 # --------------------------------------------------
