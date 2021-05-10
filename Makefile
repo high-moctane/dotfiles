@@ -341,7 +341,7 @@ apt:
 	apt-get update
 	apt-get install -y dirmngr gawk git gpg procps skktools sudo zsh
 	which python3 && true || apt-get install -y python3 python3-pip
-	which luajit && true || apt-get install luajit libluajit-5.1-dev
+	which luajit && true || apt-get install -y luajit libluajit-5.1-dev
 
 
 # --------------------------------------------------
