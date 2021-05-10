@@ -281,7 +281,6 @@ ASDF_VIM_CONFIG := \
 	--enable-multibyte \
 	--enable-cscope \
 	--enable-terminal \
-	--enable-python3interp \
 	--enable-luainterp \
 	--with-luajit \
 	--enable-gui=no \
@@ -343,7 +342,7 @@ zsh: download
 apt:
 	apt-get update
 	apt-get install -y dirmngr gawk git gpg procps skktools sudo zsh
-	which python3 && true || apt-get install -y python3 python3-dev python3-pip
+	# which python3 && true || apt-get install -y python3 python3-dev python3-pip // TODO vim を +python3 でビルドしたい
 	which luajit && true || apt-get install -y libluajit-5.1-dev luajit
 
 
