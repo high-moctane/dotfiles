@@ -18,7 +18,7 @@ endef
 # name, repo, version, env
 define asdf-install-on-bash
 	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1 $2"
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && $4 asdf install $1 $3"
+	bash -c "export $4 && . $(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $3"
 	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$(bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1")"
 endef
 
@@ -275,13 +275,12 @@ vim-link:
 	# NOP
 
 ASDF_VIM_CONFIG := \
+	--enable-fail-if-missing \
 	--with-tlib=ncurses \
 	--with-compiledby=asdf \
 	--enable-multibyte \
 	--enable-cscope \
 	--enable-terminal \
-	--enable-perlinterp \
-	--enable-rubyinterp \
 	--enable-python3interp \
 	--enable-luainterp \
 	--with-luajit \
@@ -291,6 +290,7 @@ ASDF_VIM_CONFIG := \
 powa:
 	echo $(ASDF_VIM_CONFIG)
 
+# TODO vim のバージョンをどうにかする
 .PHONY: vim-asdf
 vim-asdf: download
 	$(call asdf-install-on-bash,vim,,8.2.2846,ASDF_VIM_CONFIG='$(ASDF_VIM_CONFIG)')
@@ -343,8 +343,8 @@ zsh: download
 apt:
 	apt-get update
 	apt-get install -y dirmngr gawk git gpg procps skktools sudo zsh
-	which python3 && true || apt-get install -y python3 python3-pip
-	which luajit && true || apt-get install -y luajit libluajit-5.1-dev
+	which python3 && true || apt-get install -y python3 python3-dev python3-pip
+	which luajit && true || apt-get install -y libluajit-5.1-dev luajit
 
 
 # --------------------------------------------------
