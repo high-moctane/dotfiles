@@ -288,9 +288,12 @@ ASDF_VIM_CONFIG := \
 	--enable-gui=no \
 	--without-x
 
+powa:
+	echo $(ASDF_VIM_CONFIG)
+
 .PHONY: vim-asdf
 vim-asdf: download
-	$(call asdf-install-on-bash,vim,,8.2.2846,ASDF_VIM_CONFIG=$(ASDF_VIM_CONFIG))
+	$(call asdf-install-on-bash,vim,,8.2.2846,ASDF_VIM_CONFIG='$(ASDF_VIM_CONFIG)')
 
 # ----------------------------------------------------------------------
 #	Vim plugins
