@@ -307,7 +307,7 @@ zsh: download
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y bash build-essential dirmngr gawk git gpg procps sed skktools sudo zsh
+	apt-get install -y bash build-essential dirmngr gawk git gpg procps sed skktools sudo unzip zsh
 
 
 # --------------------------------------------------
