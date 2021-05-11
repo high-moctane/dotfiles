@@ -400,4 +400,4 @@ endif
 
 .PHONY: python-dev
 python-dev:
-	pip3 install black
+	pip3 install black ipython isort
