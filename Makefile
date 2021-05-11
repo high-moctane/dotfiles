@@ -268,11 +268,12 @@ tmux-terminfo:
 # ----------------------------------------------------------------------
 
 .PHONY: vim
-vim: vim-link
+vim: vim-link vim-plug
 
 .PHONY: vim-link
 vim-link:
-	# NOP
+	$(call backup-and-link,vim/vimrc,.vimrc)
+	$(call backup-and-link,vim/vim,.vim)
 
 ASDF_VIM_CONFIG := \
 	--enable-fail-if-missing \
@@ -286,13 +287,16 @@ ASDF_VIM_CONFIG := \
 	--enable-gui=no \
 	--without-x
 
-powa:
-	echo $(ASDF_VIM_CONFIG)
-
 # TODO vim のバージョンをどうにかする
 .PHONY: vim-asdf
 vim-asdf: download
 	$(call asdf-install-on-bash,vim,,8.2.2846,ASDF_VIM_CONFIG='$(ASDF_VIM_CONFIG)')
+
+.PHONY: vim-plug
+vim-plug:
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 
 # ----------------------------------------------------------------------
 #	Vim plugins
