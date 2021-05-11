@@ -165,6 +165,8 @@ if isdirectory(s:plug_dir)
         Plug 'mattn/vim-lsp-settings'
         " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+        Plug 'tsuyoshicho/vim-efm-langserver-settings'
+
         " fuzzy finder
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
         Plug 'junegunn/fzf.vim'
