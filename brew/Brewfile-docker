@@ -1,6 +1,5 @@
 brew "bat"
 brew "delta"
-brew "efm-langserver"
 brew "fd"
 brew "git-interactive-rebase-tool"
 brew "gping"
