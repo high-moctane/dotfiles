@@ -387,3 +387,17 @@ ifeq "$(DOCKER)" "F"
 else
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile-docker
 endif
+
+
+# ----------------------------------------------------------------------
+#	Language development
+# ----------------------------------------------------------------------
+
+
+# --------------------------------------------------
+#	Python
+# --------------------------------------------------
+
+.PHONY: python-dev
+python-dev:
+	pip3 install black
