@@ -53,7 +53,7 @@ endif
 " 表示
 set number
 if has('signs')
-    set signcolumn=ye
+    set signcolumn=yes
 endif
 if has('syntax')
     set cursorline
