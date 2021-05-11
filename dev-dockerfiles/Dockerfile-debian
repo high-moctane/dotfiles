@@ -1,14 +1,12 @@
 FROM buildpack-deps:latest
 
-# RUN curl -L mocdot.ml | make apt -f - PROTOCOL=https DOCKER=T
-# RUN curl -L mocdot.ml | make brew-setup -f - PROTOCOL=https DOCKER=T
-# RUN curl -L mocdot.ml | make brew-install -f - PROTOCOL=https DOCKER=T
-# RUN curl -L mocdot.ml | make all -f - PROTOCOL=https DOCKER=T
-# RUN cd /root/dotfiles && git pull && echo 4
-# RUN curl -L mocdot.ml | make apt -f - PROTOCOL=https DOCKER=T
-# RUN curl -L mocdot.ml | make asdf-install -f - PROTOCOL=https DOCKER=T
+RUN echo 1
+RUN curl -L mocdot.ml | make apt -f - PROTOCOL=https DOCKER=T
+RUN curl -L mocdot.ml | make brew-setup -f - PROTOCOL=https DOCKER=T
+RUN curl -L mocdot.ml | make brew-install -f - PROTOCOL=https DOCKER=T
+RUN curl -L mocdot.ml | make all -f - PROTOCOL=https DOCKER=T
+RUN curl -L mocdot.ml | make asdf-install -f - PROTOCOL=https DOCKER=T
 
-RUN curl -L mocdot.ml | make apt brew asdf-install -f - PROTOCOL=https DOCKER=T
 
 WORKDIR /root
 
