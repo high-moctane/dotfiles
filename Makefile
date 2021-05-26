@@ -171,6 +171,23 @@ $(DST)/.asdf/installs/golang:
 
 
 # ----------------------------------------------------------------------
+#	Lua
+# ----------------------------------------------------------------------
+
+MACOSX_SDK_VERSION := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
+
+.PHONY: lua-asdf
+luajit-asdf: download $(DST)/.asdf/installs/lua
+
+$(DST)/.asdf/installs/luaJIT:
+ifeq "$(shell uname)" "Linux"
+	$(call asdf-install-on-bash,lua,https://github.com/Stratus3D/asdf-lua.git,latest,)
+else
+	$(call asdf-install-on-bash,lua,https://github.com/Strauts3D/asdf-lua.git,latest,MACOSX_DEPLOYMENT_TARGET=$(MACOSX_SDK_VERSION))
+endif
+
+
+# ----------------------------------------------------------------------
 #	Luajit
 # ----------------------------------------------------------------------
 
