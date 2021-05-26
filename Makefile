@@ -16,16 +16,24 @@ define backup-and-link
 	ln -s $(DOTFILES_DIR)/$1 $(DST)/$2
 endef
 
+define sh-source
+	. $(DOTFILES_DIR)/home/shell_common
+endef
+
+define dotmake
+	$(MAKE) -f $(DOTFILES_DIR)/Makefile
+endef
+
 # name, repo, version, env
 define asdf-install-on-bash
-	-bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1 $2"
-	bash -c "export $4 && . $(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $3"
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$($(call asdf-installed-latest-version,$1))"
+	bash -c "$(call sh-source) && asdf plugin add $1 $2"
+	bash -c "export $4 && $(call sh-source) && asdf install $1 $3"
+	bash -c "$(call sh-source) && asdf global $1 $$($(call asdf-installed-latest-version,$1))"
 endef
 
 # name
 define asdf-installed-latest-version
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1 | sed -e 's/ //g'"
+	bash -c "$(call sh-source) && asdf list $1 | tail -n 1 | sed -e 's/ //g'"
 endef
 
 .PHONY: all
@@ -39,11 +47,11 @@ all: bash
 all: docker
 all: git
 # all: nvim
-# all: rust
+all: rust
 all: skk
 all: tmux
+all: tool
 all: vim
-all: vim-plugins
 all: zsh
 all: done
 
@@ -94,10 +102,11 @@ shell_common: download
 .PHONY: alacritty
 alacritty: alacritty-link
 
-.PHONY:
+.PHONY: alacritty-link
 alacritty-link: download
 	$(call backup-and-link,alacritty/alacritty.yml,.config/alacritty/alacritty.yml)
 
+.PHONY: alacritty-terminfo
 alacritty-terminfo:
 	mkdir -p /tmp/dotfiles-alacritty
 	curl -L https://github.com/alacritty/alacritty/raw/master/extra/alacritty.info \
@@ -111,12 +120,15 @@ alacritty-terminfo:
 # ----------------------------------------------------------------------
 
 .PHONY: asdf
-asdf: $(DST)/.asdf
+asdf: $(DST)/.asdf asdf-install
 
 $(DST)/.asdf:
 	git clone https://github.com/asdf-vm/asdf.git $@
 	cd $@ && git describe --abbrev=0 --tags
 	cd $@ && git checkout $$(git describe --abbrev=0 --tags)
+
+.PHONY: asdf-install
+asdf-install: go-asdf luajit-asdf node-asdf python-asdf vim-asdf
 
 
 # ----------------------------------------------------------------------
@@ -148,13 +160,24 @@ git: download
 
 
 # ----------------------------------------------------------------------
+#	Go
+# ----------------------------------------------------------------------
+
+.PHONY: go-asdf
+go-asdf: download $(DST)/.asdf/installs/golang
+
+$(DST)/.asdf/installs/golang:
+	$(call asdf-install-on-bash,golang,https://github.com/kennyp/asdf-golang.git,latest,)
+
+
+# ----------------------------------------------------------------------
 #	Luajit
 # ----------------------------------------------------------------------
 
-ASDF_LUAJIT_VERSION := $(shell $(call asdf-installed-latest-version,luaJIT))
-
 .PHONY: luajit-asdf
-luajit-asdf: download
+luajit-asdf: download $(DST)/.asdf/installs/luaJIT
+
+$(DST)/.asdf/installs/luaJIT:
 ifeq "$(shell uname)" "Linux"
 	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest,)
 else
@@ -183,7 +206,9 @@ $(NVIM_PACKER_DST):
 	git clone $(NVIM_PACKER_REPO) $@
 
 .PHONY: nvim-asdf
-nvim-asdf: download
+nvim-asdf: download $(DST)/.asdf/installs/nvim
+
+$(DST)/.asdf/installs/nvim:
 	$(call asdf-install-on-bash,neovim,,nightly,)
 
 
@@ -192,8 +217,25 @@ nvim-asdf: download
 # ----------------------------------------------------------------------
 
 .PHONY: node-asdf
-node-asdf: download
+node-asdf: download $(DST)/.asdf/installs/nodejs
+
+$(DST)/.asdf/installs/nodejs:
 	$(call asdf-install-on-bash,nodejs,,latest,)
+
+
+# ----------------------------------------------------------------------
+#	Python
+# ----------------------------------------------------------------------
+
+.PHONY: python-asdf
+python-asdf: download $(DST)/.asdf/installs/python
+
+$(DST)/.asdf/installs/python:
+	$(call asdf-install-on-bash,python,,latest,)
+
+.PHONY: python-dev
+python-dev:
+	pip3 install black ipython isort pipenv py-spy
 
 
 # ----------------------------------------------------------------------
@@ -306,9 +348,10 @@ ASDF_VIM_CONFIG := \
 	--without-x
 endif
 
-# TODO vim のバージョンをどうにかする
 .PHONY: vim-asdf
-vim-asdf: download
+vim-asdf: download $(DST)/.asdf/installs/vim
+
+$(DST)/.asdf/installs/vim:
 	$(call asdf-install-on-bash,vim,,latest,ASDF_VIM_CONFIG='$(ASDF_VIM_CONFIG)')
 
 .PHONY: vim-plug
@@ -326,28 +369,11 @@ vim-plug:
 zsh: download
 	$(call backup-and-link,zsh/zshenv,.zshenv)
 	$(call backup-and-link,zsh/zshrc,.zshrc)
+	cat $(DOTFILES_DIR)/{home/shell_common,zsh/zsh{env,rc}} | zsh -
 
 
 # ----------------------------------------------------------------------
-#	OS
-# ----------------------------------------------------------------------
-
-# --------------------------------------------------
-#	macOS
-# --------------------------------------------------
-
-MACOSX_SDK_VERSION := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
-MACOSX_SDK := $(DST)/.local/lib/MacOSX-SDKs/MacOSX$(MACOSX_SDK_VERSION).sdk
-
-.PHONY: macosx-sdk
-macosx-sdk:
-	mkdir -p $(DST)/.local/lib
-	-cd $(DST)/.local/lib && git clone --depth 1 https://github.com/phracker/MacOSX-SDKs.git
-	cd $(MACOSX_SDK) && git pull
-
-
-# ----------------------------------------------------------------------
-#	Install dependencies
+#	Package manager
 # ----------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -358,9 +384,8 @@ macosx-sdk:
 apt:
 	apt-get update
 	apt-get install -y git gpg less skktools sudo zsh
-	apt-get install dirmngr gpg  # Node.js
-	# which python3 && true || apt-get install -y python3 python3-dev python3-pip // TODO vim を +python3 でビルドしたい
-	# which luajit && true || apt-get install -y libluajit-5.1-dev luajit
+	apt-get install -y dirmngr gpg  # Node.js
+	apt-get install -y pandoc poppler tesseract ffmpeg  # ripgrep-all
 
 
 # --------------------------------------------------
@@ -373,17 +398,17 @@ brew: brew-setup brew-install
 .PHONY: brew-setup
 brew-setup: download
 ifeq "$(shell uname)" "Linux"
-	$(MAKE) -f $(DOTFILES_DIR)/Makefile brew-setup-linux
+	$(call dotmake) brew-setup-linux
 else
-	$(MAKE) -f $(DOTFILES_DIR)/Makefile brew-setup-mac
+	$(call dotmake) brew-setup-mac
 endif
 
 .PHONY: brew-setup-linux
 brew-setup-linux: download /home/linuxbrew/.linuxbrew
 ifeq "$(shell whoami)" "root"
-	$(MAKE) -f $(DOTFILES_DIR)/Makefile /home/linuxbrew/.linuxbrew
+	$(call dotmake) /home/linuxbrew/.linuxbrew
 else
-	$(MAKE) -f $(DOTFILES_DIR)/Makefile /home/$(shell whoami)/.linuxbrew
+	$(call dotmake) /home/$(shell whoami)/.linuxbrew
 endif
 
 /home/linuxbrew/.linuxbrew:
@@ -401,23 +426,67 @@ brew-setup-mac: /usr/local/bin/brew
 
 .PHONY: brew-install
 brew-install: download
-	. $(DOTFILES_DIR)/home/shell_common.sh && brew update
+	$(call sh-source) && brew update
 ifeq "$(DOCKER)" "0"
-	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile
+	$(call sh-source) && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile
 else
-	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile-docker
+	$(call sh-source) && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile-docker
 endif
 
 
 # ----------------------------------------------------------------------
-#	Language development
+#	Tools
 # ----------------------------------------------------------------------
 
+.PHONY: tool
+tool: tool-go tool-rust
 
-# --------------------------------------------------
-#	Python
-# --------------------------------------------------
+.PHONY: tool-go
+tool-go:
+	go get github.com/jesseduffield/lazydocker
+	go get github.com/jesseduffield/lazygit
 
-.PHONY: python-dev
-python-dev:
-	pip3 install black ipython isort pipenv
+.PHONY: tool-rust
+tool-rust:
+	cargo install --git https://github.com/ClementTsang/bottom # shell completion
+	cargo install --git https://github.com/XAMPPRocky/tokei.git tokei
+	cargo install --git https://github.com/ogham/dog
+	cargo install ag
+	cargo install bandwhich
+	cargo install bat
+	cargo install bat # shell completion
+	cargo install bingrep
+	cargo install bottom
+	cargo install choose
+	cargo install csview
+	cargo install desed
+	cargo install drill
+	cargo install du-dust
+	cargo install fd-find
+	cargo install fselect
+	cargo install git-delta
+	cargo install git-interactive-rebase-tool
+	cargo install gping
+	cargo install grex
+	cargo install hexyl
+	cargo install httpie
+	cargo install hyperfine
+	cargo install hyperfine
+	cargo install lsd
+	cargo install mkfly
+	cargo install monolith
+	cargo install navi
+	cargo install oha
+	cargo install onefetch
+	cargo install procs
+	cargo install pueue
+	cargo install ripgrep
+	cargo install ripgrep-all
+	cargo install sd
+	cargo install silicon
+	cargo install skim
+	cargo install tealdeer
+	cargo install topgrade
+	cargo install watchexec-cli
+	cargo install xh
+	cargo install xsv

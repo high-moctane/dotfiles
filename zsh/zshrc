@@ -75,8 +75,10 @@ bindkey "^N" down-line-or-beginning-search
 alias ls='ls -G'
 alias ll='ls -l'
 alias la='ls -la'
+alias d-c='docker-compose'
+
 
 setopt auto_cd
 setopt share_history
 
-export EDITOR=nvim
+export EDITOR=vim
