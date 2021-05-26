@@ -338,7 +338,7 @@ vim-link:
 	$(call backup-and-link,vim/vimrc,.vimrc)
 	$(call backup-and-link,vim/vim,.vim)
 
-ASDF_VIM_CONFIG := \
+ASDF_VIM_CONFIG = \
 	--enable-fail-if-missing \
 	--with-tlib=ncurses \
 	--with-compiledby=asdf \
@@ -347,7 +347,7 @@ ASDF_VIM_CONFIG := \
 	--enable-terminal \
 	--enable-luainterp \
 	--with-luajit \
-	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(call asdf-installed-latest-version,luaJIT) \
+	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(shell $(call asdf-installed-latest-version,luaJIT)) \
 	--enable-gui=no \
 	--without-x
 
