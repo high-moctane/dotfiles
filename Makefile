@@ -6,8 +6,9 @@ PROTOCOL := ssh
 DOTFILES_HTTPS := https://github.com/high-moctane/dotfiles.git
 DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
-DOCKER := F
+DOCKER := 0
 
+# src, dst
 define backup-and-link
 	mkdir -p $(BACKUP_DIR)/$(dir $2)
 	-mv $(DST)/$2 $(BACKUP_DIR)/$2
@@ -17,9 +18,14 @@ endef
 
 # name, repo, version, env
 define asdf-install-on-bash
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1 $2"
+	-bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf plugin add $1 $2"
 	bash -c "export $4 && . $(DOTFILES_DIR)/home/shell_common.sh && asdf install $1 $3"
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$(bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1")"
+	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf global $1 $$($(call asdf-installed-latest-version,$1))"
+endef
+
+# name
+define asdf-installed-latest-version
+	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && asdf list $1 | tail -n 1 | sed -e 's/ //g'"
 endef
 
 .PHONY: all
@@ -104,7 +110,7 @@ alacritty-terminfo:
 #	Asdf
 # ----------------------------------------------------------------------
 
-.PHONY: asdf asdf-install
+.PHONY: asdf
 asdf: $(DST)/.asdf
 
 $(DST)/.asdf:
@@ -112,15 +118,6 @@ $(DST)/.asdf:
 	cd $@ && git describe --abbrev=0 --tags
 	cd $@ && git checkout $$(git describe --abbrev=0 --tags)
 
-.PHONY: asdf-install
-asdf-install: download
-ifeq "$(DOCKER)" "F"
-else
-	# make luajit-asdf -f $(DOTFILES_DIR)/Makefile
-	make node-asdf -f $(DOTFILES_DIR)/Makefile
-	make vim-asdf -f $(DOTFILES_DIR)/Makefile
-	# make nvim-asdf -f $(DOTFILES_DIR)/Makefile
-endif
 
 # ----------------------------------------------------------------------
 #	Bash
@@ -154,9 +151,16 @@ git: download
 #	Luajit
 # ----------------------------------------------------------------------
 
+ASDF_LUAJIT_VERSION := $(shell $(call asdf-installed-latest-version,luaJIT))
+
 .PHONY: luajit-asdf
 luajit-asdf: download
+ifeq "$(shell uname)" "Linux"
 	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest,)
+else
+	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest,MACOSX_DEPLOYMENT_TARGET=$(MACOSX_SDK_VERSION))
+endif
+
 
 # ----------------------------------------------------------------------
 #	Neovim
@@ -275,6 +279,7 @@ vim-link:
 	$(call backup-and-link,vim/vimrc,.vimrc)
 	$(call backup-and-link,vim/vim,.vim)
 
+ifeq "$(shell uname)" "Linux"
 ASDF_VIM_CONFIG := \
 	--enable-fail-if-missing \
 	--with-tlib=ncurses \
@@ -286,43 +291,31 @@ ASDF_VIM_CONFIG := \
 	--with-luajit \
 	--enable-gui=no \
 	--without-x
+else
+ASDF_VIM_CONFIG := \
+	--enable-fail-if-missing \
+	--with-tlib=ncurses \
+	--with-compiledby=asdf \
+	--enable-multibyte \
+	--enable-cscope \
+	--enable-terminal \
+	--enable-luainterp \
+	--with-luajit \
+	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(ASDF_LUAJIT_VERSION) \
+	--enable-gui=no \
+	--without-x
+endif
 
 # TODO vim のバージョンをどうにかする
 .PHONY: vim-asdf
 vim-asdf: download
-	$(call asdf-install-on-bash,vim,,8.2.2846,ASDF_VIM_CONFIG='$(ASDF_VIM_CONFIG)')
+	$(call asdf-install-on-bash,vim,,latest,ASDF_VIM_CONFIG='$(ASDF_VIM_CONFIG)')
 
 .PHONY: vim-plug
 vim-plug:
 	mkdir -p $(DST)/.vim/plugged
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-
-# ----------------------------------------------------------------------
-#	Vim plugins
-# ----------------------------------------------------------------------
-
-.PHONY: vim-plugins
-vim-plugins: anthraxylon
-
-ANTHRAXYLON_HTTPS := https://github.com/high-moctane/anthraxylon.git
-ANTHRAXYLON_SSH := git@github.com:high-moctane/anthraxylon.git
-
-.PHONY: anthraxylon
-anthraxylon: $(DST)/Documents/projects/anthraxylon
-
-$(DST)/Documents/projects/anthraxylon:
-ifeq "$(PROTOCOL)" "https"
-	git clone $(ANTHRAXYLON_HTTPS) $@
-else
-ifeq "$(PROTOCOL)" "ssh"
-	git clone $(ANTHRAXYLON_SSH) $@
-else
-	@echo "invalid git protocol: $(PROTOCOL)"
-	@false
-endif
-endif
 
 
 # ----------------------------------------------------------------------
@@ -336,6 +329,24 @@ zsh: download
 
 
 # ----------------------------------------------------------------------
+#	OS
+# ----------------------------------------------------------------------
+
+# --------------------------------------------------
+#	macOS
+# --------------------------------------------------
+
+MACOSX_SDK_VERSION := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
+MACOSX_SDK := $(DST)/.local/lib/MacOSX-SDKs/MacOSX$(MACOSX_SDK_VERSION).sdk
+
+.PHONY: macosx-sdk
+macosx-sdk:
+	mkdir -p $(DST)/.local/lib
+	-cd $(DST)/.local/lib && git clone --depth 1 https://github.com/phracker/MacOSX-SDKs.git
+	cd $(MACOSX_SDK) && git pull
+
+
+# ----------------------------------------------------------------------
 #	Install dependencies
 # ----------------------------------------------------------------------
 
@@ -346,9 +357,10 @@ zsh: download
 .PHONY: apt
 apt:
 	apt-get update
-	apt-get install -y dirmngr gawk git gpg procps skktools sudo zsh
+	apt-get install -y git gpg less skktools sudo zsh
+	apt-get install dirmngr gpg  # Node.js
 	# which python3 && true || apt-get install -y python3 python3-dev python3-pip // TODO vim を +python3 でビルドしたい
-	which luajit && true || apt-get install -y libluajit-5.1-dev luajit
+	# which luajit && true || apt-get install -y libluajit-5.1-dev luajit
 
 
 # --------------------------------------------------
@@ -361,17 +373,25 @@ brew: brew-setup brew-install
 .PHONY: brew-setup
 brew-setup: download
 ifeq "$(shell uname)" "Linux"
-	make -f $(DOTFILES_DIR)/Makefile brew-setup-linux
+	$(MAKE) -f $(DOTFILES_DIR)/Makefile brew-setup-linux
 else
-	make -f $(DOTFILES_DIR)/Makefile brew-setup-mac
+	$(MAKE) -f $(DOTFILES_DIR)/Makefile brew-setup-mac
 endif
 
 .PHONY: brew-setup-linux
-brew-setup-linux: /home/linuxbrew/.linuxbrew
+brew-setup-linux: download /home/linuxbrew/.linuxbrew
+ifeq "$(shell whoami)" "root"
+	$(MAKE) -f $(DOTFILES_DIR)/Makefile /home/linuxbrew/.linuxbrew
+else
+	$(MAKE) -f $(DOTFILES_DIR)/Makefile /home/$(shell whoami)/.linuxbrew
+endif
 
 /home/linuxbrew/.linuxbrew:
 	-sudo useradd -m linuxbrew
 	echo | sudo -u linuxbrew /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+/home/$(shell whoami)/.linuxbrew:
+	echo | /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 .PHONY: brew-setup-mac
 brew-setup-mac: /usr/local/bin/brew
@@ -382,7 +402,7 @@ brew-setup-mac: /usr/local/bin/brew
 .PHONY: brew-install
 brew-install: download
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew update
-ifeq "$(DOCKER)" "F"
+ifeq "$(DOCKER)" "0"
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile
 else
 	. $(DOTFILES_DIR)/home/shell_common.sh && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile-docker
@@ -400,4 +420,4 @@ endif
 
 .PHONY: python-dev
 python-dev:
-	pip3 install black ipython isort
+	pip3 install black ipython isort pipenv
