@@ -338,19 +338,6 @@ vim-link:
 	$(call backup-and-link,vim/vimrc,.vimrc)
 	$(call backup-and-link,vim/vim,.vim)
 
-ifeq "$(shell uname)" "Linux"
-ASDF_VIM_CONFIG := \
-	--enable-fail-if-missing \
-	--with-tlib=ncurses \
-	--with-compiledby=asdf \
-	--enable-multibyte \
-	--enable-cscope \
-	--enable-terminal \
-	--enable-luainterp \
-	--with-luajit \
-	--enable-gui=no \
-	--without-x
-else
 ASDF_VIM_CONFIG := \
 	--enable-fail-if-missing \
 	--with-tlib=ncurses \
@@ -363,7 +350,6 @@ ASDF_VIM_CONFIG := \
 	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(ASDF_LUAJIT_VERSION) \
 	--enable-gui=no \
 	--without-x
-endif
 
 .PHONY: vim-asdf
 vim-asdf: download $(DST)/.asdf/installs/vim
