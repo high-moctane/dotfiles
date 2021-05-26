@@ -179,7 +179,7 @@ MACOSX_SDK_VERSION := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
 .PHONY: lua-asdf
 luajit-asdf: download $(DST)/.asdf/installs/lua
 
-$(DST)/.asdf/installs/luaJIT:
+$(DST)/.asdf/installs/lua:
 ifeq "$(shell uname)" "Linux"
 	$(call asdf-install-on-bash,lua,https://github.com/Stratus3D/asdf-lua.git,latest,)
 else
@@ -192,7 +192,7 @@ endif
 # ----------------------------------------------------------------------
 
 .PHONY: luajit-asdf
-luajit-asdf: download $(DST)/.asdf/installs/luaJIT
+luajit-asdf: download lua-asdf $(DST)/.asdf/installs/luaJIT
 
 $(DST)/.asdf/installs/luaJIT:
 ifeq "$(shell uname)" "Linux"
