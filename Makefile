@@ -347,7 +347,7 @@ ASDF_VIM_CONFIG := \
 	--enable-terminal \
 	--enable-luainterp \
 	--with-luajit \
-	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(ASDF_LUAJIT_VERSION) \
+	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(call asdf-installed-latest-version,luaJIT) \
 	--enable-gui=no \
 	--without-x
 
