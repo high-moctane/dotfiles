@@ -17,7 +17,7 @@ define backup-and-link
 endef
 
 define sh-source
-	. $(DOTFILES_DIR)/home/shell_common
+	. $(DOTFILES_DIR)/home/shell_common.sh
 endef
 
 define dotmake
