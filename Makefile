@@ -23,6 +23,10 @@ define sh-source
 	. $(DOTFILES_DIR)/home/shell_common.sh
 endef
 
+define do-bash
+	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && $1"
+endef
+
 define dotmake
 	$(MAKE) -f $(DOTFILES_DIR)/Makefile
 endef
@@ -403,50 +407,50 @@ tool: tool-go tool-rust
 
 .PHONY: tool-go
 tool-go:
-	$(call sh-source) && go get -u -v github.com/jesseduffield/lazydocker
-	$(call sh-source) && go get -u -v github.com/jesseduffield/lazygit
+	$(call do-bash,go get -u -v github.com/jesseduffield/lazydocker)
+	$(call do-bash,go get -u -v github.com/jesseduffield/lazygit)
 
 .PHONY: tool-rust
 tool-rust:
-	$(call sh-source) && cargo install --git https://github.com/ogham/dog.git
-	$(call sh-source) && cargo install ag
-	$(call sh-source) && cargo install bandwhich
-	$(call sh-source) && cargo install bat
-	$(call sh-source) && cargo install bat # shell completion
-	$(call sh-source) && cargo install bingrep
-	$(call sh-source) && cargo install bottom
-	$(call sh-source) && cargo install bottom # shell completion
-	$(call sh-source) && cargo install choose
-	$(call sh-source) && cargo install csview
-	$(call sh-source) && cargo install desed
-	$(call sh-source) && cargo install drill
-	$(call sh-source) && cargo install du-dust
-	$(call sh-source) && cargo install fd-find
-	$(call sh-source) && cargo install fselect
-	$(call sh-source) && cargo install git-delta
-	$(call sh-source) && cargo install git-interactive-rebase-tool
-	$(call sh-source) && cargo install gping
-	$(call sh-source) && cargo install grex
-	$(call sh-source) && cargo install hexyl
-	$(call sh-source) && cargo install httpie
-	$(call sh-source) && cargo install hyperfine
-	$(call sh-source) && cargo install hyperfine
-	$(call sh-source) && cargo install lsd
-	$(call sh-source) && cargo install mkfly
-	$(call sh-source) && cargo install monolith
-	$(call sh-source) && cargo install navi
-	$(call sh-source) && cargo install oha
-	$(call sh-source) && cargo install onefetch
-	$(call sh-source) && cargo install procs
-	$(call sh-source) && cargo install pueue
-	$(call sh-source) && cargo install ripgrep
-	$(call sh-source) && cargo install ripgrep-all
-	$(call sh-source) && cargo install sd
-	$(call sh-source) && cargo install silicon
-	$(call sh-source) && cargo install skim
-	$(call sh-source) && cargo install tealdeer
-	$(call sh-source) && cargo install tokei
-	$(call sh-source) && cargo install topgrade
-	$(call sh-source) && cargo install watchexec-cli
-	$(call sh-source) && cargo install xh
-	$(call sh-source) && cargo install xsv
+	$(call do-bash,cargo install --git https://github.com/ogham/dog.git
+	$(call do-bash,cargo install ag)
+	$(call do-bash,cargo install bandwhich)
+	$(call do-bash,cargo install bat)
+	$(call do-bash,cargo install bat # shell completion)
+	$(call do-bash,cargo install bingrep)
+	$(call do-bash,cargo install bottom)
+	$(call do-bash,cargo install bottom # shell completion)
+	$(call do-bash,cargo install choose)
+	$(call do-bash,cargo install csview
+	$(call do-bash,cargo install desed)
+	$(call do-bash,cargo install drill)
+	$(call do-bash,cargo install du-dust)
+	$(call do-bash,cargo install fd-find)
+	$(call do-bash,cargo install fselect)
+	$(call do-bash,cargo install git-delta)
+	$(call do-bash,cargo install git-interactive-rebase-tool)
+	$(call do-bash,cargo install gping)
+	$(call do-bash,cargo install grex)
+	$(call do-bash,cargo install hexyl)
+	$(call do-bash,cargo install httpie)
+	$(call do-bash,cargo install hyperfine)
+	$(call do-bash,cargo install hyperfine)
+	$(call do-bash,cargo install lsd)
+	$(call do-bash,cargo install mkfly)
+	$(call do-bash,cargo install monolith)
+	$(call do-bash,cargo install navi)
+	$(call do-bash,cargo install oha)
+	$(call do-bash,cargo install onefetch)
+	$(call do-bash,cargo install procs)
+	$(call do-bash,cargo install pueue)
+	$(call do-bash,cargo install ripgrep)
+	$(call do-bash,cargo install ripgrep-all)
+	$(call do-bash,cargo install sd)
+	$(call do-bash,cargo install silicon)
+	$(call do-bash,cargo install skim)
+	$(call do-bash,cargo install tealdeer)
+	$(call do-bash,cargo install tokei)
+	$(call do-bash,cargo install topgrade)
+	$(call do-bash,cargo install watchexec-cli)
+	$(call do-bash,cargo install xh)
+	$(call do-bash,cargo install xsv)
