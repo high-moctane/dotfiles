@@ -1,16 +1,16 @@
 FROM buildpack-deps:latest
 
-RUN curl -L mocdot.ml | make apt -f - PROTOCOL=https DOCKER=1
-# RUN curl -L mocdot.ml | make brew-setup -f - PROTOCOL=https DOCKER=1
-# RUN curl -L mocdot.ml | make brew-install -f - PROTOCOL=https DOCKER=1
-RUN curl -L mocdot.ml | make all -f - PROTOCOL=https DOCKER=1
-RUN curl -L mocdot.ml | make go-asdf -f - PROTOCOL=https DOCKER=1
-RUN curl -L mocdot.ml | make node-asdf -f - PROTOCOL=https DOCKER=1
-RUN curl -L mocdot.ml | make python-asdf -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make apt -f - PROTOCOL=https DOCKER=1
+# RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make brew-setup -f - PROTOCOL=https DOCKER=1
+# RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make brew-install -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make all -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make go-asdf -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make node-asdf -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make python-asdf -f - PROTOCOL=https DOCKER=1
 RUN echo 1
-RUN curl -L mocdot.ml | make luajit-asdf -f - PROTOCOL=https DOCKER=1
-RUN curl -L mocdot.ml | make vim-asdf -f - PROTOCOL=https DOCKER=1
-RUN curl -L mocdot.ml | make tool -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make luajit-asdf -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make vim-asdf -f - PROTOCOL=https DOCKER=1
+RUN curl -L -H "Cache-Control: nostore" mocdot.ml | make tool -f - PROTOCOL=https DOCKER=1
 
 
 WORKDIR /root

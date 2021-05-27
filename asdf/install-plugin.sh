@@ -15,9 +15,6 @@ readonly version=${2}
 readonly repo=${3}
 
 
-export CFLAGS=""
-
-
 asdf plugin add ${name} ${repo}
 
 
@@ -44,7 +41,7 @@ if $(asdf plugin list | grep luaJIT) > /dev/null; then
     --enable-terminal
     --enable-luainterp
     --with-luajit
-    --with-lua-prefix=${ASDF_DIR}/installs/luaJIT/$(shell $(call asdf-latest-version,luaJIT))
+    --with-lua-prefix=${ASDF_DIR}/installs/luaJIT/$(asdf latest luaJIT)
     --enable-gui=no
     --without-x"
 fi
