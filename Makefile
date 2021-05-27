@@ -402,8 +402,8 @@ endif
 #	Tools
 # ----------------------------------------------------------------------
 
-# .PHONY: tool
-# tool: tool-go tool-rust
+.PHONY: tool
+tool: tool-go tool-rust
 
 .PHONY: tool-go
 tool-go:
