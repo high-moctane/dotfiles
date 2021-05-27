@@ -31,8 +31,8 @@ if [[ $(uname) == "Linux" && ${name} == "luaJIT" ]]; then
   export LUAJIT_CONFIGURE_OPTIONS="INSTALL_LIB=${ASDF_DIR}/installs/luaJIT/$(asdf latest luaJIT)/lib/x86_64-linux-gnu"
 fi
 
-if [[ $(uname) == "Darwin" ]]
-  export MACOSX_DEPLOYMENT_TARGET="$(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")"
+if [[ $(uname) == "Darwin" ]]; then
+  export MACOSX_DEPLOYMENT_TARGET="$(shell sw_vers -productVersion | sed -e 's/\.[0-9]*$$//')"
 fi
 
 if $(asdf plugin list | grep luaJIT) > /dev/null; then
