@@ -24,7 +24,7 @@ asdf plugin add ${name} ${repo}
 set -e
 
 
-export CFLAGS="-march=native -mtune=native -O2 -pipe -static"
+export CFLAGS="-march=native -mtune=native -O2 -pipe"
 export CXXFLAGS="${CFLAGS}"
 
 if [[ $(uname) == "Linux" && ${name} == "luaJIT" ]]; then
@@ -47,6 +47,9 @@ if $(asdf plugin list | grep luaJIT) > /dev/null; then
     --with-lua-prefix=${ASDF_DIR}/installs/luaJIT/$(asdf latest luaJIT)
     --enable-gui=no
     --without-x"
+  if [[ $(uname) == "Linux" ]]; then
+    export LDFLAGS="-static"
+  fi
 fi
 
 
