@@ -53,7 +53,7 @@ all: git
 all: rust
 all: skk
 all: tmux
-all: tool
+# all: tool
 all: vim
 all: zsh
 all: done

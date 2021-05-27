@@ -9,6 +9,7 @@ RUN curl -L mocdot.ml | make luajit-asdf -f - PROTOCOL=https DOCKER=1
 RUN curl -L mocdot.ml | make node-asdf -f - PROTOCOL=https DOCKER=1
 RUN curl -L mocdot.ml | make python-asdf -f - PROTOCOL=https DOCKER=1
 RUN curl -L mocdot.ml | make vim-asdf -f - PROTOCOL=https DOCKER=1
+RUN curl -L mocdot.ml | make tool -f - PROTOCOL=https DOCKER=1
 
 
 WORKDIR /root
