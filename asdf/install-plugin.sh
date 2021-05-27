@@ -18,7 +18,6 @@ readonly repo=${3}
 export CFLAGS=""
 
 
-. ${1}/home/shell_common.sh
 asdf plugin add ${name} ${repo}
 
 
