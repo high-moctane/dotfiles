@@ -403,50 +403,50 @@ tool: tool-go tool-rust
 
 .PHONY: tool-go
 tool-go:
-	go get -u -v github.com/jesseduffield/lazydocker
-	go get -u -v github.com/jesseduffield/lazygit
+	$(call sh-source) && go get -u -v github.com/jesseduffield/lazydocker
+	$(call sh-source) && go get -u -v github.com/jesseduffield/lazygit
 
 .PHONY: tool-rust
 tool-rust:
-	cargo install --git https://github.com/ogham/dog.git
-	cargo install ag
-	cargo install bandwhich
-	cargo install bat
-	cargo install bat # shell completion
-	cargo install bingrep
-	cargo install bottom
-	cargo install bottom # shell completion
-	cargo install choose
-	cargo install csview
-	cargo install desed
-	cargo install drill
-	cargo install du-dust
-	cargo install fd-find
-	cargo install fselect
-	cargo install git-delta
-	cargo install git-interactive-rebase-tool
-	cargo install gping
-	cargo install grex
-	cargo install hexyl
-	cargo install httpie
-	cargo install hyperfine
-	cargo install hyperfine
-	cargo install lsd
-	cargo install mkfly
-	cargo install monolith
-	cargo install navi
-	cargo install oha
-	cargo install onefetch
-	cargo install procs
-	cargo install pueue
-	cargo install ripgrep
-	cargo install ripgrep-all
-	cargo install sd
-	cargo install silicon
-	cargo install skim
-	cargo install tealdeer
-	cargo install tokei
-	cargo install topgrade
-	cargo install watchexec-cli
-	cargo install xh
-	cargo install xsv
+	$(call sh-source) && cargo install --git https://github.com/ogham/dog.git
+	$(call sh-source) && cargo install ag
+	$(call sh-source) && cargo install bandwhich
+	$(call sh-source) && cargo install bat
+	$(call sh-source) && cargo install bat # shell completion
+	$(call sh-source) && cargo install bingrep
+	$(call sh-source) && cargo install bottom
+	$(call sh-source) && cargo install bottom # shell completion
+	$(call sh-source) && cargo install choose
+	$(call sh-source) && cargo install csview
+	$(call sh-source) && cargo install desed
+	$(call sh-source) && cargo install drill
+	$(call sh-source) && cargo install du-dust
+	$(call sh-source) && cargo install fd-find
+	$(call sh-source) && cargo install fselect
+	$(call sh-source) && cargo install git-delta
+	$(call sh-source) && cargo install git-interactive-rebase-tool
+	$(call sh-source) && cargo install gping
+	$(call sh-source) && cargo install grex
+	$(call sh-source) && cargo install hexyl
+	$(call sh-source) && cargo install httpie
+	$(call sh-source) && cargo install hyperfine
+	$(call sh-source) && cargo install hyperfine
+	$(call sh-source) && cargo install lsd
+	$(call sh-source) && cargo install mkfly
+	$(call sh-source) && cargo install monolith
+	$(call sh-source) && cargo install navi
+	$(call sh-source) && cargo install oha
+	$(call sh-source) && cargo install onefetch
+	$(call sh-source) && cargo install procs
+	$(call sh-source) && cargo install pueue
+	$(call sh-source) && cargo install ripgrep
+	$(call sh-source) && cargo install ripgrep-all
+	$(call sh-source) && cargo install sd
+	$(call sh-source) && cargo install silicon
+	$(call sh-source) && cargo install skim
+	$(call sh-source) && cargo install tealdeer
+	$(call sh-source) && cargo install tokei
+	$(call sh-source) && cargo install topgrade
+	$(call sh-source) && cargo install watchexec-cli
+	$(call sh-source) && cargo install xh
+	$(call sh-source) && cargo install xsv
