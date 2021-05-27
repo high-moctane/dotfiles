@@ -181,7 +181,7 @@ $(DST)/.asdf/installs/golang:
 export MACOSX_DEPLOYMENT_TARGET := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
 
 .PHONY: lua-asdf
-luajit-asdf: download $(DST)/.asdf/installs/lua
+lua-asdf: download $(DST)/.asdf/installs/lua
 
 $(DST)/.asdf/installs/lua:
 ifeq "$(shell uname)" "Linux"
@@ -195,7 +195,7 @@ endif
 #	Luajit
 # ----------------------------------------------------------------------
 
-LUAJIT_CONFIGURE_OPTIONS=INSTALL_LIB=$(DST)/.asdf/installs/luaJIT/$(call asdf-latest-version,luaJIT)/x86_64-linux-gnu
+export LUAJIT_CONFIGURE_OPTIONS=INSTALL_LIB=$(DST)/.asdf/installs/luaJIT/$(call asdf-latest-version,luaJIT)/x86_64-linux-gnu
 
 .PHONY: luajit-asdf
 luajit-asdf: download lua-asdf $(DST)/.asdf/installs/luaJIT
