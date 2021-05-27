@@ -158,7 +158,7 @@ git: download
 
 .PHONY: go-asdf
 go-asdf: download
-	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh golang latest https://github.com/kennyp/asdf-golang.git
+	$(call sh-source) && bash $(DOTFILES_DIR)/asdf/install-plugin.sh golang latest https://github.com/kennyp/asdf-golang.git
 
 
 # ----------------------------------------------------------------------
@@ -167,7 +167,7 @@ go-asdf: download
 
 .PHONY: lua-asdf
 lua-asdf: download
-	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh lua latest https://github.com/Stratus3D/asdf-lua.git
+	$(call sh-source) && bash $(DOTFILES_DIR)/asdf/install-plugin.sh lua latest https://github.com/Stratus3D/asdf-lua.git
 
 
 
@@ -177,7 +177,7 @@ lua-asdf: download
 
 .PHONY: luajit-asdf
 luajit-asdf: download lua-asdf
-	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh luaJIT latest https://github.com/smashedtoatoms/asdf-luaJIT.git
+	$(call sh-source) && bash $(DOTFILES_DIR)/asdf/install-plugin.sh luaJIT latest https://github.com/smashedtoatoms/asdf-luaJIT.git
 
 
 # ----------------------------------------------------------------------
@@ -202,7 +202,7 @@ $(NVIM_PACKER_DST):
 
 .PHONY: nvim-asdf
 nvim-asdf: download
-	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh neovim nightly
+	$(call sh-source) && bash $(DOTFILES_DIR)/asdf/install-plugin.sh neovim nightly
 
 
 # ----------------------------------------------------------------------
@@ -211,7 +211,7 @@ nvim-asdf: download
 
 .PHONY: node-asdf
 node-asdf: download
-	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh nodejs latest
+	$(call sh-source) && bash $(DOTFILES_DIR)/asdf/install-plugin.sh nodejs latest
 
 
 # ----------------------------------------------------------------------
@@ -220,7 +220,7 @@ node-asdf: download
 
 .PHONY: python-asdf
 python-asdf: download
-	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh python latest
+	$(call sh-source) && bash $(DOTFILES_DIR)/asdf/install-plugin.sh python latest
 
 .PHONY: python-dev
 python-dev:
@@ -312,7 +312,7 @@ vim-link:
 
 .PHONY: vim-asdf
 vim-asdf: download
-	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh vim latest
+	$(call sh-source) && bash $(DOTFILES_DIR)/asdf/install-plugin.sh vim latest
 
 .PHONY: vim-plug
 vim-plug:
