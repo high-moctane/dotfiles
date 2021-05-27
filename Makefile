@@ -7,9 +7,7 @@ DOTFILES_HTTPS := https://github.com/high-moctane/dotfiles.git
 DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
 DOCKER := 0
-
-# export CFLAGS := -march=native -mtune=native -O2 -pipe
-# export CXXFLAGS := $(CFLAGS)
+USER := moctane
 
 # src, dst
 define backup-and-link
@@ -24,7 +22,7 @@ define sh-source
 endef
 
 define do-bash
-	bash -c ". $(DOTFILES_DIR)/home/shell_common.sh && $1"
+	bash -c "$(call, sh-source) && $1"
 endef
 
 define dotmake
