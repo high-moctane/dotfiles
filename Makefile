@@ -41,7 +41,7 @@ all: bash
 all: docker
 all: git
 # all: nvim
-all: rust
+# all: rust
 all: skk
 all: tmux
 # all: tool

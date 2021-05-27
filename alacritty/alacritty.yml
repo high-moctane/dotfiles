@@ -6,3 +6,8 @@ font:
 
 mouse:
   hide_when_typing: true
+
+colors:
+  cursor:
+    text: '0x000000'
+    cursor: '0xa8a8a8'
