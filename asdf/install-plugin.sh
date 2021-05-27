@@ -10,10 +10,13 @@ if [[ $# < 2 ]]; then
   exit 1
 fi
 
-readonly name=${1}
-readonly version=${2}
-readonly repo=${3}
+readonly dotfiles_dir=${1}
+readonly name=${2}
+readonly version=${3}
+readonly repo=${4}
 
+
+. ${dotfiles_dir}/home/shell_common.sh
 
 asdf plugin add ${name} ${repo}
 
