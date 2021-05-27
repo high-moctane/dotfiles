@@ -8,8 +8,8 @@ DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
 DOCKER := 0
 
-export CFLAGS := -march=native -mtune=native -O2 -pipe
-export CXXFLAGS := $(CFLAGS)
+# export CFLAGS := -march=native -mtune=native -O2 -pipe
+# export CXXFLAGS := $(CFLAGS)
 
 # src, dst
 define backup-and-link
@@ -171,48 +171,42 @@ git: download
 go-asdf: download $(DST)/.asdf/installs/golang
 
 $(DST)/.asdf/installs/golang:
-	$(call asdf-install-on-bash,golang,https://github.com/kennyp/asdf-golang.git)
+	# $(call asdf-install-on-bash,golang,https://github.com/kennyp/asdf-golang.git)
+	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh golang latest https://github.com/kennyp/asdf-golang.git
 
 
 # ----------------------------------------------------------------------
 #	Lua
 # ----------------------------------------------------------------------
 
-export MACOSX_DEPLOYMENT_TARGET := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
+# export MACOSX_DEPLOYMENT_TARGET := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
 
 .PHONY: lua-asdf
 lua-asdf: download $(DST)/.asdf/installs/lua
 
 $(DST)/.asdf/installs/lua:
-ifeq "$(shell uname)" "Linux"
-	$(call asdf-install-on-bash,lua,https://github.com/Stratus3D/asdf-lua.git)
-else
-	$(call asdf-install-on-bash,lua,https://github.com/Strauts3D/asdf-lua.git)
-endif
+	# $(call asdf-install-on-bash,lua,https://github.com/Stratus3D/asdf-lua.git)
+	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh lua latest https://github.com/Stratus3D/asdf-lua.git
+
 
 
 # ----------------------------------------------------------------------
 #	Luajit
 # ----------------------------------------------------------------------
 
-export LUAJIT_CONFIGURE_OPTIONS=INSTALL_LIB=$(DST)/.asdf/installs/luaJIT/$(call asdf-latest-version,luaJIT)/x86_64-linux-gnu
+# export LUAJIT_CONFIGURE_OPTIONS=INSTALL_LIB = $(DST)/.asdf/installs/luaJIT/$(shell $(call asdf-latest-version,luaJIT))/lib/x86_64-linux-gnu
 
 .PHONY: luajit-asdf
 luajit-asdf: download lua-asdf $(DST)/.asdf/installs/luaJIT
 
 $(DST)/.asdf/installs/luaJIT:
-ifeq "$(shell uname)" "Linux"
-	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git)
-else
-	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git)
-endif
+	# $(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git)
+	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh luaJIT latest https://github.com/smashedtoatoms/asdf-luaJIT.git
 
 
 # ----------------------------------------------------------------------
 #	Neovim
 # ----------------------------------------------------------------------
-
-# FIXME: Not working
 
 NVIM_PACKER_REPO := https://github.com/wbthomason/packer.nvim
 NVIM_PACKER_DST := $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
@@ -234,7 +228,8 @@ $(NVIM_PACKER_DST):
 nvim-asdf: download $(DST)/.asdf/installs/nvim
 
 $(DST)/.asdf/installs/nvim:
-	$(call asdf-install-on-bash,neovim,,nightly,)
+	# $(call asdf-install-on-bash,neovim,,nightly,)
+	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh neovim nightly
 
 
 # ----------------------------------------------------------------------
@@ -245,7 +240,8 @@ $(DST)/.asdf/installs/nvim:
 node-asdf: download $(DST)/.asdf/installs/nodejs
 
 $(DST)/.asdf/installs/nodejs:
-	$(call asdf-install-on-bash,nodejs,)
+	# $(call asdf-install-on-bash,nodejs,)
+	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh nodejs latest
 
 
 # ----------------------------------------------------------------------
@@ -256,7 +252,8 @@ $(DST)/.asdf/installs/nodejs:
 python-asdf: download $(DST)/.asdf/installs/python
 
 $(DST)/.asdf/installs/python:
-	$(call asdf-install-on-bash,python,)
+	# $(call asdf-install-on-bash,python,)
+	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh python latest
 
 .PHONY: python-dev
 python-dev:
@@ -346,23 +343,24 @@ vim-link:
 	$(call backup-and-link,vim/vimrc,.vimrc)
 	$(call backup-and-link,vim/vim,.vim)
 
-export ASDF_VIM_CONFIG = \
-	--enable-fail-if-missing \
-	--with-compiledby=asdf \
-	--enable-multibyte \
-	--enable-cscope \
-	--enable-terminal \
-	--enable-luainterp \
-	--with-luajit \
-	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(shell $(call asdf-latest-version,luaJIT)) \
-	--enable-gui=no \
-	--without-x
+# export ASDF_VIM_CONFIG = \
+# 	--enable-fail-if-missing \
+# 	--with-compiledby=asdf \
+# 	--enable-multibyte \
+# 	--enable-cscope \
+# 	--enable-terminal \
+# 	--enable-luainterp \
+# 	--with-luajit \
+# 	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(shell $(call asdf-latest-version,luaJIT)) \
+# 	--enable-gui=no \
+# 	--without-x
 
 .PHONY: vim-asdf
 vim-asdf: download $(DST)/.asdf/installs/vim
 
 $(DST)/.asdf/installs/vim:
-	$(call asdf-install-on-bash,vim,)
+	# $(call asdf-install-on-bash,vim,)
+	$(call sh-source) && bash $(DST)/asdf/install-plugin.sh vim latest
 
 .PHONY: vim-plug
 vim-plug:
