@@ -8,7 +8,7 @@ DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
 DOCKER := 0
 
-export CFLAGS := -march=native -ntune=native -O2 -pipe
+export CFLAGS := -march=native -mtune=native -O2 -pipe
 export CXXFLAGS := $(CFLAGS)
 
 # src, dst
