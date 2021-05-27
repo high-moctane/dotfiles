@@ -8,6 +8,9 @@ DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
 BRANCH := master
 DOCKER := 0
 
+export CFLAGS := -march=native -ntune=native -O2 -pipe
+export CXXFLAGS := $(CFLAGS)
+
 # src, dst
 define backup-and-link
 	mkdir -p $(BACKUP_DIR)/$(dir $2)
@@ -24,16 +27,16 @@ define dotmake
 	$(MAKE) -f $(DOTFILES_DIR)/Makefile
 endef
 
-# name, repo, version, env
+# name, repo
 define asdf-install-on-bash
 	bash -c "$(call sh-source) && asdf plugin add $1 $2"
-	bash -c "export $4 && $(call sh-source) && asdf install $1 $3"
-	bash -c "$(call sh-source) && asdf global $1 $$($(call asdf-installed-latest-version,$1))"
+	bash -c "$(call sh-source) && asdf install $1 latest"
+	bash -c "$(call sh-source) && asdf global $1 latest"
 endef
 
 # name
-define asdf-installed-latest-version
-	bash -c "$(call sh-source) && asdf list $1 | tail -n 1 | sed -e 's/ //g'"
+define asdf-latest-version
+	bash -c "$(call sh-source) && asdf latest $1"
 endef
 
 .PHONY: all
@@ -120,7 +123,8 @@ alacritty-terminfo:
 # ----------------------------------------------------------------------
 
 .PHONY: asdf
-asdf: $(DST)/.asdf asdf-install
+asdf: $(DST)/.asdf
+# asdf: $(DST)/.asdf asdf-install
 
 $(DST)/.asdf:
 	git clone https://github.com/asdf-vm/asdf.git $@
@@ -167,23 +171,23 @@ git: download
 go-asdf: download $(DST)/.asdf/installs/golang
 
 $(DST)/.asdf/installs/golang:
-	$(call asdf-install-on-bash,golang,https://github.com/kennyp/asdf-golang.git,latest,)
+	$(call asdf-install-on-bash,golang,https://github.com/kennyp/asdf-golang.git)
 
 
 # ----------------------------------------------------------------------
 #	Lua
 # ----------------------------------------------------------------------
 
-MACOSX_SDK_VERSION := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
+export MACOSX_DEPLOYMENT_TARGET := $(shell sw_vers -productVersion | sed -e "s/\.[0-9]*$$//")
 
 .PHONY: lua-asdf
 luajit-asdf: download $(DST)/.asdf/installs/lua
 
 $(DST)/.asdf/installs/lua:
 ifeq "$(shell uname)" "Linux"
-	$(call asdf-install-on-bash,lua,https://github.com/Stratus3D/asdf-lua.git,latest,)
+	$(call asdf-install-on-bash,lua,https://github.com/Stratus3D/asdf-lua.git)
 else
-	$(call asdf-install-on-bash,lua,https://github.com/Strauts3D/asdf-lua.git,latest,MACOSX_DEPLOYMENT_TARGET=$(MACOSX_SDK_VERSION))
+	$(call asdf-install-on-bash,lua,https://github.com/Strauts3D/asdf-lua.git)
 endif
 
 
@@ -191,20 +195,24 @@ endif
 #	Luajit
 # ----------------------------------------------------------------------
 
+LUAJIT_CONFIGURE_OPTIONS=INSTALL_LIB=$(DST)/.asdf/installs/luaJIT/$(call asdf-latest-version,luaJIT)/x86_64-linux-gnu
+
 .PHONY: luajit-asdf
 luajit-asdf: download lua-asdf $(DST)/.asdf/installs/luaJIT
 
 $(DST)/.asdf/installs/luaJIT:
 ifeq "$(shell uname)" "Linux"
-	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest,)
+	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git)
 else
-	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git,latest,MACOSX_DEPLOYMENT_TARGET=$(MACOSX_SDK_VERSION))
+	$(call asdf-install-on-bash,luaJIT,https://github.com/smashedtoatoms/asdf-luaJIT.git)
 endif
 
 
 # ----------------------------------------------------------------------
 #	Neovim
 # ----------------------------------------------------------------------
+
+# FIXME: Not working
 
 NVIM_PACKER_REPO := https://github.com/wbthomason/packer.nvim
 NVIM_PACKER_DST := $(DST)/.local/share/nvim/site/pack/packer/start/packer.nvim
@@ -237,7 +245,7 @@ $(DST)/.asdf/installs/nvim:
 node-asdf: download $(DST)/.asdf/installs/nodejs
 
 $(DST)/.asdf/installs/nodejs:
-	$(call asdf-install-on-bash,nodejs,,latest,)
+	$(call asdf-install-on-bash,nodejs,)
 
 
 # ----------------------------------------------------------------------
@@ -248,7 +256,7 @@ $(DST)/.asdf/installs/nodejs:
 python-asdf: download $(DST)/.asdf/installs/python
 
 $(DST)/.asdf/installs/python:
-	$(call asdf-install-on-bash,python,,latest,)
+	$(call asdf-install-on-bash,python,)
 
 .PHONY: python-dev
 python-dev:
@@ -338,16 +346,15 @@ vim-link:
 	$(call backup-and-link,vim/vimrc,.vimrc)
 	$(call backup-and-link,vim/vim,.vim)
 
-ASDF_VIM_CONFIG = \
+export ASDF_VIM_CONFIG = \
 	--enable-fail-if-missing \
-	--with-tlib=ncurses \
 	--with-compiledby=asdf \
 	--enable-multibyte \
 	--enable-cscope \
 	--enable-terminal \
 	--enable-luainterp \
 	--with-luajit \
-	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(shell $(call asdf-installed-latest-version,luaJIT)) \
+	--with-lua-prefix=$(DST)/.asdf/installs/luaJIT/$(shell $(call asdf-latest-version,luaJIT)) \
 	--enable-gui=no \
 	--without-x
 
@@ -355,7 +362,7 @@ ASDF_VIM_CONFIG = \
 vim-asdf: download $(DST)/.asdf/installs/vim
 
 $(DST)/.asdf/installs/vim:
-	$(call asdf-install-on-bash,vim,,latest,ASDF_VIM_CONFIG='$(ASDF_VIM_CONFIG)')
+	$(call asdf-install-on-bash,vim,)
 
 .PHONY: vim-plug
 vim-plug:
@@ -388,7 +395,7 @@ apt:
 	apt-get update
 	apt-get install -y git gpg less skktools sudo zsh
 	apt-get install -y dirmngr gpg  # Node.js
-	apt-get install -y pandoc poppler tesseract ffmpeg  # ripgrep-all
+	apt-get install -y pandoc poppler-utils ffmpeg  # ripgrep-all
 
 
 # --------------------------------------------------
@@ -446,20 +453,19 @@ tool: tool-go tool-rust
 
 .PHONY: tool-go
 tool-go:
-	go get github.com/jesseduffield/lazydocker
-	go get github.com/jesseduffield/lazygit
+	go get -u -v github.com/jesseduffield/lazydocker
+	go get -u -v github.com/jesseduffield/lazygit
 
 .PHONY: tool-rust
 tool-rust:
-	cargo install --git https://github.com/ClementTsang/bottom # shell completion
-	cargo install --git https://github.com/XAMPPRocky/tokei.git tokei
-	cargo install --git https://github.com/ogham/dog
+	cargo install --git https://github.com/ogham/dog.git
 	cargo install ag
 	cargo install bandwhich
 	cargo install bat
 	cargo install bat # shell completion
 	cargo install bingrep
 	cargo install bottom
+	cargo install bottom # shell completion
 	cargo install choose
 	cargo install csview
 	cargo install desed
@@ -489,6 +495,7 @@ tool-rust:
 	cargo install silicon
 	cargo install skim
 	cargo install tealdeer
+	cargo install tokei
 	cargo install topgrade
 	cargo install watchexec-cli
 	cargo install xh
