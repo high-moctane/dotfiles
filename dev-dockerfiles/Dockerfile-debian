@@ -8,8 +8,8 @@ RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make all -f - PROTOCOL=http
 RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make go-asdf -f - PROTOCOL=https DOCKER=1
 RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make node-asdf -f - PROTOCOL=https DOCKER=1
 RUN cd /root/dotfiles && git pull
-RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make python-asdf -f - PROTOCOL=https DOCKER=1
-RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make luajit-asdf -f - PROTOCOL=https DOCKER=1
+# RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make python-asdf -f - PROTOCOL=https DOCKER=1
+# RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make luajit-asdf -f - PROTOCOL=https DOCKER=1
 RUN curl -L -H "Cache-Control: no-store" mocdot.ml | make vim-asdf -f - PROTOCOL=https DOCKER=1
 # RUN echo 2
 # RUN cd /root/dotfiles && git pull
