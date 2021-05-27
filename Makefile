@@ -412,7 +412,7 @@ tool-go:
 
 .PHONY: tool-rust
 tool-rust:
-	$(call do-bash,cargo install --git https://github.com/ogham/dog.git)
+	$(call do-bash,cargo install --git https://github.com/ogham/dog.git dog)
 	$(call do-bash,cargo install ag)
 	$(call do-bash,cargo install bandwhich)
 	$(call do-bash,cargo install bat)  # shell completion
