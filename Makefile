@@ -412,14 +412,14 @@ tool-go:
 
 .PHONY: tool-rust
 tool-rust:
-	$(call do-bash,cargo install --git https://github.com/ogham/dog.git
+	$(call do-bash,cargo install --git https://github.com/ogham/dog.git)
 	$(call do-bash,cargo install ag)
 	$(call do-bash,cargo install bandwhich)
 	$(call do-bash,cargo install bat)
-	$(call do-bash,cargo install bat # shell completion)
+	$(call do-bash,cargo install bat)  # shell completion
 	$(call do-bash,cargo install bingrep)
 	$(call do-bash,cargo install bottom)
-	$(call do-bash,cargo install bottom # shell completion)
+	$(call do-bash,cargo install bottom)  # shell completion
 	$(call do-bash,cargo install choose)
 	$(call do-bash,cargo install csview
 	$(call do-bash,cargo install desed)
