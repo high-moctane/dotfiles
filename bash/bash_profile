@@ -1,1 +1,2 @@
+exec 0
 source ${HOME}/.shell_common.sh
