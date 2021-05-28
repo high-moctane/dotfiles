@@ -219,6 +219,9 @@ if isdirectory(s:plug_dir)
 
         " xonsh
         Plug 'linkinpark342/xonsh-vim'
+
+        " fish
+        Plug 'dag/vim-fish'
     call plug#end()
 endif
 

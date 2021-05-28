@@ -25,6 +25,10 @@ define do-bash
 	bash -c "$(call, sh-source) && $1"
 endef
 
+define do-fish
+	fish -c "$1"
+endef
+
 define dotmake
 	$(MAKE) -f $(DOTFILES_DIR)/Makefile
 endef
@@ -39,6 +43,7 @@ all: alacritty
 all: asdf
 all: bash
 all: docker
+all: fish
 all: git
 # all: nvim
 # all: rust
@@ -143,6 +148,25 @@ bash: download
 docker: download
 	$(call backup-and-link,docker/config.json,.docker/config.json)
 
+
+# ----------------------------------------------------------------------
+#	Fish
+# ----------------------------------------------------------------------
+
+.PHONY: fish
+fish: fish-link fish-fisher
+
+.PHONY: fish-link
+fish-link: $(HOME)/.config
+	mkdir -p $(DST)/.config/fish
+	$(call backup-and-link,fish/config.fish,.config/fish/config.fish)
+	$(call backup-and-link,fish/conf.d,.config/fish/conf.d)
+	$(call backup-and-link,fish/functions,.config/fish/functions)
+
+.PHONY: fish-fisher
+fish-fisher: fish-link
+	$(call do-fish,curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher)
+	$(call do-fish,fisher update)
 
 # ----------------------------------------------------------------------
 #	Git
