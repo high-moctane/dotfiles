@@ -138,7 +138,7 @@ asdf-install: go-asdf luajit-asdf node-asdf python-asdf vim-asdf
 .PHONY: bash
 bash: download
 	$(call backup-and-link,bash/bash_profile,.bash_profile)
-	$(call backup-and-link,bash/bash_profile,.bashrc)
+	$(call backup-and-link,bash/bashrc,.bashrc)
 
 
 # ----------------------------------------------------------------------
