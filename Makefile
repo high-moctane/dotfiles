@@ -338,8 +338,9 @@ vim-link:
 	$(call backup-and-link,vim/vim,.vim)
 
 .PHONY: vim-asdf
-vim-asdf: download
+vim-asdf: download vim-link vim-plug
 	bash $(DOTFILES_DIR)/asdf/install-plugin.sh $(DOTFILES_DIR) vim latest
+	$(call dotmake) vim-coc
 
 .PHONY: vim-plug
 vim-plug:
@@ -347,6 +348,9 @@ vim-plug:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+.PHONY: vim-coc
+vim-coc:
+	$(call do-fish,vim -c 'Setup')
 
 # ----------------------------------------------------------------------
 #	Zsh
