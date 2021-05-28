@@ -10,6 +10,11 @@ if test (uname) = Linux
     end
 end
 
+## Asdf
+if test -d $HOME/.asdf
+    source $HOME/.asdf/asdf.fish
+end
+
 ## Local Path
 fish_add_path $HOME/.local/bin
 
