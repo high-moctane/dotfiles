@@ -155,7 +155,7 @@ docker: download
 # ----------------------------------------------------------------------
 
 .PHONY: fish
-fish: fish-link fish-fisher
+fish: fish-link
 
 .PHONY: fish-link
 fish-link: $(HOME)/.config
