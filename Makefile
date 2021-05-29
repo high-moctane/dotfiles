@@ -26,7 +26,7 @@ define do-bash
 endef
 
 define do-fish
-	fish -c "$1"
+	$(call sh-source) && fish -c "$1"
 endef
 
 define dotmake
