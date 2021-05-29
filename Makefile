@@ -22,7 +22,7 @@ define sh-source
 endef
 
 define do-bash
-	bash -c "$(call, sh-source) && $1"
+	bash -c "$(call sh-source) && $1"
 endef
 
 define do-fish
