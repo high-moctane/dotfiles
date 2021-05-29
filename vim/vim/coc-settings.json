@@ -5,21 +5,6 @@
         "rust",
         "go"
     ],
-    "diagnostic-languageserver.formatFiletypes": {
-        "python": ["black", "isort", "docformatter"]
-    },
-    "diagnostic-languageserver.formatters": {
-        "black": {
-            "command": "black",
-            "args": ["-q", "-"]
-        },
-        "isort": {
-            "command": "isort",
-            "args": ["-q", "-"]
-        },
-        "docformatter": {
-            "command": "docformatter",
-            "args": ["-"]
-        }
-    }
+    "python.formatting.provider": "black",
+    "python.linting.mypyEnabled": true
 }

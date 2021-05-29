@@ -26,7 +26,7 @@ define do-bash
 endef
 
 define do-fish
-	fish -c "$1"
+	$(call sh-source) && fish -c "$1"
 endef
 
 define dotmake
@@ -251,7 +251,7 @@ python-asdf: download
 
 .PHONY: python-dev
 python-dev:
-	pip3 install black ipython isort pipenv py-spy
+	$(call sh-source) && pip3 install black ipython isort pipenv py-spy
 
 
 # ----------------------------------------------------------------------

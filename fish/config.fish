@@ -30,3 +30,9 @@ fish_add_path /Library/TeX/texbin
 
 # Utilities
 set -x NEXTWORD_DATA_PATH $HOME/.local/share/nextword-data-large
+
+
+# Alias
+function d-c
+    docker-compose $argv
+end
