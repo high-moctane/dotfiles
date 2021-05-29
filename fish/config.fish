@@ -6,7 +6,7 @@ if test (uname) = Linux
         eval ($HOME/.linuxbrew/bin/brew shellenv)
     end
     if test -d /home/linuxbrew/.linuxbrew
-        eval (/home/linuxbrew/.linuxbrew shellenv)
+        eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
     end
 end
 
