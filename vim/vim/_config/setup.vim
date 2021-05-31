@@ -1,4 +1,9 @@
-function! s:setup() abort
+function! s:setup_plug() abort
+    PlugInstall
+    qa
+endfunction
+
+function! s:setup_coc() abort
     if executable('bash')
         CocInstall -sync coc-go
     endif
@@ -23,4 +28,5 @@ function! s:setup() abort
     qa
 endfunction
 
-command! Setup call s:setup()
+command! SetupPlug call s:setup_plug()
+command! SetupCoC call s:setup_coc()

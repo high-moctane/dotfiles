@@ -65,6 +65,7 @@ endif
 if has('extra_search')
     set hlsearch
 endif
+set ignorecase
 set smartcase
 set wildignorecase
 set wildmode=list:longest,full
