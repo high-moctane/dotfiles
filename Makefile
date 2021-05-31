@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
 DST := $(HOME)
 DOTFILES_DIR := $(DST)/dotfiles
@@ -5,9 +7,14 @@ BACKUP_DIR := $(DST)/.dotfiles_backup/$(shell date +%Y-%m-%d-%H-%M-%S)
 PROTOCOL := ssh
 DOTFILES_HTTPS := https://github.com/high-moctane/dotfiles.git
 DOTFILES_SSH := git@github.com:high-moctane/dotfiles.git
+MOCDOT := mocdot.ml
 BRANCH := master
 DOCKER := 0
 USER := moctane
+
+define do-mocdot
+	curl -sL $(MODCOT) | make -f - $1
+endef
 
 # src, dst
 define backup-and-link
@@ -17,12 +24,16 @@ define backup-and-link
 	ln -s $(DOTFILES_DIR)/$1 $(DST)/$2
 endef
 
-define sh-source
+define source-sh
 	. $(DOTFILES_DIR)/home/shell_common.sh
 endef
 
+define source-brew
+	. $(DOTFILES_DIR)/brew/load.sh
+endef
+
 define do-bash
-	bash -c "$(call sh-source) && $1"
+	$(call source-sh) && $1
 endef
 
 define do-fish
@@ -251,7 +262,7 @@ python-asdf: download
 
 .PHONY: python-dev
 python-dev:
-	$(call sh-source) && pip3 install black ipython isort pipenv py-spy
+	$(do-fish,pip3 install black ipython isort pipenv py-spy)
 
 
 # ----------------------------------------------------------------------
@@ -349,7 +360,7 @@ vim-plug:
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 .PHONY: vim-setup
-vim-coc:
+vim-setup:
 	$(call do-fish,vim -c 'SetupPlug')
 	$(call do-fish,vim -c 'SetupCoc')
 
@@ -418,11 +429,11 @@ brew-setup-mac: /usr/local/bin/brew
 
 .PHONY: brew-install
 brew-install: download
-	$(call sh-source) && brew update
+	$(call source-sh) && brew update
 ifeq "$(DOCKER)" "0"
-	$(call sh-source) && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile
+	$(call source-sh) && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile
 else
-	$(call sh-source) && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile-docker
+	$(call source-sh) && brew bundle --file $(DOTFILES_DIR)/brew/Brewfile-docker
 endif
 
 
