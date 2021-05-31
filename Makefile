@@ -351,7 +351,7 @@ vim-link:
 .PHONY: vim-asdf
 vim-asdf: download vim-link vim-plug
 	bash $(DOTFILES_DIR)/asdf/install-plugin.sh $(DOTFILES_DIR) vim latest
-	$(call dotmake) vim-setup
+	# $(call dotmake) vim-setup
 
 .PHONY: vim-plug
 vim-plug:
