@@ -1,2 +1,2 @@
-source ${HOME}/.shell_common
+source ${HOME}/.shell_common.sh
 exec fish
