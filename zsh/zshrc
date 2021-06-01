@@ -1,71 +1,63 @@
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+# Local Path
+if [ -d $HOME/.local/bin ]; then
+    export PATH=$HOME/.local/bin:$PATH
 fi
 
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+# Asdf
+# TODO: completion がないってさ
+if [ -d $HOME/.asdf ]; then
+    . $HOME/.asdf/asdf.sh
+    . $HOME/.asdf/completions/asdf.bash
+fi
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
+# Homebrew (Linux)
+if [ $(uname) = "Linux" ]; then
+    if [ -d ~/.linuxbrew ]; then
+      eval $(~/.linuxbrew/bin/brew shellenv)
+    fi
+    if [ -d /home/linuxbrew/.linuxbrew ]; then
+      eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+    fi
+    if [ -r ~/.bash_profile ]; then
+      eval $($(brew --prefix)/bin/brew shellenv)
+    fi
+    eval $($(brew --prefix)/bin/brew shellenv)
+fi
 
-### End of Zinit's installer chunk
+# Language Setup
 
-zinit ice wait lucid atload'_zsh_autosuggest_start'
-zinit load zsh-users/zsh-autosuggestions
+## Go
+if [ -d $HOME/go/bin ]; then
+    export PATH=$HOME/go/bin:$PATH
+fi
 
-zinit ice wait lucid atload"!_zsh_autosuggest_start"
-zini load zsh-users/zsh-completions
+## Rust
+if [ -d $HOME/.cargo/bin ]; then
+    . "$HOME/.cargo/env"
+fi
 
-zinit ice wait lucid atload"!_zsh_autosuggest_start"
-zinit load zsh-users/zsh-history-substring-search
+## LaTeX
+if [ -d /Library/TeX/texbin ]; then
+    export PATH=/Library/TeX/texbin:$PATH
+fi
 
-zinit ice wait lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
-zinit load zdharma/fast-syntax-highlighting
+# Utility Setup
 
-# zinit ice lucid atload'!_zsh_git_prompt_precmd_hook'
-# zinit load woefe/git-prompt.zsh
-
-zinit ice pick"async.zsh" src"pure.zsh"
-zinit load sindresorhus/pure
-
-zinit ice wait lucid
-zinit load mollifier/cd-gitroot
-
-# zinit ice wait lucid
-# zinit load popstas/zsh-command-time
-
-# required notify-send
-zinit ice wait lucid
-zinit load MichaelAquilina/zsh-auto-notify
-export PATH="/usr/local/bin:$PATH"
+## Nextword
+export NEXTWORD_DATA_PATH=$HOME'/.local/share/nextword-data-large'
 
 
-# zinit load marlonrichert/zsh-autocomplete
-zstyle ':autocomplete:tab:*' insert-unambiguous yes
-zstyle ':autocomplete:tab:*' widget-style menu-complete
+# Zplug
+source ~/.zplug/init.zsh
 
-zinit ice wait lucid
-zinit load Tarrasch/zsh-bd
+autoload -U promptinit; promptinit
+zplug "mafredri/zsh-async"
+zplug "sindresorhus/pure"
 
-zinit ice wait lucid
-zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+zplug load
 
-zinit ice wait lucid
-zinit load unixorn/fzf-zsh-plugin
 
-# ----------------------------------------------------------------------
-
+# Keys
 autoload -U up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
@@ -78,7 +70,10 @@ alias la='ls -la'
 alias d-c='docker-compose'
 
 
+# Options
 setopt auto_cd
 setopt share_history
 
+
+# Env
 export EDITOR=vim

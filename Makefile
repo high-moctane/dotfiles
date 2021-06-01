@@ -40,6 +40,10 @@ define do-fish
 	$(call do-bash,fish -c '$1')
 endef
 
+define do-zsh
+	$(call source-sh) && zsh -c '$1'
+endef
+
 define dotmake
 	$(MAKE) -f $(DOTFILES_DIR)/Makefile
 endef
@@ -54,7 +58,7 @@ all: alacritty
 all: asdf
 all: bash
 all: docker
-all: fish
+# all: fish
 all: git
 # all: nvim
 # all: rust
@@ -172,8 +176,8 @@ fish: fish-link
 fish-link: $(HOME)/.config
 	mkdir -p $(DST)/.config/fish
 	$(call backup-and-link,fish/config.fish,.config/fish/config.fish)
-	$(call backup-and-link,fish/conf.d,.config/fish/conf.d)
-	$(call backup-and-link,fish/functions,.config/fish/functions)
+	# $(call backup-and-link,fish/conf.d,.config/fish/conf.d)
+	# $(call backup-and-link,fish/functions,.config/fish/functions)
 
 .PHONY: fish-fisher
 fish-fisher: fish-link
@@ -262,7 +266,7 @@ python-asdf: download
 
 .PHONY: python-dev
 python-dev:
-	$(do-fish,pip3 install black ipython isort pipenv py-spy)
+	$(do-zsh,pip3 install black ipython isort pipenv py-spy)
 
 
 # ----------------------------------------------------------------------
@@ -361,18 +365,25 @@ vim-plug:
 
 .PHONY: vim-setup
 vim-setup:
-	$(call do-fish,vim -c 'SetupPlug')
-	$(call do-fish,vim -c 'SetupCoc')
+	$(call do-zsh,vim -c "SetupPlug")
+	$(call do-zsh,vim -c "SetupCoc")
 
 # ----------------------------------------------------------------------
 #	Zsh
 # ----------------------------------------------------------------------
 
 .PHONY: zsh
-zsh: download
+zsh: zsh-link
+
+.PHONY: zsh-link
+zsh-link: download
 	$(call backup-and-link,zsh/zshenv,.zshenv)
 	$(call backup-and-link,zsh/zshrc,.zshrc)
-	cat $(DOTFILES_DIR)/{home/shell_common,zsh/zsh{env,rc}} | zsh -
+
+.PHONY: zsh-zplug
+zsh-zplug: download
+	curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+	$(call do-zsh,zplug install)
 
 
 # ----------------------------------------------------------------------
