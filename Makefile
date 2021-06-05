@@ -212,7 +212,6 @@ lua-asdf: download
 	bash $(DOTFILES_DIR)/asdf/install-plugin.sh $(DOTFILES_DIR) lua latest https://github.com/Stratus3D/asdf-lua.git
 
 
-
 # ----------------------------------------------------------------------
 #	Luajit
 # ----------------------------------------------------------------------
