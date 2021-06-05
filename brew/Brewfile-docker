@@ -1,4 +1,3 @@
-brew "bash-completion"
 brew "bat"
 # brew "delta"
 brew "fish"
