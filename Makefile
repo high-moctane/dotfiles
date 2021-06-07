@@ -33,6 +33,7 @@ define source-brew
 	. $(DOTFILES_DIR)/brew/load.sh
 endef
 
+# TODO: do-bash, do-fish みたいなやつは SHELL からいじれる感じにしていきたい
 define do-bash
 	$(call source-sh) && $1
 endef
@@ -59,7 +60,7 @@ all: alacritty
 all: asdf
 all: bash
 all: docker
-# all: fish
+all: fish
 all: git
 # all: nvim
 # all: rust
@@ -179,6 +180,7 @@ fish-link: $(HOME)/.config
 	$(call backup-and-link,fish/config.fish,.config/fish/config.fish)
 	$(call backup-and-link,fish/conf.d,.config/fish/conf.d)
 	$(call backup-and-link,fish/functions,.config/fish/functions)
+	$(call backup-and-link,fish/fish_plugins,.config/fish/fish_plugins)
 
 .PHONY: fish-fisher
 fish-fisher: fish-link
@@ -189,6 +191,10 @@ fish-fisher: fish-link
 fish-fresco:
 	$(call source-sh) && curl https://raw.githubusercontent.com/masa0x80/fresco/master/install | fish
 
+
+.PHONY: fish-fresco-plugins
+fish-fresco-plugins:
+	$(call do-fish, fresco (cat ~/.config/fish/fish_plugins | tr "\n" " "))
 
 # ----------------------------------------------------------------------
 #	Git
