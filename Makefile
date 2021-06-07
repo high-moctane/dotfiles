@@ -418,6 +418,8 @@ apt:
 #	Homebrew
 # --------------------------------------------------
 
+# TODO: download をしなくても大丈夫な感じにしていきたい
+
 .PHONY: brew
 brew: brew-setup brew-install
 

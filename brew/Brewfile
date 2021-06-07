@@ -1,18 +1,20 @@
 tap "heroku/brew"
 tap "homebrew/bundle"
 tap "homebrew/core"
-brew "gcc"
 brew "asdf"
 brew "bash"
 brew "bat"
 brew "delta"
 brew "fd"
 brew "fish"
+brew "gcc"
+brew "ghq"
 brew "git"
 brew "git-interactive-rebase-tool"
 brew "go"
 brew "gping"
 brew "grex"
+brew "heroku/brew/heroku"
 brew "htop"
 brew "hyperfine"
 brew "lazydocker"
@@ -32,7 +34,6 @@ brew "topgrade"
 brew "tree"
 brew "whalebrew"
 brew "zsh"
-brew "heroku/brew/heroku"
 
 if OS.mac?
     tap "homebrew/cask"
@@ -53,24 +54,4 @@ if OS.mac?
     cask "iterm2"
     cask "menumeters"
     cask "scroll-reverser"
-
-    mas "Amphetamine", id: 937984704
-    mas "BetterSnapTool", id: 417375580
-    mas "Compressor", id: 424390742
-    mas "Final Cut Pro", id: 424389933
-    mas "GarageBand", id: 682658836
-    mas "iMovie", id: 408981434
-    mas "Keynote", id: 409183694
-    mas "Kindle", id: 405399194
-    mas "LadioCast", id: 411213048
-    mas "LINE", id: 539883307
-    mas "Logic Pro", id: 634148309
-    mas "MainStage", id: 634159523
-    mas "Motion", id: 434290957
-    mas "Numbers", id: 409203825
-    mas "Pages", id: 409201541
-    mas "Slack", id: 803453959
-    mas "The Unarchiver", id: 425424353
-    mas "Trello", id: 1278508951
-    mas "Xcode", id: 497799835
 end
