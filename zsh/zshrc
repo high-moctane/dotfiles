@@ -48,16 +48,6 @@ fi
 export NEXTWORD_DATA_PATH=$HOME'/.local/share/nextword-data-large'
 
 
-# Zplug
-source ~/.zplug/init.zsh
-
-autoload -U promptinit; promptinit
-zplug "mafredri/zsh-async"
-zplug "sindresorhus/pure"
-
-zplug load
-
-
 # Keys
 autoload -U up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -78,3 +68,7 @@ setopt share_history
 
 # Env
 export EDITOR=vim
+
+
+# fish
+exec fish
