@@ -1,6 +1,7 @@
 SHELL := /bin/bash
 
 MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
+# TODO: これは直接 HOME を書き替えていいのではという気がしてきた
 DST := $(HOME)
 DOTFILES_DIR := $(DST)/dotfiles
 BACKUP_DIR := $(DST)/.dotfiles_backup/$(shell date +%Y-%m-%d-%H-%M-%S)
@@ -170,19 +171,24 @@ docker: download
 # ----------------------------------------------------------------------
 
 .PHONY: fish
-fish: fish-link
+fish: fish-link fish-fresco
 
 .PHONY: fish-link
 fish-link: $(HOME)/.config
 	mkdir -p $(DST)/.config/fish
 	$(call backup-and-link,fish/config.fish,.config/fish/config.fish)
-	# $(call backup-and-link,fish/conf.d,.config/fish/conf.d)
-	# $(call backup-and-link,fish/functions,.config/fish/functions)
+	$(call backup-and-link,fish/conf.d,.config/fish/conf.d)
+	$(call backup-and-link,fish/functions,.config/fish/functions)
 
 .PHONY: fish-fisher
 fish-fisher: fish-link
 	$(call do-fish,curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher)
 	$(call do-fish,fisher update)
+
+.PHONY: fish-fresco
+fish-fresco:
+	$(call source-sh) && curl https://raw.githubusercontent.com/masa0x80/fresco/master/install | fish
+
 
 # ----------------------------------------------------------------------
 #	Git
