@@ -169,8 +169,9 @@ if isdirectory(s:plug_dir)
         Plug 'tsuyoshicho/vim-efm-langserver-settings'
 
         " fuzzy finder
-        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-        Plug 'junegunn/fzf.vim'
+        " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+        " Plug 'junegunn/fzf.vim'
+        Plug 'ctrlpvim/ctrlp.vim'
 
         " 括弧を閉じる
         Plug 'cohama/lexima.vim'
@@ -223,6 +224,14 @@ if isdirectory(s:plug_dir)
 
         " fish
         Plug 'dag/vim-fish'
+
+        " ファイラ
+        Plug 'lambdalisue/fern.vim'
+        Plug 'lambdalisue/nerdfont.vim'
+        Plug 'lambdalisue/glyph-palette.vim'
+        Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+        Plug 'lambdalisue/fern-git-status.vim'
+        Plug 'lambdalisue/fern-hijack.vim'
     call plug#end()
 endif
 
