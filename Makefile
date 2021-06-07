@@ -172,7 +172,7 @@ docker: download
 # ----------------------------------------------------------------------
 
 .PHONY: fish
-fish: fish-link fish-fresco
+fish: fish-link fish-fresco fish-fresco-plugins
 
 .PHONY: fish-link
 fish-link: $(HOME)/.config
@@ -195,6 +195,7 @@ fish-fresco:
 .PHONY: fish-fresco-plugins
 fish-fresco-plugins:
 	$(call do-fish, fresco (cat ~/.config/fish/fish_plugins | tr "\n" " "))
+
 
 # ----------------------------------------------------------------------
 #	Git
