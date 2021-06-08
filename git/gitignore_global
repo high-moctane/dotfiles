@@ -1,9 +1,10 @@
+*.swp
 *~
 .DS_Store
+.devcontainer
+.session.vim
+.tool-versions
 .vscode/
-*.swp
+Session.vim
 tags
 tags.lock
-.devcontainer
-Session.vim
-.session.vim

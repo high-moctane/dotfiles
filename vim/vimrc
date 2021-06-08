@@ -232,6 +232,9 @@ if isdirectory(s:plug_dir)
         Plug 'lambdalisue/fern-renderer-nerdfont.vim'
         Plug 'lambdalisue/fern-git-status.vim'
         Plug 'lambdalisue/fern-hijack.vim'
+
+        " デバッガ
+        Plug 'puremourning/vimspector'
     call plug#end()
 endif
 
