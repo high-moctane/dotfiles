@@ -6,5 +6,6 @@
 .tool-versions
 .vscode/
 Session.vim
+pyrightconfig.json
 tags
 tags.lock
