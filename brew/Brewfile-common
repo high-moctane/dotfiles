@@ -1,0 +1,13 @@
+brew "bash"
+brew "fish"
+brew "ghq"
+brew "git"
+brew "node"
+
+if OS.mac?
+  brew "gnu-sed"
+  brew "gnu-time"
+  brew "macvim"
+else
+  brew "vim"
+end
