@@ -8,6 +8,11 @@ if OS.mac?
   brew "gnu-sed"
   brew "gnu-time"
   brew "macvim"
+
+  cask "avast-security"
+  cask "google-japanese-ime"
+  cask "menumeters"
+  cask "scroll-reverser"
 else
   brew "vim"
 end
