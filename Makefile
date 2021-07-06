@@ -4,10 +4,26 @@ MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
 
 DST := $(HOME)
 DOTDIR := $(DST)/dotfiles
+
 PURPOSE := HOME
+PROTOCOL := ssh
 
 .PHONY: all
+all: $(DOTDIR)
 all: brew
+
+
+$(DOTDIR):
+ifeq "$(PROTOCOL)" "ssh"
+	cd $(DST) && git clone git@github.com:high-moctane/dotfiles.git
+else
+ifeq "$(PROTOCOL)" "https"
+	cd $(DST) && git clone https://github.com/high-moctane/dotfiles.git
+else
+	@echo "invalid PROTOCOL"
+	@exit 1
+endif
+endif
 
 
 .PHONY: brew
@@ -37,10 +53,12 @@ brew-bundle-mac: brew-setup-mac
 	brew update
 	brew upgrade
 ifeq "$(PURPOSE)" "HOME"
-	cat $(DOTDIR)/brew/Brewfile-{common,home} | brew bundle --cleanup --file=-
+	cat $(DOTDIR)/brew/Brewfile-{common,home} | brew bundle cleanup --file=-
+	cat $(DOTDIR)/brew/Brewfile-{common,home} | brew bundle install --file=-
 else
 ifeq "$(PURPOSE)" "WORK"
-	cat $(DOTDIR)/brew/Brewfile-{common,work} | brew bundle --cleanup --file=-
+	cat $(DOTDIR)/brew/Brewfile-{common,work} | brew bundle cleanup --file=-
+	cat $(DOTDIR)/brew/Brewfile-{common,work} | brew bundle install --file=-
 else
 	@echo "Invalid PURPOSE"
 	@exit 1
