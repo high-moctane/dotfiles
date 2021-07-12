@@ -35,6 +35,7 @@ all: $(DOTDIR)
 all: brew
 all: alacritty
 # all: fish
+all: tmux
 all: xonsh
 
 
@@ -124,6 +125,11 @@ fish-fresco-plugins: fish-fresco
 .PHONY: fish-fresco-plugins-fish
 fish-fresco-plugins-fish:
 	fresco (cat $(DST)/.config/fish/fish_plugins | tr "\n" " ")
+
+
+.PHONY: tmux
+tmux:
+	$(call backup-and-deploy,tmux/tmux.conf,.config/tmux/tmux.conf)
 
 
 .PHONY: xonsh
