@@ -1,16 +1,41 @@
 SHELL := /bin/bash
 
-MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
-
 DST := $(HOME)
-DOTDIR := $(DST)/dotfiles
-
 PURPOSE := HOME
 PROTOCOL := ssh
+BACKUPDIR := $(DST)/.dotfiles_backup/$(shell date +%F-%H-%M-%S)
+
+MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
+DOTDIR := $(DST)/dotfiles
+
+
+# src, dst
+define backup-and-deploy
+	$(call backup,$2)
+	$(call deploy,$1,$2)
+endef
+
+
+# target
+define backup
+	mkdir -p $(BACKUPDIR)/$(dir $1)
+	-mv $(DST)/$1 $(BACKUPDIR)/$1
+endef
+
+
+# src, dst
+define deploy
+	mkdir -p $(DST)/$(dir $2)
+	cat $1 > $(DST)/$2
+endef
+
 
 .PHONY: all
 all: $(DOTDIR)
 all: brew
+all: alacritty
+# all: fish
+all: xonsh
 
 
 $(DOTDIR):
@@ -64,3 +89,58 @@ else
 	@exit 1
 endif
 endif
+	brew cleanup
+
+
+.PHONY: alacritty
+alacritty:
+	$(call backup-and-deploy,alacritty/alacritty.yml,.config/alacritty/alacritty.yml)
+
+
+.PHONY: fish
+fish: fish-deploy
+fish: fish-fresco
+fish: fish-fresco-plugins
+
+
+.PHONY: fish-deploy
+fish-deploy:
+	$(call backup-and-deploy,fish/config.fish,.config/fish/config.fish)
+	$(call backup-and-deploy,fish/conf.d/aliases.fish,.config/fish/conf.d/aliases.fish)
+	$(call backup-and-deploy,fish/conf.d/colors.fish,.config/fish/conf.d/colors.fish)
+	$(call backup-and-deploy,fish/fish_plugins,.config/fish/fish_plugins)
+
+
+.PHONY: fish-fresco
+fish-fresco:
+	curl https://raw.githubusercontent.com/masa0x80/fresco/master/install | fish
+
+
+.PHONY: fish-fresco-plugins
+fish-fresco-plugins: fish-fresco
+	$(MAKE) -f $(MAKEFILE) SHELL=$(shell which fish) fish-fresco-plugins-fish
+
+
+.PHONY: fish-fresco-plugins-fish
+fish-fresco-plugins-fish:
+	fresco (cat $(DST)/.config/fish/fish_plugins | tr "\n" " ")
+
+
+.PHONY: xonsh
+xonsh: xonsh-deploy
+xonsh: xonsh-xontribs
+
+
+.PHONY: xonsh-deploy
+xonsh-deploy:
+	$(call backup-and-deploy,xonsh/rc.xsh,.config/xonsh/rc.xsh)
+
+
+.PHONY: xonsh-xontribs
+xonsh-xontribs:
+	$(MAKE) -f $(MAKEFILE) SHELL=$(shell which xonsh) xonsh-xontribs-xonsh
+
+
+.PHONY: xonsh-xontribs-xonsh
+xonsh-xontribs-xonsh:
+	# xpip install -U git+https://github.com/popkirby/xonsh-pure

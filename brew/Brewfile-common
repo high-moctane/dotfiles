@@ -3,16 +3,27 @@ brew "fish"
 brew "ghq"
 brew "git"
 brew "node"
+brew "tmux"
+brew "xonsh"
 
 if OS.mac?
+  tap "homebrew/cask"
+  tap "homebrew/cask-fonts"
+
   brew "gnu-sed"
   brew "gnu-time"
   brew "macvim"
+  brew "mas"
 
-  cask "avast-security"
+  cask "alacritty"
+  cask "firefox"
+  cask "font-cica"
+  cask "google-chrome"
   cask "google-japanese-ime"
   cask "menumeters"
   cask "scroll-reverser"
+
+  mas "slack", id: 803453959
 else
   brew "vim"
 end
