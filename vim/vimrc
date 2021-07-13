@@ -27,6 +27,9 @@ source $VIMRUNTIME/defaults.vim
 "   Options {{{1
 " ----------------------------------------------------------------------
 
+" shell
+set shell=/bin/bash
+
 " 日本語
 set ambiwidth=double
 
@@ -117,11 +120,6 @@ set spelllang=en_us,cjk
 if has('mouse')
     set ttymouse=xterm2
 endif
-
-" ターミナル
-" if executable('xonsh')
-"     set shell=xonsh
-" endif
 
 " Conceal
 let g:vim_json_conceal = 0

@@ -29,6 +29,7 @@ if OS.mac?
   cask "scroll-reverser"
 
   mas "slack", id: 803453959
+  mas "the unarchiver", id: 425424353
 else
   brew "vim"
 end
