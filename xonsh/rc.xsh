@@ -8,5 +8,10 @@ def insert_path_if_exists(fpath):
 
 insert_path_if_exists("/usr/local/bin")
 
+source-bash /usr/local/opt/asdf/asdf.sh
+
+
+xontrib load zoxide
+
 
 $PROMPT = "\n{BOLD_WHITE}{user}@{hostname}{RESET}: {BLUE}{cwd}{RESET} {gitstatus}\n{env_name}{prompt_end}>> "

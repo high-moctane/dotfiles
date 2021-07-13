@@ -33,12 +33,15 @@ endef
 .PHONY: all
 all: $(DOTDIR)
 all: brew
+all: xonsh
 all: alacritty
+all: asdf
 # all: fish
 all: skk
 all: tmux
 all: vim
-all: xonsh
+
+all: python
 
 
 $(DOTDIR):
@@ -114,6 +117,23 @@ alacritty-terminfo:
 	rm -rf /tmp/dotfiles-alacritty
 
 
+.PHONY: asdf
+asdf:
+	$(MAKE) -f $(MAKEFILE) SHELL=$(shell which xonsh) asdf-xonsh
+
+
+.PHONY: asdf-xonsh
+asdf-xonsh: asdf-python
+
+
+.PHONY: asdf-python
+asdf-python:
+	-asdf plugin add python
+	asdf install python latest
+	asdf install python 3.9.2
+	asdf global python latest
+
+
 .PHONY: fish
 fish: fish-deploy
 fish: fish-fresco
@@ -148,6 +168,10 @@ git:
 	$(call backup-and-deploy,git/gitconfig,.gitconfig)
 	$(call backup-and-deploy,git/gitignore_global,.gitignore_global)
 
+
+.PHONY: python
+python:
+	pip3 install -U black ipython isort pipenv py-spy
 
 
 SKK_REPO := https://github.com/skk-dev/dict.git
@@ -247,3 +271,4 @@ xonsh-xontribs:
 .PHONY: xonsh-xontribs-xonsh
 xonsh-xontribs-xonsh:
 	# xpip install -U git+https://github.com/popkirby/xonsh-pure
+	xpip install -U xontrib-zoxide

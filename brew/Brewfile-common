@@ -1,11 +1,15 @@
+brew "asdf"
+brew "bat"
 brew "bash"
 brew "fish"
 brew "ghq"
 brew "git"
+brew "lsd"
 brew "node"
 brew "skktools"
 brew "tmux"
 brew "xonsh"
+brew "zoxide"
 
 if OS.mac?
   tap "homebrew/cask"
