@@ -35,6 +35,7 @@ all: $(DOTDIR)
 all: brew
 all: alacritty
 # all: fish
+all: skk
 all: tmux
 all: xonsh
 
@@ -139,6 +140,46 @@ fish-fresco-plugins: fish-fresco
 .PHONY: fish-fresco-plugins-fish
 fish-fresco-plugins-fish:
 	fresco (cat $(DST)/.config/fish/fish_plugins | tr "\n" " ")
+
+
+SKK_REPO := https://github.com/skk-dev/dict.git
+SKK_DIR := $(DST)/.local/share/skk
+
+
+.PHONY: skk
+skk: skk-build
+
+
+.PHONY: skk-update
+skk-update: skk-dict-pull skk-build
+
+
+.PHONY: skk-dict-pull
+skk-dict-pull: skk-download
+	cd $(SKK_DIR)/dict && git pull
+
+
+.PHONY: skk-download
+skk-download: $(SKK_DIR)/dict
+
+
+$(SKK_DIR)/dict:
+	mkdir -p $(SKK_DIR)
+	git clone --depth 1 $(SKK_REPO) $@
+
+
+.PHONY: skk-build
+skk-build: $(SKK_DIR)/SKK-JISYO.total
+
+
+$(SKK_DIR)/SKK-JISYO.total: $(SKK_DIR)/dict
+	skkdic-expr2 \
+		$(SKK_DIR)/dict/SKK-JISYO.L \
+		$(SKK_DIR)/dict/SKK-JISYO.jinmei \
+		$(SKK_DIR)/dict/SKK-JISYO.geo \
+		$(SKK_DIR)/dict/SKK-JISYO.station \
+		$(SKK_DIR)/dict/SKK-JISYO.propernoun \
+		> $@
 
 
 .PHONY: tmux

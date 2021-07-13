@@ -3,6 +3,7 @@ brew "fish"
 brew "ghq"
 brew "git"
 brew "node"
+brew "skktools"
 brew "tmux"
 brew "xonsh"
 
