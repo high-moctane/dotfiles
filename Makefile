@@ -1,12 +1,12 @@
 SHELL := /bin/bash
 
-DST := $(HOME)
 PURPOSE := HOME
 PROTOCOL := ssh
-BACKUPDIR := $(DST)/.dotfiles_backup/$(shell date +%F-%H-%M-%S)
+BACKUPDIR := $(HOME)/.dotfiles_backup/$(shell date +%F-%H-%M-%S)
 
 MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
-DOTDIR := $(DST)/dotfiles
+DOTDIR := $(HOME)/dotfiles
+DOTMAKE := $(DOTDIR)/Makefile
 
 
 # src, dst
@@ -19,14 +19,14 @@ endef
 # target
 define backup
 	mkdir -p $(BACKUPDIR)/$(dir $1)
-	-mv $(DST)/$1 $(BACKUPDIR)/$1
+	-mv $(HOME)/$1 $(BACKUPDIR)/$1
 endef
 
 
 # src, dst
 define deploy
-	mkdir -p $(DST)/$(dir $2)
-	cp -r $1 $(DST)/$2
+	mkdir -p $(HOME)/$(dir $2)
+	cp -r $1 $(HOME)/$2
 endef
 
 
@@ -46,10 +46,10 @@ all: python
 
 $(DOTDIR):
 ifeq "$(PROTOCOL)" "ssh"
-	cd $(DST) && git clone git@github.com:high-moctane/dotfiles.git
+	cd $(HOME) && git clone git@github.com:high-moctane/dotfiles.git
 else
 ifeq "$(PROTOCOL)" "https"
-	cd $(DST) && git clone https://github.com/high-moctane/dotfiles.git
+	cd $(HOME) && git clone https://github.com/high-moctane/dotfiles.git
 else
 	@echo "invalid PROTOCOL"
 	@exit 1
@@ -58,9 +58,9 @@ endif
 
 
 .PHONY: brew
-brew:
+brew: $(DOTDIR)
 ifeq "$(shell uname)" "Darwin"
-	$(MAKE) -f $(MAKEFILE) brew-mac
+	$(MAKE) -f $(DOTMAKE) brew-mac
 else
 	@echo "Invalid OS"
 	@exit 1
@@ -69,7 +69,7 @@ endif
 
 .PHONY: brew-mac
 brew-mac:
-	$(MAKE) -f $(MAKEFILE) brew-bundle-mac
+	$(MAKE) -f $(DOTMAKE) brew-bundle-mac
 
 
 .PHONY: brew-setup-mac
@@ -118,8 +118,8 @@ alacritty-terminfo:
 
 
 .PHONY: asdf
-asdf:
-	$(MAKE) -f $(MAKEFILE) SHELL=$(shell which xonsh) asdf-xonsh
+asdf: $(DOTDIR)
+	$(MAKE) -f $(DOTMAKE) SHELL=$(shell which xonsh) asdf-xonsh
 
 
 .PHONY: asdf-xonsh
@@ -155,12 +155,12 @@ fish-fresco:
 
 .PHONY: fish-fresco-plugins
 fish-fresco-plugins: fish-fresco
-	$(MAKE) -f $(MAKEFILE) SHELL=$(shell which fish) fish-fresco-plugins-fish
+	$(MAKE) -f $(DOTMAKE) SHELL=$(shell which fish) fish-fresco-plugins-fish
 
 
 .PHONY: fish-fresco-plugins-fish
 fish-fresco-plugins-fish:
-	fresco (cat $(DST)/.config/fish/fish_plugins | tr "\n" " ")
+	fresco (cat $(HOME)/.config/fish/fish_plugins | tr "\n" " ")
 
 
 .PHONY: git
@@ -175,7 +175,7 @@ python:
 
 
 SKK_REPO := https://github.com/skk-dev/dict.git
-SKK_DIR := $(DST)/.local/share/skk
+SKK_DIR := $(HOME)/.local/share/skk
 
 
 .PHONY: skk
@@ -248,7 +248,7 @@ vim-deploy:
 
 .PHONY: vim-plug
 vim-plug:
-	mkdir -p $(DST)/.vim/plugged
+	mkdir -p $(HOME)/.vim/plugged
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -265,7 +265,7 @@ xonsh-deploy:
 
 .PHONY: xonsh-xontribs
 xonsh-xontribs:
-	$(MAKE) -f $(MAKEFILE) SHELL=$(shell which xonsh) xonsh-xontribs-xonsh
+	$(MAKE) -f $(DOTMAKE) SHELL=$(shell which xonsh) xonsh-xontribs-xonsh
 
 
 .PHONY: xonsh-xontribs-xonsh
