@@ -142,6 +142,13 @@ fish-fresco-plugins-fish:
 	fresco (cat $(DST)/.config/fish/fish_plugins | tr "\n" " ")
 
 
+.PHONY: git
+git:
+	$(call backup-and-deploy,git/gitconfig,.gitconfig)
+	$(call backup-and-deploy,git/gitignore_global,.gitignore_global)
+
+
+
 SKK_REPO := https://github.com/skk-dev/dict.git
 SKK_DIR := $(DST)/.local/share/skk
 

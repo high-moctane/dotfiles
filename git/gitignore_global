@@ -1,0 +1,11 @@
+*.swp
+*~
+.DS_Store
+.devcontainer
+.session.vim
+.tool-versions
+.vscode/
+Session.vim
+pyrightconfig.json
+tags
+tags.lock
