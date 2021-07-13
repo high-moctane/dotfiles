@@ -28,7 +28,7 @@ source $VIMRUNTIME/defaults.vim
 " ----------------------------------------------------------------------
 
 " shell
-set shell=/bin/bash
+set shell=bash
 
 " 日本語
 set ambiwidth=double
