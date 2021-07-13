@@ -26,7 +26,7 @@ endef
 # src, dst
 define deploy
 	mkdir -p $(DST)/$(dir $2)
-	cat $1 > $(DST)/$2
+	cp -r $1 $(DST)/$2
 endef
 
 
@@ -37,6 +37,7 @@ all: alacritty
 # all: fish
 all: skk
 all: tmux
+all: vim
 all: xonsh
 
 
@@ -206,6 +207,26 @@ tmux-terminfo:
 		> /tmp/dotfiles-tmux/tmux-256color.terminfo.txt
 	tic /tmp/dotfiles-tmux/tmux-256color.terminfo.txt
 	rm -rf /tmp/dotfiles-tmux
+
+
+.PHONY: vim
+vim: vim-deploy
+vim: vim-plug
+
+
+.PHONY: vim-deploy
+vim-deploy:
+	$(call backup-and-deploy,vim/vimrc,.vimrc)
+	$(call backup-and-deploy,vim/vim/_config,.vim/_config)
+	$(call backup-and-deploy,vim/vim/ftplugin,.vim/ftplugin)
+	$(call backup-and-deploy,vim/vim/coc-settings.json,.vim/coc-settings.json)
+
+
+.PHONY: vim-plug
+vim-plug:
+	mkdir -p $(DST)/.vim/plugged
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 
 .PHONY: xonsh

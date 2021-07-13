@@ -1,0 +1,10 @@
+{
+    "coc.preferences.formatOnSaveFiletypes": [
+        "json",
+        "python",
+        "rust",
+        "go"
+    ],
+    "python.formatting.provider": "black",
+    "python.linting.mypyEnabled": true
+}
