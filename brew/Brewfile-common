@@ -27,6 +27,7 @@ if OS.mac?
   cask "google-japanese-ime"
   cask "menumeters"
   cask "scroll-reverser"
+  cask "zoom"
 
   mas "slack", id: 803453959
   mas "the unarchiver", id: 425424353
